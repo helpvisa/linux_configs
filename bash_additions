@@ -1,0 +1,22 @@
+# .bashrc additional commands
+
+#git funcs
+function parse_git_dirty {
+  [[ $(git status --porcelain 2> /dev/null) ]] && echo "*"
+}
+function parse_git_branch {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/| \1$(parse_git_dirty) |/"
+}
+
+#input changes
+bind '"\e[6~": menu-complete'
+bind '"\e[5~": menu-complete-backward'
+
+#prompt
+export PS1="\t|\e[36m(\h)\e[31m\w\e[0m\e[33m\$(parse_git_branch)\e[0m\$ "
+
+#aliases
+alias protontricks='flatpak run com.github.Matoking.protontricks'
+alias ls='ls --color=auto'
+alias l='ls -lh --color=auto'
+alias la='ls -lah --color=auto'
