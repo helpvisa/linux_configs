@@ -14,7 +14,7 @@ bind '"\e[6~": menu-complete'
 bind '"\e[5~": menu-complete-backward'
 
 #prompt
-export PS1="\[\033[36m\](\h)\[\033[31m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[0m\]\$ "
+export PS1="\[\e[1;34m\]\u@\h \[\e[0;3;2;34m\]in \[\e[0;1;33m\]\w\n\[\e[0;3;35m\]\$(parse_git_branch)\[\e[0;32m\]--\$\[\e[0m\] "
 
 #aliases
 alias protontricks='flatpak run com.github.Matoking.protontricks'
