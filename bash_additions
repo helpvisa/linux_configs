@@ -1,5 +1,7 @@
 
 # .bashrc additional commands
+# history
+export HISTCONTROL=ignoreboth:erasedups
 
 #git funcs
 function parse_git_dirty {
