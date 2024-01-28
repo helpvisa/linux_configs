@@ -210,6 +210,9 @@ exec redshift
 # enable picom
 exec --no-startup-id picom
 
+# enable notification manager
+exec dunst &
+
 # start terminal by default
 exec gnome-terminal
 
