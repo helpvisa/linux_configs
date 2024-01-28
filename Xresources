@@ -7,3 +7,7 @@ Xft.hintstyle:  hintslight
 Xft.hinting: 1
 Xft.antialias: 1
 Xft.rgba: rgb
+
+! and set a default adwaita cursor
+Xcursor.theme: default
+Xcursor.size: 32
