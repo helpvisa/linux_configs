@@ -208,7 +208,7 @@ exec_always xinput set-prop 'pointer:Razer Razer DeathAdder V2' 'libinput Accel 
 
 # enable gaps
 hide_edge_borders smart
-default_border pixel
+default_border pixel 5
 gaps inner 0
 gaps outer 0
 
