@@ -207,6 +207,8 @@ exec xrandr --dpi 120
 exec_always xinput set-prop 'pointer:Razer Razer DeathAdder V2' 'libinput Accel Speed' -1.0
 
 # enable gaps
+hide_edge_borders smart
+default_border pixel
 gaps inner 0
 gaps outer 0
 
