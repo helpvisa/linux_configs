@@ -147,6 +147,17 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
+# setup scratchpad keybinds
+exec_always --no-startup-id gnome-terminal --role calc -- bc
+exec_always --no-startup-id gnome-terminal --role scratch_term
+exec_always --no-startup-id gnome-terminal --role htop -- htop
+for_window [window_role="calc"] move window to scratchpad
+for_window [window_role="scratch_term"] move window to scratchpad
+for_window [window_role="htop"] move window to scratchpad
+bindsym $mod+c [window_role="calc"] scratchpad show
+bindsym $mod+t [window_role="scratch_term"] scratchpad show
+bindsym $mod+n [window_role="htop"] scratchpad show
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -197,8 +208,8 @@ exec xrandr --dpi 120
 exec_always xinput set-prop 'pointer:Razer Razer DeathAdder V2' 'libinput Accel Speed' -1.0
 
 # enable gaps
-gaps inner 2
-gaps outer 4
+gaps inner 0
+gaps outer 0
 
 # disable mouse focus on hover
 focus_follows_mouse no
