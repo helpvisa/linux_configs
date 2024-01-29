@@ -51,7 +51,7 @@ bindsym $mod+q kill
 bindsym $mod+d exec --no-startup-id dmenu_run -fn 'DejaVu Sans Mono-12'
 
 # lock screen
-bindsym $mod+x exec --no-startup-id i3lock --color 112233
+bindsym $mod+x exec xset dpms force suspend
 
 # change focus
 bindsym $mod+j focus left
