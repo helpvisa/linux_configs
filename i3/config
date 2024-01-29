@@ -20,7 +20,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --color 112233 --n
 exec --no-startup-id nm-applet
 
 # volumeicon
-exec --no-startup-id volumeicon
+# exec --no-startup-id volumeicon
 
 # keep gtk settings
 exec --no-startup-id /usr/libexec/gsd-xsettings
