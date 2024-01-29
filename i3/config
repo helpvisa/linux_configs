@@ -242,6 +242,11 @@ exec gnome-terminal
 #exec_always xinput set-prop 'Elan Touchpad' 'libinput Accel Speed' 0.0
 #exec_always xinput set-prop 'Elan Touchpad' 'libinput Scrolling Pixel Distance' 45
 
+# set power-profiles-daemon on laptops
+bindsym $mod+Shift+p exec powerprofilesctl set performance && exec ~/.config/i3/power.sh
+bindsym $mod+Shift+o exec powerprofilesctl set balanced && exec ~/.config/i3/power.sh
+bindsym $mod+Shift+i exec powerprofilesctl set power-saver && exec ~/.config/i3/power.sh
+
 # modify colours
 client.focused #184d1a #386d3a #c8fdca #1e5421 #386d3a
 
