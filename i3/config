@@ -145,14 +145,17 @@ exec_always --no-startup-id gnome-terminal --role calc -- bc
 exec_always --no-startup-id gnome-terminal --role scratch_term
 exec_always --no-startup-id gnome-terminal --role htop -- htop
 exec_always --no-startup-id pavucontrol --name mixer
+exec_always --no-startup-id nemo --class=files
 for_window [window_role="calc"] move window to scratchpad
 for_window [window_role="scratch_term"] move window to scratchpad
 for_window [window_role="htop"] move window to scratchpad
 for_window [class="Pavucontrol"] move window to scratchpad
+for_window [class="files"] move window to scratchpad
 bindsym $mod+c [window_role="calc"] scratchpad show
 bindsym $mod+t [window_role="scratch_term"] scratchpad show
 bindsym $mod+n [window_role="htop"] scratchpad show
 bindsym $mod+a [class="Pavucontrol"] scratchpad show
+bindsym $mod+b [class="files"] scratchpad show
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
