@@ -28,12 +28,12 @@ exec --no-startup-id /usr/libexec/gsd-xsettings
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status && --no-startup-id ~/.config/i3/vol.sh
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status && --no-startup-id ~/.config/i3/vol.sh
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status && --no-startup-id ~/.config/i3/vol.sh
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status && ~/.config/i3/vol.sh
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status && ~/.config/i3/vol.sh
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status && ~/.config/i3/vol.sh
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5% && --no-startup-id ~/.config/i3/bright.sh
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%- && --no-startup-id ~/.config/i3/bright.sh
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5% && ~/.config/i3/bright.sh
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%- && ~/.config/i3/bright.sh
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -243,9 +243,9 @@ exec --no-startup-id dunst
 #exec_always --no-startup-id xinput set-prop 'Elan Touchpad' 'libinput Scrolling Pixel Distance' 45
 
 # set power-profiles-daemon on laptops
-bindsym $mod+Shift+p exec --no-startup-id powerprofilesctl set performance && exec --no-startup-id ~/.config/i3/power.sh
-bindsym $mod+Shift+o exec --no-startup-id powerprofilesctl set balanced && exec --no-startup-id ~/.config/i3/power.sh
-bindsym $mod+Shift+i exec --no-startup-id powerprofilesctl set power-saver && exec --no-startup-id ~/.config/i3/power.sh
+bindsym $mod+Shift+p exec --no-startup-id powerprofilesctl set performance && exec ~/.config/i3/power.sh
+bindsym $mod+Shift+o exec --no-startup-id powerprofilesctl set balanced && exec ~/.config/i3/power.sh
+bindsym $mod+Shift+i exec --no-startup-id powerprofilesctl set power-saver && exec ~/.config/i3/power.sh
 
 # modify colours
 client.focused #184d1a #386d3a #c8fdca #1e5421 #386d3a
