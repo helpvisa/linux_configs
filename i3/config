@@ -205,7 +205,7 @@ bar {
 }
 
 # enable high dpi
-exec xrandr --dpi 120
+exec --no-startup-id xrandr --dpi 120
 
 # change mouse sens
 exec_always xinput set-prop 'pointer:Razer Razer DeathAdder V2' 'libinput Accel Speed' -1.0
