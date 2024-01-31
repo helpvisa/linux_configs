@@ -18,8 +18,8 @@ DIR=$(dirname "$LOC")
 export IDENTIFIER="unicode"
 
 # Change the charachter(s) used to seperate modules. If two are used, they will be placed at the start and end.
-export SEP1="["
-export SEP2="]"
+export SEP1=" [ "
+export SEP2=" ] "
 
 # Import the modules
 #. "$DIR/bar-functions/dwm_alarm.sh"
@@ -51,10 +51,10 @@ parallelize() {
         printf "Running parallel processes\n"
         #dwm_networkmanager &
         #dwm_weather &
-        sleep 5
+        sleep 1
     done
 }
-parallelize &
+# parallelize &
 
 # Update dwm status bar every second
 while true
