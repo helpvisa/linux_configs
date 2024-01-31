@@ -11,6 +11,7 @@ nitrogen --restore &
 redshift &
 picom &
 dunst &
+~/Compiles/dwm-bar/dwm_bar.sh
 
 # execute dwm
 /usr/local/bin/dwm
