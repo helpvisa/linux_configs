@@ -13,11 +13,11 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Cantarell:size=11" };
 static const char dmenufont[]       = "Cantarell:size=11";
-static const char col_gray1[]       = "#27275b";
-static const char col_gray2[]       = "#8a5969";
-static const char col_gray3[]       = "#ae686b";
-static const char col_gray4[]       = "#e29c97";
-static const char col_cyan[]        = "#7c71af";
+static const char col_gray1[]       = "#1a163e";
+static const char col_gray2[]       = "#57537f";
+static const char col_gray3[]       = "#d3838f";
+static const char col_gray4[]       = "#1b071b";
+static const char col_cyan[]        = "#fb8f7b";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -73,6 +73,7 @@ static const char *ltntfy[]   = { "/home/helpvisa/.config/i3/bright.sh", NULL };
 static const char *bckltup[]  = { "/home/helpvisa/.config/dwm/bright-up.sh", NULL };
 static const char *bckltdn[]  = { "/home/helpvisa/.config/dwm/bright-down.sh", NULL };
 static const char *lockscr[]  = { "xset", "dpms", "force", "suspend", NULL };
+static const char *suspend[]  = { "systemctl", "suspend", NULL };
 static const char *scrnsht[]  = { "/home/helpvisa/.config/dwm/screenshot.sh", NULL };
 static const char *pwrntfy[]  = { "/home/helpvisa/.config/i3/power.sh", NULL };
 static const char *pwrperf[]  = { "/home/helpvisa/.config/dwm/power-perf.sh", NULL };
@@ -86,6 +87,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_p,	   spawn,	   {.v = pwrperf } },
 	{ 0,				XK_Print,  spawn,	   {.v = scrnsht } },
 	{ MODKEY,			XK_x,	   spawn,	   {.v = lockscr } },
+	{ MODKEY|ShiftMask,		XK_x,	   spawn,	   {.v = suspend } },
 	{ 0,	    XF86XK_MonBrightnessDown,	   spawn,	   {.v = bckltdn } },
 	{ 0,        XF86XK_MonBrightnessUp,	   spawn,	   {.v = bckltup } },
 	{ 0,	            XF86XK_AudioMute,      spawn,	   {.v = volmtcmd } },
