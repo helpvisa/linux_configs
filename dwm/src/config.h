@@ -13,11 +13,11 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Cantarell:size=11" };
 static const char dmenufont[]       = "Cantarell:size=11";
-static const char col_gray1[]       = "#273838";
-static const char col_gray2[]       = "#4f895a";
-static const char col_gray3[]       = "#aebb6e";
-static const char col_gray4[]       = "#ebdfa3";
-static const char col_cyan[]        = "#908c24";
+static const char col_gray1[]       = "#27275b";
+static const char col_gray2[]       = "#8a5969";
+static const char col_gray3[]       = "#ae686b";
+static const char col_gray4[]       = "#e29c97";
+static const char col_cyan[]        = "#7c71af";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -66,39 +66,31 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "gnome-terminal", NULL };
 static const char *volnotfy[] = { "/home/helpvisa/.config/i3/vol.sh", NULL };
-static const char *volupcmd[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+10%", NULL };
-static const char *voldncmd[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-10%", NULL };
-static const char *volmtcmd[] = { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL };
+static const char *volupcmd[] = { "/home/helpvisa/.config/dwm/vol-up.sh", NULL };
+static const char *voldncmd[] = { "/home/helpvisa/.config/dwm/vol-down.sh", NULL };
+static const char *volmtcmd[] = { "/home/helpvisa/.config/dwm/vol-mute.sh", NULL };
 static const char *ltntfy[]   = { "/home/helpvisa/.config/i3/bright.sh", NULL };
-static const char *bckltup[]  = { "brightnessctl", "set", "+5%", NULL };
-static const char *bckltdn[]  = { "brightnessctl", "set", "5%-", NULL };
+static const char *bckltup[]  = { "/home/helpvisa/.config/dwm/bright-up.sh", NULL };
+static const char *bckltdn[]  = { "/home/helpvisa/.config/dwm/bright-down.sh", NULL };
 static const char *lockscr[]  = { "xset", "dpms", "force", "suspend", NULL };
-static const char *scrnsht[]  = { "maim", "-s", "|", "xclip", "-selection", "clipboard", "-t", "image/png", NULL };
+static const char *scrnsht[]  = { "/home/helpvisa/.config/dwm/screenshot.sh", NULL };
 static const char *pwrntfy[]  = { "/home/helpvisa/.config/i3/power.sh", NULL };
-static const char *pwrperf[]  = { "powerprofilesctl", "set", "performance", NULL };
-static const char *pwrbal[]   = { "powerprofilesctl", "set", "balanced", NULL };
-static const char *pwrsave[]  = { "powerprofilesctl", "set", "power-saver", NULL };
+static const char *pwrperf[]  = { "/home/helpvisa/.config/dwm/power-perf.sh", NULL };
+static const char *pwrbal[]   = { "/home/helpvisa/.config/dwm/power-bal.sh", NULL };
+static const char *pwrsave[]  = { "/home/helpvisa/.config/dwm/power-save.sh", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY|ShiftMask,		XK_i,	   spawn,	   {.v = pwrsave } },
-	{ MODKEY|ShiftMask,		XK_i,	   spawn,	   {.v = pwrntfy } },
 	{ MODKEY|ShiftMask,		XK_o,	   spawn,	   {.v = pwrbal } },
-	{ MODKEY|ShiftMask,	        XK_o,      spawn,	   {.v = pwrntfy } },
 	{ MODKEY|ShiftMask,		XK_p,	   spawn,	   {.v = pwrperf } },
-	{ MODKEY|ShiftMask,		XK_p,	   spawn,	   {.v = pwrntfy } },
 	{ 0,				XK_Print,  spawn,	   {.v = scrnsht } },
 	{ MODKEY,			XK_x,	   spawn,	   {.v = lockscr } },
 	{ 0,	    XF86XK_MonBrightnessDown,	   spawn,	   {.v = bckltdn } },
-	{ 0,	    XF86XK_MonBrightnessDown,	   spawn,	   {.v = ltntfy } },
 	{ 0,        XF86XK_MonBrightnessUp,	   spawn,	   {.v = bckltup } },
-	{ 0,	    XF86XK_MonBrightnessUp,	   spawn,	   {.v = ltntfy } },
 	{ 0,	            XF86XK_AudioMute,      spawn,	   {.v = volmtcmd } },
-	{ 0,		    XF86XK_AudioMute,	   spawn,	   {.v = volnotfy } },
         { 0,           XF86XK_AudioLowerVolume,	   spawn,	   {.v = voldncmd } },
-	{ 0,	       XF86XK_AudioLowerVolume,	   spawn,	   {.v = volnotfy } },
         { 0,	       XF86XK_AudioRaiseVolume,    spawn,	   {.v = volupcmd } },
-	{ 0,	       XF86XK_AudioRaiseVolume,	   spawn,	   {.v = volnotfy } },
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,	                XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
