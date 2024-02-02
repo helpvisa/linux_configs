@@ -82,6 +82,7 @@ static const char *pwrntfy[]  = { "/home/helpvisa/.config/i3/power.sh", NULL };
 static const char *pwrperf[]  = { "/home/helpvisa/.config/dwm/power-perf.sh", NULL };
 static const char *pwrbal[]   = { "/home/helpvisa/.config/dwm/power-bal.sh", NULL };
 static const char *pwrsave[]  = { "/home/helpvisa/.config/dwm/power-save.sh", NULL };
+static const char *killcmd[]  = { "killall", "dwm_bar.sh", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -135,7 +136,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_e,      spawn,          {.v = killcmd } },
 };
 
 /* button definitions */
