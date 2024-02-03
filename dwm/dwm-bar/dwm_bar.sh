@@ -44,6 +44,7 @@ export SEP2=" ] "
 #. "$DIR/bar-functions/dwm_vpn.sh"
 #. "$DIR/bar-functions/dwm_weather.sh"
 #. "$DIR/bar-functions/dwm_network_speed.sh"
+. "$DIR/bar-functions/dwm_volume.sh"
 
 parallelize() {
     while true
@@ -63,6 +64,7 @@ do
     upperbar=""
     #upperbar="$upperbar$(dwm_alarm)"
     #upperbar="$upperbar$(dwm_alsa)"
+    upperbar="$upperbar$(dwm_volume)"
     upperbar="$upperbar$(dwm_backlight)"
     upperbar="$upperbar$(dwm_battery)"
     #upperbar="$upperbar$(dwm_ccurse)"
