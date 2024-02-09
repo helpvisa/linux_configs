@@ -11,9 +11,10 @@ function parse_git_branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/|\1$(parse_git_dirty)|/"
 }
 
-#input changes
+#input and autcompletion changes
 bind '"\e[6~": menu-complete'
 bind '"\e[5~": menu-complete-backward'
+bind 'set completion-ignore-case on'
 
 #prompt
 export PS1="\[\e[1;34m\]\u@\h \[\e[0;3;2;34m\]in \[\e[0;1;2;33m\]\w\n\[\e[0;2;3;35m\]\$(parse_git_branch)\[\e[0;35m\]--\$\[\e[0m\] "
