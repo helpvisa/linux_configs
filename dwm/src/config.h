@@ -83,9 +83,13 @@ static const char *pwrperf[]  = { "/home/helpvisa/.config/dwm/power-perf.sh", NU
 static const char *pwrbal[]   = { "/home/helpvisa/.config/dwm/power-bal.sh", NULL };
 static const char *pwrsave[]  = { "/home/helpvisa/.config/dwm/power-save.sh", NULL };
 static const char *killcmd[]  = { "killall", "dwm_bar.sh", NULL };
+static const char *webcmd[]   = { "firefox", NULL };
+static const char *filecmd[]  = { "nemo", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ MODKEY,			XK_n,	   spawn,	   {.v = filecmd } },
+	{ MODKEY,			XK_w,	   spawn,	   {.v = webcmd } },
 	{ MODKEY|ShiftMask,		XK_i,	   spawn,	   {.v = pwrsave } },
 	{ MODKEY|ShiftMask,		XK_o,	   spawn,	   {.v = pwrbal } },
 	{ MODKEY|ShiftMask,		XK_p,	   spawn,	   {.v = pwrperf } },
