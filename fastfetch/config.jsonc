@@ -11,9 +11,6 @@
     "disk"
   ],
   "logo": {
-    "type": "small",
-    "color": {
-      "1": "blue"
-    }
+    "type": "small"
   }
 }
