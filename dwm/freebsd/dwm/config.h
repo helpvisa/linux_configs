@@ -75,7 +75,7 @@ static const char *lockscr[]  = { "/home/helpvisa/.config/dwm/lock.sh", NULL };
 static const char *scrnsht[]  = { "/home/helpvisa/.config/dwm/screenshot.sh", NULL };
 static const char *killcmd[]  = { "killall", "dwm_bar.sh", NULL };
 static const char *webcmd[]   = { "firefox", NULL };
-static const char *filecmd[]  = { "st - mc", NULL };
+static const char *filecmd[]  = { "st", "--", "mc", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
