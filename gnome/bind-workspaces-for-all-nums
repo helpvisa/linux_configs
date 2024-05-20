@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# unbind previous key assignments
+for i in $(seq 9); do
+  gsettings set org.gnome.shell.keybindings switch-to-application-$i "[]";
+done
+
+# set workspace keybinds
+for i in $(seq 9); do
+  gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-$i "['<Shift><Super>$i']";
+  gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-$i "['<Super>$i']";
+done
