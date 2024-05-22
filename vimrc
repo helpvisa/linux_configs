@@ -6,6 +6,7 @@ set nowrap
 set softtabstop=4
 syntax on
 set backspace=indent,eol,start
+set cursorcolumn
 
 "vimplug stuff
 "automatically acquire vimplug
