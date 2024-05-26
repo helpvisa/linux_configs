@@ -9,6 +9,15 @@ function parse_git_dirty {
 }
 function parse_git_branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/|\1$(parse_git_dirty)|/"
+} 
+
+#distrobox funcs
+function distrobox_name {
+	if [ -n "$CONTAINER_ID" ]; then
+		echo "$CONTAINER_ID"
+	else
+		echo '\h'
+	fi
 }
 
 #input and autcompletion changes
@@ -17,9 +26,15 @@ bind '"\e[5~": menu-complete-backward'
 bind 'set completion-ignore-case on'
 
 #prompt
-export PS1="\[\e[1;34m\]\u@\h \[\e[0;3;2;34m\]in \[\e[0;1;2;33m\]\w\n\[\e[0;2;3;35m\]\$(parse_git_branch)\[\e[0;35m\]--\$\[\e[0m\] "
+export PS1="\[\e[1;34m\]\u@$(distrobox_name) \[\e[0;3;2;34m\]in \[\e[0;1;2;33m\]\w\n\[\e[0;2;3;35m\]\$(parse_git_branch)\[\e[0;35m\]--\$\[\e[0m\] "
 #aliases
-alias protontricks='flatpak run com.github.Matoking.protontricks'
+# alias protontricks='flatpak run com.github.Matoking.protontricks'
 alias ls='ls -F --color=auto'
+alias las='ls -Fa --color=auto'
+alias lsa='ls -Fa --color=auto'
 alias l='ls -lhF --color=auto'
 alias la='ls -lahF --color=auto'
+
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
