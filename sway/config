@@ -11,10 +11,10 @@ set $term foot
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu dmenu_path | wmenu -f "Terminess Nerd Font 15" | xargs swaymsg exec --
+set $menu wofi --show drun | xargs swaymsg exec --
 
 ### Output configuration
-output * bg /home/helpvisa/Pictures/Wallpapers/blue-skies-dark.jpg fill
+output * bg ~/Pictures/Wallpapers/canyon_dawn.png fill
 # Example configuration:
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 # You can get the names of your outputs by running: swaymsg -t get_outputs
@@ -22,18 +22,33 @@ output * bg /home/helpvisa/Pictures/Wallpapers/blue-skies-dark.jpg fill
 ### Idle configuration
 # Example configuration:
 exec swayidle -w \
-         timeout 900 'swaylock -f -c 000000' \
+         timeout 900 '~/Scripts/swaylock/lock-and-blur.sh' \
          timeout 1800 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         before-sleep 'swaylock -f -c 000000'
+         before-sleep '~/Scripts/swaylock/lock-and-blur.sh'
 
 ### Input configuration
-# Example configuration:
-input "1267:42:Elan_Touchpad" {
+# Touchpad:
+input "1267:12811:ELAN06C9:00_04F3:320B_Touchpad" {
+    click_method clickfinger
+    drag enabled
+    drag_lock enabled
     dwt enabled
-    tap enabled
-    natural_scroll enabled
     middle_emulation enabled
+    natural_scroll enabled
+    scroll_method two_finger
+    tap enabled
+    tap_button_map lrm
 }
+bindsym $mod+u input "1267:12811:ELAN06C9:00_04F3:320B_Touchpad" events toggle enabled disabled
+# Trackpoint
+input "2:10:TPPS/2_Elan_TrackPoint" {
+    pointer_accel -0.4
+}
+# USB Mouse
+input "7511:8:2.4G_Wireless_Optical_Mouse" {
+    pointer_accel -0.7
+}
+# modify keyboard map
 input type:keyboard {
     xkb_layout us
     xkb_options caps:escape_shifted_capslock
@@ -66,7 +81,7 @@ bindsym $mod+Shift+c reload
 # bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit?' -B 'Yup.' 'swaymsg exit'
 bindsym $mod+Shift+e exec swaymsg exit
 # Manages screen locking + sleeping
-bindsym $mod+x exec swaylock -f -c 000000
+bindsym $mod+x exec ~/Scripts/swaylock/lock-and-blur.sh
 bindsym $mod+Shift+x exec systemctl suspend
 
 # Moving around:
@@ -91,6 +106,10 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
+
+# Touchpad gestures
+bindgesture swipe:3:right workspace prev
+bindgesture swipe:3:left workspace next
 
 # Workspaces:
 # Switch to workspace
@@ -145,9 +164,6 @@ bindsym $mod+comma focus parent
 bindsym $mod+period focus child
 
 ## Scratchpad:
-    # Sway has a "scratchpad", which is a bag of holding for windows.
-    # You can send windows there and get them back later.
-
 # Move the currently focused window to the scratchpad
 bindsym $mod+Shift+minus move scratchpad
 
@@ -181,42 +197,37 @@ bindsym $mod+r mode "resize"
 ## Status Bar:
 # Read `man 5 sway-bar` for more information about this section.
 bar {
-    position top
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command /home/helpvisa/Compiles/sway-status/sway_status.sh
-    colors {
-        statusline #c8fdca
-        background #386d3a
-        inactive_workspace #1e5421 #184d1a #c8fdca
-	active_workspace #c8fdca #6b9f6d #ffffff
-    }
+    swaybar_command waybar
 }
+# view notification center
+bindsym $mod+m exec swaync-client -t -sw
 
 include /etc/sway/config.d/*
 
 ## Appearance modifications
-font pango:Terminess Nerd Font 12
+font pango:BlexMono Nerd Font 12
 # borders
-default_border pixel 2
-default_floating_border pixel 2
+default_border pixel 4
+default_floating_border pixel 4
 titlebar_padding 1
 titlebar_border_thickness 0
 gaps inner 4
 gaps outer 8
 # colours
-client.focused #184d1a #386d3a #c8fdca #1e5421 #386d3a
-# mouse cursor
+client.focused #f7b2b6 #a04f5f #f0612d #faa992 #a04f5f
+# mouse
 seat * xcursor_theme Adwaita 32
+# gnome sushi and nautilus always floating
+for_window [app_id=org.gnome.NautilusPreviewer] floating enable
+for_window [app_id=org.gnome.Nautilus] floating enable
 
 ## Custom application launchers
 # launch web browsers
 bindsym $mod+w exec firefox
 # launch nemo
-bindsym $mod+n exec nemo
+bindsym $mod+n exec nautilus
 # take screenshots
-bindsym Print exec grim -g "$(slurp)" - | ./test.jpg
+bindsym Print exec grim -g "$(slurp)" - | wl-copy
 # power profile management
 bindsym $mod+Shift+p exec ~/.config/dwm/power-perf.sh
 bindsym $mod+Shift+o exec ~/.config/dwm/power-bal.sh
@@ -225,10 +236,19 @@ bindsym $mod+Shift+i exec ~/.config/dwm/power-save.sh
 bindsym XF86AudioRaiseVolume exec ~/.config/dwm/vol-up.sh
 bindsym XF86AudioLowerVolume exec ~/.config/dwm/vol-down.sh
 bindsym XF86AudioMute exec ~/.config/dwm/vol-mute.sh
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym XF86AudioMicMute exec ~/.config/dwm/mic-mute.sh
 bindsym XF86MonBrightnessUp exec ~/.config/dwm/bright-up.sh
 bindsym XF86MonBrightnessDown exec ~/.config/dwm/bright-down.sh
 
+# toggle darkman
+bindsym $mod+Shift+t exec darkman toggle
+
+# gnome keyring
+exec dbus-update-activation-environment --all
+exec gnome-keyring-daemon --start --components=secrets
+exec export $(gnome-keyring-daemon)
+
 ## Finally: launch programs automatically
-exec --no-startup-id dunst
-exec --no-startup-id wlsunset -l 43.6523 -L -79.3832
+exec swaync
+exec wlsunset -l 43.6523 -L -79.3832
+exec systemctl --user start --now darkman.service

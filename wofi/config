@@ -1,0 +1,9 @@
+prompt=Search...
+allow_images=true
+allow_markup=true
+matching=fuzzy
+insensitive=true
+image_size=64
+dynamic_lines=true
+layer=top
+gtk_dark=true
