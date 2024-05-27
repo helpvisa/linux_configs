@@ -225,3 +225,4 @@ bindsym XF86MonBrightnessDown exec ~/.config/dwm/bright-down.sh
 
 ## Finally: launch programs automatically
 exec --no-startup-id dunst
+exec --no-startup-id wlsunset -l 43.6523 -L -79.3832
