@@ -28,12 +28,12 @@ exec swayidle -w \
 
 ### Input configuration
 # Example configuration:
-#   input "2:14:SynPS/2_Synaptics_TouchPad" {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
+input "1267:42:Elan_Touchpad" {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+}
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
@@ -59,7 +59,11 @@ floating_modifier $mod normal
 bindsym $mod+Shift+c reload
 
 # Exit sway (logs you out of your Wayland session)
-bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit?' -B 'Yup.' 'swaymsg exit'
+# bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit?' -B 'Yup.' 'swaymsg exit'
+bindsym $mod+Shift+e exec swaymsg exit
+# Manages screen locking + sleeping
+bindsym $mod+x exec swaylock -f -c 000000
+bindsym $mod+Shift+x exec systemctl suspend
 
 # Moving around:
 # Move your focus around
