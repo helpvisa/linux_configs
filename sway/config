@@ -207,6 +207,8 @@ gaps inner 4
 gaps outer 8
 # colours
 client.focused #184d1a #386d3a #c8fdca #1e5421 #386d3a
+# mouse cursor
+seat * xcursor_theme Adwaita 32
 
 ## Custom application launchers
 # launch web browsers
