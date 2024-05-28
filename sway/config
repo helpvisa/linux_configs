@@ -14,9 +14,8 @@ set $term foot
 set $menu wofi --show drun | xargs swaymsg exec --
 
 ### Output configuration
+output eDP-1 resolution 1920x1200 position 1920,0
 output * bg ~/Pictures/Wallpapers/canyon_dawn.png fill
-# Example configuration:
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
 ### Idle configuration
@@ -24,7 +23,7 @@ output * bg ~/Pictures/Wallpapers/canyon_dawn.png fill
 exec swayidle -w \
          timeout 900 '~/Scripts/swaylock/lock-and-blur.sh' \
          timeout 1800 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         before-sleep '~/Scripts/swaylock/lock-and-blur.sh'
+         before-sleep 'exec sleep 1 && ~/Scripts/swaylock/lock-and-blur.sh'
 
 ### Input configuration
 # Touchpad:
@@ -82,7 +81,7 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+e exec swaymsg exit
 # Manages screen locking + sleeping
 bindsym $mod+x exec ~/Scripts/swaylock/lock-and-blur.sh
-bindsym $mod+Shift+x exec systemctl suspend
+bindsym --no-repeat $mod+Shift+x exec systemctl suspend
 
 # Moving around:
 # Move your focus around
@@ -202,8 +201,6 @@ bar {
 # view notification center
 bindsym $mod+m exec swaync-client -t -sw
 
-include /etc/sway/config.d/*
-
 ## Appearance modifications
 font pango:BlexMono Nerd Font 12
 # borders
@@ -220,6 +217,9 @@ seat * xcursor_theme Adwaita 32
 # gnome sushi and nautilus always floating
 for_window [app_id=org.gnome.NautilusPreviewer] floating enable
 for_window [app_id=org.gnome.Nautilus] floating enable
+for_window [class=steam] floating enable
+
+include /etc/sway/config.d/*
 
 ## Custom application launchers
 # launch web browsers
@@ -242,11 +242,6 @@ bindsym XF86MonBrightnessDown exec ~/.config/dwm/bright-down.sh
 
 # toggle darkman
 bindsym $mod+Shift+t exec darkman toggle
-
-# gnome keyring
-exec dbus-update-activation-environment --all
-exec gnome-keyring-daemon --start --components=secrets
-exec export $(gnome-keyring-daemon)
 
 ## Finally: launch programs automatically
 exec swaync
