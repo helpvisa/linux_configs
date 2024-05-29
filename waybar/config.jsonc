@@ -52,7 +52,10 @@
 		"format-alt": "{ifname}: {idappr}/{cidr} "
 	},
 	"pulseaudio": {
-		"format": "vol: {volume}% mic: {format_source} ",
+		"format": "vol: {volume}%  mic: {format_source} ",
+		"format-muted": "vol: MUTED mic: {format_source} ",
+		"format-source": "{volume}%",
+		"format-source-muted": "MUTED",
 		"on-click": "pavucontrol"
 	},
 	"backlight": {
