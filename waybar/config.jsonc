@@ -7,7 +7,7 @@
 		"sway/mode",
 		"sway/scratchpad"
 	],
-	"modules.center": [
+	"modules-center": [
 		"sway/window"
 	],
 	"modules-right": [
