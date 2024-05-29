@@ -12,11 +12,13 @@
 	],
 	"modules-right": [
 		"pulseaudio",
+		"backlight",
 		"network",
 		"power-profiles-daemon",
 		"cpu",
 		"memory",
 		"temperature",
+		"battery",
 		"clock",
 		"tray"
 	],
@@ -25,32 +27,53 @@
 		"format": "<span style=\"italic\">{}</span>"
 	},
 	"sway/scratchpad": {
-		"format": "{icon} {count}",
+		"format": "{icon} {count} on pad",
 		"show-empty": false,
 		"format-icons": ["", "-->"],
 		"tooltip": true,
 		"tooltip-format": "{app}: {title}"
 	},
 	"cpu": {
-		"format": "cpu: {usage}%"
+		"format": "cpu: {usage}% "
 	},
 	"memory": {
-		"format": "mem: {}%"
+		"format": "mem: {}% "
 	},
 	"temperature": {
 		"critical-threshold": 90,
-		"format": "temp: {temperatureC}°C"
+		"format": "temp: {temperatureC}°C "
 	},
 	"network": {
-		"format-wifi": "{essid} @ {signalStrength}%",
-		"format-ethernet": "{ipaddr}/{cidr}",
-		"tooltip-format": "{ifname} via {gwaddr}",
-		"format-linked": "{ifname} (No IP)",
-		"format-disconnected": "no net!",
-		"format-alt": "{ifname}: {idappr}/{cidr}"
+		"format-wifi": "{essid} @ {signalStrength}% ",
+		"format-ethernet": "{ipaddr}/{cidr} ",
+		"tooltip-format": "{ifname} via {gwaddr} ",
+		"format-linked": "{ifname} (No IP) ",
+		"format-disconnected": "no net! ",
+		"format-alt": "{ifname}: {idappr}/{cidr} "
 	},
 	"pulseaudio": {
-		"format": "vol: {volume}% | mic: {format_source}",
+		"format": "vol: {volume}% mic: {format_source} ",
 		"on-click": "pavucontrol"
+	},
+	"backlight": {
+		"format": "bcklt: {percent}% "
+	},
+	"battery": {
+		"states": {
+			"warning": 30,
+			"critical": 10
+		},
+		"format": "bat: {capacity}% "
+	},
+	"power-profiles-daemon": {
+		"format": "{icon} ",
+		"tooltip-format": "{profile}\n{driver}",
+	        "tooltip": true,
+		"format-icons": {
+			"default": "P",
+			"performance": "perf",
+			"balanced": "bal",
+			"power-saver": "psave"
+		}
 	}
 }
