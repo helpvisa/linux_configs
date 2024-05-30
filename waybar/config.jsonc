@@ -5,10 +5,10 @@
 	"modules-left": [
 		"sway/workspaces",
 		"sway/mode",
-		"sway/scratchpad"
+		"sway/scratchpad",
+		"sway/window"
 	],
 	"modules-center": [
-		"sway/window"
 	],
 	"modules-right": [
 		"pulseaudio",
@@ -23,6 +23,9 @@
 		"tray"
 	],
 	// Modules
+	"sway/window": {
+		"format": " || {title} "
+	},
 	"sway/mode": {
 		"format": "<span style=\"italic\">{}</span>"
 	},
@@ -69,7 +72,8 @@
 			"warning": 30,
 			"critical": 10
 		},
-		"format": "bat: {capacity}% "
+		"format": "bat: {capacity}% ",
+		"format-alt": "bat: {time} left "
 	},
 	"power-profiles-daemon": {
 		"format": "{icon} ",
