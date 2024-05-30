@@ -33,6 +33,9 @@
 		"tooltip": true,
 		"tooltip-format": "{app}: {title}"
 	},
+	"clock": {
+		"format": "{:%m-%d-%y - %H:%M} "
+	},
 	"cpu": {
 		"format": "cpu: {usage}% "
 	},
