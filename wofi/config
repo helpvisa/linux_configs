@@ -7,3 +7,4 @@ image_size=64
 dynamic_lines=true
 layer=top
 gtk_dark=true
+no_actions=true
