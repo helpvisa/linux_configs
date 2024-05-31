@@ -219,8 +219,10 @@ client.focused #f7b2b6 #a04f5f #f0612d #faa992 #a04f5f
 seat * xcursor_theme Adwaita 32
 # gnome sushi and nautilus always floating
 for_window [app_id=org.gnome.NautilusPreviewer] floating enable
-for_window [app_id=org.gnome.Nautilus] floating enable move to scratchpad
+for_window [app_id=org.gnome.Nautilus] floating enable move window to scratchpad
 for_window [class=steam] floating enable
+# qalculator on scratchpad
+for_window [app_id="qalculator"] floating enable move window to scratchpad
 
 include /etc/sway/config.d/*
 
