@@ -73,7 +73,7 @@
 
     ### Text ###
 
-    font = BlexMono Nerd Font 16
+    font = BlexMono Nerd Font 14
 
     # The spacing between lines.  If the height is smaller than the
     # font height, it will get raised to the font height.
@@ -148,6 +148,9 @@
 
     # Align icons left/right/off
     icon_position = left
+    # And set their sizes
+    max_icon_size = 64
+    min_icon_size = 64
 
     ### History ###
 
