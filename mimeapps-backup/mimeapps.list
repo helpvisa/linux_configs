@@ -342,7 +342,8 @@ application/vnd.comicbook-rar=org.gnome.Evince.desktop;
 application/oxps=org.gnome.Evince.desktop;
 application/vnd.ms-xpsdocument=org.gnome.Evince.desktop;
 [Added Associations]
-text/x-c=nvim.desktop
-text/plain=nvim.desktop
+text/x-c=nvim.desktop;
+text/plain=nvim.desktop;
 x-scheme-handler/sms=org.gnome.Shell.Extensions.GSConnect.desktop;
 x-scheme-handler/tel=org.gnome.Shell.Extensions.GSConnect.desktop;
+x-ms-dos-executable=wine.desktop;
