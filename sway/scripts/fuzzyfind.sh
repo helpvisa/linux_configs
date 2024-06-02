@@ -2,5 +2,5 @@
 
 cd $HOME
 NEWAPP=$(fzf)
-nohup mimeopen -n $NEWAPP &>/dev/null &
+nohup mimeopen -n "$NEWAPP" &>/dev/null &
 sleep 0.5
