@@ -3,4 +3,10 @@
 wpctl set-mute @DEFAULT_SINK@ toggle
 
 VOLUME=$(wpctl get-volume @DEFAULT_SINK@)
-notify-send "$VOLUME"
+if [[ "$VOLUME" == *"MUTED"* ]]; then
+        VOLUME=$(qalc -t $(echo $VOLUME | awk 'OFS=" " {print $2}') times 100)
+	notify-send "AUDIO MUTED!" -h int:value:$VOLUME -h string:synchronous:volume -e
+else
+        VOLUME=$(qalc -t $(echo $VOLUME | awk 'OFS=" " {print $2}') times 100)
+        notify-send "VOL: " -h int:value:$VOLUME -h string:synchronous:volume -e
+fi
