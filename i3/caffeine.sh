@@ -7,9 +7,11 @@ if [[ "$STATUS" == *"disabled"* ]]; then
     xset -dpms
     echo "enabled" > /run/user/`id -u`/caffeine.txt
     echo "sipping some coffee..."
+    notify-send "Sipping some coffee..." -h string:synchronous:coffee -e
 else
     xset +dpms
     xset s on
     echo "disabled" > /run/user/`id -u`/caffeine.txt
-    echo "all done!"
+    echo "feeling sleepy..."
+    notify-send "Feeling sleepy..." -h string:synchronous:coffee -e
 fi
