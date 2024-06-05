@@ -207,14 +207,16 @@ bindsym $mod+m exec swaync-client -t -sw
 ## Appearance modifications
 font pango:BlexMono Nerd Font 12
 # borders
-default_border pixel 4
-default_floating_border pixel 4
+default_border normal 4
+default_floating_border normal 4
 titlebar_padding 1
 titlebar_border_thickness 0
 gaps inner 4
 gaps outer 8
 # colours
 client.focused #f7b2b6 #a04f5f #f0612d #faa992 #a04f5f
+client.focused_inactive #5f676a #5f676a #ffffff #484e50 #5f676a
+client.unfocused #222222 #222222 #888888 #292d2e #222222
 # mouse
 seat * xcursor_theme Adwaita 32
 # gnome sushi and nautilus always floating
