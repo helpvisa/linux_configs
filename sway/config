@@ -16,6 +16,9 @@ for_window [app_id="fuzzyfind"] floating enable
 # on the original workspace that the command was run on.
 set $menu wofi --show drun | xargs swaymsg exec --
 
+### Autostart
+exec --no-startup-id dex-autostart --autostart --environment sway
+
 ### Output configuration
 output eDP-1 resolution 1920x1200 position 1920,0
 output * bg ~/Pictures/Wallpapers/canyon_dawn.png fill
