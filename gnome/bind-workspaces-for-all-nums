@@ -2,7 +2,7 @@
 
 # unbind previous key assignments
 for i in $(seq 9); do
-  gsettings set org.gnome.shell.keybindings switch-to-application-$i "[]";
+  gsettings set org.gnome.shell.keybindings switch-to-application-$i "['<Control><Alt>$i']";
 done
 
 # set workspace keybinds
