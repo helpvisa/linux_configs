@@ -336,12 +336,33 @@
       <action name="ToggleFullscreen"/>
     </keybind>
     <keybind key="W-Up">
+      <action name="MoveToEdge">
+        <direction>east</direction>
+      </action>
+      <action name="MoveToEdge">
+        <direction>wast</direction>
+      </action>
+      <action name="MoveToEdge">
+        <direction>north</direction>
+      </action>
       <action name="MoveResizeTo">
         <width>100%</width>
         <height>100%</height>
       </action>
+    </keybind>
+    <keybind key="C-W-Up">
+      <action name="MoveToEdge">
+        <direction>east</direction>
+      </action>
+      <action name="MoveToEdge">
+        <direction>west</direction>
+      </action>
       <action name="MoveToEdge">
         <direction>north</direction>
+      </action>
+      <action name="MoveResizeTo">
+        <width>100%</width>
+        <height>50%</height>
       </action>
     </keybind>
     <keybind key="W-p">
@@ -353,6 +374,9 @@
         <height>100%</height>
       </action>
       <action name="MoveToEdge">
+        <direction>north</direction>
+      </action>
+      <action name="MoveToEdge">
         <direction>west</direction>
       </action>
     </keybind>
@@ -362,6 +386,9 @@
         <height>100%</height>
       </action>
       <action name="MoveToEdge">
+        <direction>north</direction>
+      </action>
+      <action name="MoveToEdge">
         <direction>east</direction>
       </action>
     </keybind>
@@ -369,8 +396,23 @@
       <action name="MoveResizeTo">
         <x>center</x>
         <y>center</y>
-        <width>35%</width>
-        <height>40%</height>
+        <width>40%</width>
+        <height>50%</height>
+      </action>
+    </keybind>
+    <keybind key="C-W-Down">
+      <action name="MoveToEdge">
+        <direction>east</direction>
+      </action>
+      <action name="MoveToEdge">
+        <direction>west</direction>
+      </action>
+      <action name="MoveResizeTo">
+        <width>100%</width>
+        <height>50%</height>
+      </action>
+      <action name="MoveToEdge">
+        <direction>south</direction>
       </action>
     </keybind>
     <keybind key="W-S-period">
@@ -490,13 +532,22 @@
         <command>rofi -show drun -show-icons</command>
       </action>
     </keybind>
+    <keybind key="A-Tab">
+      <action name="Execute">
+        <startupnotify>
+          <enabled>true</enabled>
+          <name>Switch Windows</name>
+        </startupnotify>
+        <command>rofi -show window -show-icons</command>
+      </action>
+    </keybind>
     <keybind key="W-S-f">
       <action name="Execute">
         <startupnotify>
           <enabled>true</enabled>
           <name>Fuzzyfinder</name>
         </startupnotify>
-        <command>xterm -class fuzzyfind -e "/home/helpvisa/Scripts/fuzzyfind.sh"</command>
+		<command>xterm -class fuzzyfind -e "/home/helpvisa/Scripts/fuzzyfind.sh 1>/dev/null"</command>
       </action>
     </keybind>
     <keybind key="W-x">
