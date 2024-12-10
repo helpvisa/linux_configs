@@ -14,7 +14,7 @@ function parse_git_branch {
 #distrobox funcs
 function distrobox_name {
 	if [ -n "$CONTAINER_ID" ]; then
-		echo "$CONTAINER_ID"
+		printf "\e[1;31m%s\e[0;31m" "$CONTAINER_ID"
 	else
 		echo '\h'
 	fi
