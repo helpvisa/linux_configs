@@ -1,0 +1,1 @@
+*/5 * * * * XDG_RUNTIME_DIR=/run/user/$(id -u) /home/helpvisa/Scripts/cron_stuff/update_morewaita.sh
