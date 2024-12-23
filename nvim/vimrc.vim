@@ -21,7 +21,7 @@ set clipboard=unnamedplus
 filetype plugin on
 set cursorline
 set ttyfast
-" set noshowmode
+set noshowmode
 
 
 " auto-install vim-plug
@@ -39,23 +39,19 @@ call plug#begin("~/.nvim/plugged")
     Plug 'nvim-tree/nvim-web-devicons'
     Plug 'nvim-tree/nvim-tree.lua'
     Plug 'nathanaelkane/vim-indent-guides'
+    Plug 'echasnovski/mini.nvim', { 'branch': 'stable' }
 
     " colour schemes
     Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
     Plug 'austinliuigi/smoke.nvim'
 
     " autocompletion and linting
-    Plug 'neovim/nvim-lspconfig'
-    Plug 'echasnovski/mini.nvim', { 'branch': 'stable' }
-    " nvim-cmp + vsnip
-    Plug 'hrsh7th/cmp-nvim-lsp'
-    Plug 'hrsh7th/cmp-buffer'
-    Plug 'hrsh7th/cmp-path'
-    Plug 'hrsh7th/cmp-cmdline'
-    Plug 'hrsh7th/nvim-cmp'
-    Plug 'hrsh7th/cmp-vsnip'
-    Plug 'hrsh7th/vim-vsnip'
+    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'dense-analysis/ale'
 call plug#end()
+" let g:deoplete#enable_at_startup = 1
+let g:ale_completion_enabled = 1
+let g:ale_hover_to_floating_preview = 1
 
 " set colorscheme
 " colorscheme catppuccin-mocha

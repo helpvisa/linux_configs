@@ -84,96 +84,12 @@ vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
-
-
--- Set up nvim-cmp.
-local cmp = require'cmp'
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-    end,
-  },
-  window = {
-    -- completion = cmp.config.window.bordered(),
-    -- documentation = cmp.config.window.bordered(),
-  },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.abort(),
-    -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    ['<CR>'] = cmp.mapping.confirm({ select = false }), 
-  }),
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'vsnip' }, -- For vsnip users.
-  }, {
-    { name = 'buffer' },
-  })
-})
-
--- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline({ '/', '?' }, {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = 'buffer' }
-  }
-})
-
--- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
-    { name = 'cmdline' }
-  }),
-  matching = { disallow_symbol_nonprefix_matching = false }
-})
-
-
--- setup lspconfig
-local lspconfig = require('lspconfig')
-
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-local on_attach = function(client, bufnr)
-  -- enable completion w/ <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- mappings to lsp funcs
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', 'gk', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  vim.keymap.set('n', 'gK', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, bufopts)
-  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<leader>b', function() vim.lsp.buf.format { async = true } end, bufopts)
-end
-
-local servers = {
-    'clangd',
-    'rust_analyzer',
-    'bashls',
-    'pyright',
-    'tailwindcss',
-    'cssls',
-    'html',
-    'ts_ls',
-    'jsonls',
-    'eslint',
-    'gdscript'
-}
-for _, lsp in pairs(servers) do
-    lspconfig[lsp].setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-    }
-end
+-- ale
+vim.api.nvim_set_keymap('n', '<leader>a', ':ALEToggle<CR>', opts)
+vim.api.nvim_set_keymap('n', 'gd', ':ALEGoToDefinition<CR>', opts)
+vim.api.nvim_set_keymap('n', 'gtd', ':ALEGoToTypeDefinition<CR>', opts)
+vim.api.nvim_set_keymap('n', 'gr', ':ALEFindReferences<CR>', opts)
+vim.api.nvim_set_keymap('n', 'gk', ':ALEHover<CR>', opts)
+vim.api.nvim_set_keymap('n', '<leader>ca', ':ALECodeAction<CR>', opts)
+vim.api.nvim_set_keymap('n', '<leader>rn', ':ALERename<CR>', opts)
+vim.api.nvim_set_keymap('n', '<leader>rf', ':ALEFileRename<CR>', opts)
