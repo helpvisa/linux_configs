@@ -21,6 +21,8 @@ set clipboard=unnamedplus
 filetype plugin on
 set cursorline
 set ttyfast
+set noshowmode
+
 
 " auto-install vim-plug
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
@@ -29,13 +31,27 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
 
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
+
 " install plugins
 call plug#begin("~/.vim/plugged")
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+    Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-tree/nvim-web-devicons'
     Plug 'nvim-tree/nvim-tree.lua'
-    Plug 'dense-analysis/ale'
+    Plug 'nathanaelkane/vim-indent-guides'
     Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+
+    " autocompletion and linting
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'echasnovski/mini.nvim', { 'branch': 'stable' }
+    " nvim-cmp + vsnip
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/cmp-buffer'
+    Plug 'hrsh7th/cmp-path'
+    Plug 'hrsh7th/cmp-cmdline'
+    Plug 'hrsh7th/nvim-cmp'
+    Plug 'hrsh7th/cmp-vsnip'
+    Plug 'hrsh7th/vim-vsnip'
 call plug#end()
 
 " set colorscheme
