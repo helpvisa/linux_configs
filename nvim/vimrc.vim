@@ -59,5 +59,4 @@ call plug#end()
 
 " set colorscheme
 " colorscheme catppuccin-mocha
-" colorscheme monochrome
-colorscheme slate
+colorscheme monochrome
