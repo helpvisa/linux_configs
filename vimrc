@@ -56,6 +56,17 @@ let g:ale_completion_enabled = 1
 set termguicolors
 colorscheme base16-kaodam
 
+" highlight word under cursor (in vimscript)
+set updatetime=10
+function! HighlightWordUnderCursor()
+    if getline(".")[col(".")-1] !~# '[[:punct:][:blank:]]'
+        exec 'match' 'Search' '/\V\<'.expand('<cword>').'\>/'
+    else
+        match none
+    endif
+endfunction
+autocmd! CursorHold,CursorHoldI * call HighlightWordUnderCursor()
+
 " remap keys
 let mapleader = " "
 " buffer navigation
