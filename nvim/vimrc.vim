@@ -43,8 +43,6 @@ call plug#begin("~/.vim/plugged")
     " colour schemes
     Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
     Plug 'kdheepak/monochrome.nvim'
-    Plug 'pgdouyon/vim-yin-yang'
-    Plug 'karoliskoncevicius/distilled-vim'
 
     " autocompletion and linting
     Plug 'neovim/nvim-lspconfig'
@@ -62,5 +60,4 @@ call plug#end()
 " set colorscheme
 " colorscheme catppuccin-mocha
 " colorscheme monochrome
-" colorscheme distilled
-colorscheme yin " or colorscheme yang
+colorscheme slate
