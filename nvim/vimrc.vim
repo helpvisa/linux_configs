@@ -21,7 +21,7 @@ set clipboard=unnamedplus
 filetype plugin on
 set cursorline
 set ttyfast
-set noshowmode
+" set noshowmode
 
 
 " auto-install vim-plug
@@ -39,7 +39,12 @@ call plug#begin("~/.vim/plugged")
     Plug 'nvim-tree/nvim-web-devicons'
     Plug 'nvim-tree/nvim-tree.lua'
     Plug 'nathanaelkane/vim-indent-guides'
+
+    " colour schemes
     Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+    Plug 'kdheepak/monochrome.nvim'
+    Plug 'pgdouyon/vim-yin-yang'
+    Plug 'karoliskoncevicius/distilled-vim'
 
     " autocompletion and linting
     Plug 'neovim/nvim-lspconfig'
@@ -55,4 +60,7 @@ call plug#begin("~/.vim/plugged")
 call plug#end()
 
 " set colorscheme
-colorscheme catppuccin-mocha
+" colorscheme catppuccin-mocha
+" colorscheme monochrome
+" colorscheme distilled
+colorscheme yin " or colorscheme yang

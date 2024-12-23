@@ -55,7 +55,7 @@ require'nvim-treesitter.configs'.setup {
 -- enable mini.nvim
 require('mini.starter').setup()
 require('mini.icons').setup()
-require('mini.statusline').setup()
+-- require('mini.statusline').setup()
 require('mini.fuzzy').setup()
 require('mini.clue').setup()
 require('mini.git').setup()
@@ -65,6 +65,7 @@ require('mini.pick').setup()
 require('mini.cursorword').setup()
 require('mini.indentscope').setup()
 require('mini.notify').setup()
+require('mini.comment').setup()
 
 
 -- custom remappings
