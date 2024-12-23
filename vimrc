@@ -58,6 +58,8 @@ colorscheme base16-kaodam
 
 " remap keys
 let mapleader = " "
+" buffer navigation
+nnoremap <leader>b :buffers<CR>:buffer<Space>
 " nerdtree
 nnoremap <leader>e :NERDTreeToggle<CR>
 nnoremap <leader>Ef :NerdTreeFind<CR>
