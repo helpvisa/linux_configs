@@ -33,7 +33,7 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
 endif
 
 " install plugins
-call plug#begin("~/.vim/plugged")
+call plug#begin("~/.nvim/plugged")
     Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-tree/nvim-web-devicons'
@@ -42,7 +42,7 @@ call plug#begin("~/.vim/plugged")
 
     " colour schemes
     Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
-    Plug 'kdheepak/monochrome.nvim'
+    Plug 'austinliuigi/smoke.nvim'
 
     " autocompletion and linting
     Plug 'neovim/nvim-lspconfig'
@@ -59,4 +59,4 @@ call plug#end()
 
 " set colorscheme
 " colorscheme catppuccin-mocha
-colorscheme monochrome
+colorscheme smoke
