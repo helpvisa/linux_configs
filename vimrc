@@ -46,6 +46,8 @@ call plug#begin("~/.vim/plugged")
     Plug 'preservim/nerdtree'
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'tpope/vim-commentary'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
     " colorschemes
     Plug 'saulhoward/kaodam'
 call plug#end()
@@ -54,7 +56,7 @@ let g:ale_completion_enabled = 1
 
 " set colorscheme
 set termguicolors
-colorscheme base16-kaodam
+colorscheme retrobox
 
 " highlight word under cursor (in vimscript)
 set updatetime=10
@@ -86,3 +88,10 @@ nnoremap gk :ALEHover<CR>
 nnoremap <leader>ca :ALECodeAction<CR>
 nnoremap <leader>rn :ALERename<CR>
 nnoremap <leader>rf :ALEFileRename<CR>
+" fzf
+nnoremap <leader>, :Buffers<CR>
+nnoremap <leader>m :Marks<CR>
+nnoremap <leader>j :Jumps<CR>
+nnoremap <leader>h :History<CR>
+nnoremap <leader>/ :History/<CR>
+nnoremap <leader>x :Commands<CR>
