@@ -40,6 +40,8 @@ call plug#begin("~/.nvim/plugged")
     Plug 'nvim-tree/nvim-tree.lua'
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'echasnovski/mini.nvim', { 'branch': 'stable' }
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
 
     " colour schemes
     Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
@@ -54,5 +56,5 @@ let g:ale_completion_enabled = 1
 let g:ale_hover_to_floating_preview = 1
 
 " set colorscheme
-" colorscheme catppuccin-mocha
-colorscheme smoke
+colorscheme catppuccin-frappe
+" colorscheme smoke

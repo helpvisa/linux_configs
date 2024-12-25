@@ -48,15 +48,13 @@ call plug#begin("~/.vim/plugged")
     Plug 'tpope/vim-commentary'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
-    " colorschemes
-    Plug 'saulhoward/kaodam'
 call plug#end()
 " let g:deoplete#enable_at_startup = 1
 let g:ale_completion_enabled = 1
 
 " set colorscheme
 set termguicolors
-colorscheme retrobox
+colorscheme quiet
 
 " highlight word under cursor (in vimscript)
 set updatetime=10
@@ -96,3 +94,7 @@ nnoremap <leader>j :Jumps<CR>
 nnoremap <leader>h :History<CR>
 nnoremap <leader>/ :History/<CR>
 nnoremap <leader>x :Commands<CR>
+nnoremap <leader>g :Rg<CR>
+nnoremap <leader>G :RG<CR>
+nnoremap <leader>L :Lines<CR>
+nnoremap <leader>l :BLines<CR>
