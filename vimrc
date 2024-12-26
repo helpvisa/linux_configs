@@ -48,6 +48,7 @@ call plug#begin("~/.vim/plugged")
     Plug 'tpope/vim-commentary'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
+    Plug 'itchyny/vim-cursorword'
 call plug#end()
 " let g:deoplete#enable_at_startup = 1
 let g:ale_completion_enabled = 1
@@ -57,15 +58,15 @@ set termguicolors
 colorscheme quiet
 
 " highlight word under cursor (in vimscript)
-set updatetime=10
-function! HighlightWordUnderCursor()
-    if getline(".")[col(".")-1] !~# '[[:punct:][:blank:]]'
-        exec 'match' 'Search' '/\V\<'.expand('<cword>').'\>/'
-    else
-        match none
-    endif
-endfunction
-autocmd! CursorHold,CursorHoldI * call HighlightWordUnderCursor()
+" set updatetime=10
+" function! HighlightWordUnderCursor()
+"     if getline(".")[col(".")-1] !~# '[[:punct:][:blank:]]'
+"         exec 'match' 'Search' '/\V\<'.expand('<cword>').'\>/'
+"     else
+"         match none
+"     endif
+" endfunction
+" autocmd! CursorHold,CursorHoldI * call HighlightWordUnderCursor()
 
 " remap keys
 let mapleader = " "
