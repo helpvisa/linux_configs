@@ -21,11 +21,11 @@ set cc=80
 filetype plugin indent on
 syntax on
 set mouse=a
-set clipboard=unnamedplus
+set clipboard+=unnamedplus
 filetype plugin on
 set cursorline
 set ttyfast
-" set noshowmode
+set updatetime=100
 
 " block cursor in normal mode
 let &t_SI = "\e[6 q"
@@ -49,13 +49,18 @@ call plug#begin("~/.vim/plugged")
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     Plug 'itchyny/vim-cursorword'
+	if has('patch-8.0.902')
+	  Plug 'mhinz/vim-signify'
+	else
+	  Plug 'mhinz/vim-signify', { 'tag': 'legacy' }
+	endif
 call plug#end()
 " let g:deoplete#enable_at_startup = 1
 let g:ale_completion_enabled = 1
 
 " set colorscheme
 set termguicolors
-colorscheme quiet
+colorscheme retrobox
 
 " highlight word under cursor (in vimscript)
 " set updatetime=10
