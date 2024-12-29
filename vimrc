@@ -55,6 +55,12 @@ call plug#begin("~/.vim/plugged")
 	else
 	  Plug 'mhinz/vim-signify', { 'tag': 'legacy' }
 	endif
+    " colour schemes
+    Plug 'NLKNguyen/papercolor-theme'
+    Plug 'Rigellute/rigel'
+    Plug 'zefei/cake16'
+    Plug 'phanviet/vim-monokai-pro'
+    Plug 'Alligator/accent.vim'
 call plug#end()
 " let g:deoplete#enable_at_startup = 1
 let g:ale_completion_enabled = 1
@@ -78,6 +84,8 @@ colorscheme retrobox
 let mapleader = " "
 " buffer navigation
 nnoremap <leader>b :buffers<CR>:buffer<Space>
+" window navigation
+nnoremap <leader>w <c-w>
 " nerdtree
 nnoremap <leader>e :NERDTreeToggle<CR>
 nnoremap <leader>Ef :NerdTreeFind<CR>
