@@ -100,7 +100,7 @@ nnoremap <leader>ca :ALECodeAction<CR>
 nnoremap <leader>rn :ALERename<CR>
 nnoremap <leader>rf :ALEFileRename<CR>
 " fzf
-nnoremap <leader>o :Files<CR>
+nnoremap <leader>of :Files<CR>
 nnoremap <leader>, :Buffers<CR>
 nnoremap <leader>m :Marks<CR>
 nnoremap <leader>j :Jumps<CR>
@@ -113,3 +113,6 @@ nnoremap <leader>L :Lines<CR>
 nnoremap <leader>l :BLines<CR>
 " clear highlight
 nnoremap <leader>c :noh<CR>
+" terminal
+nnoremap <leader>ot :term<CR>
+nnoremap <leader>ovt :vert term<CR>
