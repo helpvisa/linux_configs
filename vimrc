@@ -80,8 +80,8 @@ colorscheme retrobox
 
 " remap keys
 let mapleader = " "
-" buffer navigation
-nnoremap <leader>b :buffers<CR>:buffer<Space>
+" quickly compile project
+nnoremap <leader>b :make<CR>
 " window navigation
 nnoremap <leader>w <c-w>
 " nerdtree
