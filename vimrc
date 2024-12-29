@@ -102,6 +102,7 @@ nnoremap <leader>rf :ALEFileRename<CR>
 " fzf
 nnoremap <leader>of :Files<CR>
 nnoremap <leader>, :Buffers<CR>
+nnoremap <c-w>, :Buffers<CR>
 nnoremap <leader>m :Marks<CR>
 nnoremap <leader>j :Jumps<CR>
 nnoremap <leader>h :History<CR>
