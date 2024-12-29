@@ -57,9 +57,7 @@ call plug#begin("~/.vim/plugged")
 	endif
     " colour schemes
     Plug 'NLKNguyen/papercolor-theme'
-    Plug 'Rigellute/rigel'
     Plug 'zefei/cake16'
-    Plug 'phanviet/vim-monokai-pro'
     Plug 'Alligator/accent.vim'
 call plug#end()
 " let g:deoplete#enable_at_startup = 1
@@ -113,3 +111,5 @@ nnoremap <leader>g :Rg<CR>
 nnoremap <leader>G :RG<CR>
 nnoremap <leader>L :Lines<CR>
 nnoremap <leader>l :BLines<CR>
+" clear highlight
+nnoremap <leader>c :noh<CR>
