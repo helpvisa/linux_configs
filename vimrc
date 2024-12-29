@@ -2,6 +2,7 @@
 
 " general options
 " set backspace=indent,eol,start
+set hidden
 set number
 set nowrap
 set nocompatible
