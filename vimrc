@@ -45,6 +45,7 @@ call plug#begin("~/.vim/plugged")
     " Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'dense-analysis/ale'
     Plug 'preservim/nerdtree'
+    Plug 'wellle/context.vim'
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'tpope/vim-commentary'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
