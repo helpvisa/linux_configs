@@ -43,6 +43,7 @@ call plug#begin("~/.vim/plugged")
     " Plug 'Shougo/deoplete.nvim'
     " Plug 'roxma/nvim-yarp'
     " Plug 'roxma/vim-hug-neovim-rpc'
+    Plug 'junegunn/goyo.vim'
     Plug 'dense-analysis/ale'
     Plug 'preservim/nerdtree'
     Plug 'wellle/context.vim'
@@ -66,7 +67,8 @@ let g:ale_completion_enabled = 1
 
 " set colorscheme
 set termguicolors
-colorscheme retrobox
+set background=dark
+colorscheme PaperColor
 
 " highlight word under cursor (in vimscript)
 " set updatetime=10
