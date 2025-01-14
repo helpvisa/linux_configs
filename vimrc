@@ -118,6 +118,7 @@ nnoremap <leader>G :RG<CR>
 nnoremap <leader>L :Lines<CR>
 nnoremap <leader>l :BLines<CR>
 nnoremap <leader>t :Tags<CR>
+nnoremap <leader>T :BTags<CR>
 " clear highlight
 nnoremap <leader>c :noh<CR>
 " terminal
