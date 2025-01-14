@@ -27,6 +27,7 @@ filetype plugin on
 set cursorline
 set ttyfast
 set updatetime=100
+set omnifunc=syntaxcomplete#Complete
 
 " block cursor in normal mode
 let &t_SI = "\e[6 q"
@@ -52,6 +53,7 @@ call plug#begin("~/.vim/plugged")
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     Plug 'itchyny/vim-cursorword'
+    Plug 'ludovicchabant/vim-gutentags'
 	if has('patch-8.0.902')
 	  Plug 'mhinz/vim-signify'
 	else
@@ -115,6 +117,7 @@ nnoremap <leader>g :Rg<CR>
 nnoremap <leader>G :RG<CR>
 nnoremap <leader>L :Lines<CR>
 nnoremap <leader>l :BLines<CR>
+nnoremap <leader>t :Tags<CR>
 " clear highlight
 nnoremap <leader>c :noh<CR>
 " terminal
