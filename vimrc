@@ -1,35 +1,30 @@
 :so $VIMRUNTIME/defaults.vim
 
 " general options
-" set backspace=indent,eol,start
-set hidden
-set number
-set nowrap
-set nocompatible
-set showmatch
-set ignorecase
-set mouse=v
-set hlsearch
-set incsearch
-set tabstop=8
-set softtabstop=4
-set expandtab
-set shiftwidth=4
-set autoindent
-set number
-set wildmode=longest,list
-set cc=80
-filetype plugin indent on
-syntax on
-set mouse=a
-set clipboard+=unnamedplus
-filetype plugin on
-set cursorline
-set ttyfast
-set updatetime=100
+filetype plugin on " set some plugins for certain filetypes
+filetype plugin indent on " set some indentation plugins for certain filetypes
+syntax on " enable syntax highlighting
+set hidden " prevent buffer unloading when invisible
+set number " show line numbers
+set nowrap " do not wrap lines
+set ignorecase " no case sensitivity in search patterns by default
+set mouse=a " enable the mouse in all modes
+set hlsearch " highlight all search pattern matches
+set incsearch " incrementally search while typing a pattern
+set tabstop=8 " default expansion width for tab character
+set softtabstop=4 " set space-expanded tab width (4 spaces)
+set expandtab " expand tabs with space characters instead
+set shiftwidth=4 " default indentation width
+set autoindent " indent automagically
+set wildmode=longest,list " make tab-complete behaviour similar to bash
+set cc=80 " set line length guide to 80 (colour column)
+set clipboard+=unnamedplus " expand clipboard to include system clipboard
+set cursorline " highlight the line currently occupied by the cursor
+set updatetime=100 " default timeout before updates; lowered for some plugins
+" insert-mode omnicompletion setup; trigger with C-x C-o when inserting
 set omnifunc=syntaxcomplete#Complete
 
-" block cursor in normal mode
+" block cursor in normal mode, line cursor in insert mode
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
 
