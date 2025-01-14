@@ -47,7 +47,6 @@ call plug#begin("~/.vim/plugged")
     Plug 'junegunn/goyo.vim'
     Plug 'dense-analysis/ale'
     Plug 'preservim/nerdtree'
-    Plug 'wellle/context.vim'
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'tpope/vim-commentary'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -124,3 +123,6 @@ nnoremap <leader>c :noh<CR>
 " terminal
 nnoremap <leader>ot :term<CR>
 nnoremap <leader>ovt :vert term<CR>
+" move lines up/down
+vnoremap <C-q> :m '<-2<CR>gv=gv
+vnoremap <C-a> :m '>+1<CR>gv=gv
