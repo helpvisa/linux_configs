@@ -21,6 +21,7 @@ set cc=80 " set line length guide to 80 (colour column)
 set clipboard+=unnamedplus " expand clipboard to include system clipboard
 set cursorline " highlight the line currently occupied by the cursor
 set updatetime=100 " default timeout before updates; lowered for some plugins
+set noequalalways " do not mess with split sizes when a preview window closes
 " insert-mode omnicompletion setup; trigger with C-x C-o when inserting
 set omnifunc=syntaxcomplete#Complete
 
