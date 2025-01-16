@@ -96,6 +96,7 @@ nnoremap gd :ALEGoToDefinition<CR>
 nnoremap gtd :ALEGoToTypeDefinition<CR>
 nnoremap gr :ALEFindReferences<CR>
 nnoremap gk :ALEHover<CR>
+nnoremap gb :ALEDetail<CR>
 nnoremap <leader>ca :ALECodeAction<CR>
 nnoremap <leader>rn :ALERename<CR>
 nnoremap <leader>rf :ALEFileRename<CR>
