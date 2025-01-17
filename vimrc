@@ -61,6 +61,10 @@ call plug#begin("~/.vim/plugged")
 call plug#end()
 " let g:deoplete#enable_at_startup = 1
 let g:ale_completion_enabled = 1
+let g:ale_hover_to_floating_preview = 1
+let g:ale_floating_preview = 1
+" set some specific linter preferences
+let g:ale_linters = { 'python': ['pylsp'] }
 
 " set colorscheme
 set termguicolors
