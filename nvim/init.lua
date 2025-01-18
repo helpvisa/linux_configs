@@ -2,12 +2,10 @@
 local vimrc = vim.fn.stdpath("config") .. "/vimrc.vim"
 vim.cmd.source(vimrc)
 
-
 -- setup nvim-tree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 require("nvim-tree").setup();
-
 
 -- setup nvimtree
 require'nvim-treesitter.configs'.setup {
@@ -25,7 +23,8 @@ require'nvim-treesitter.configs'.setup {
       "javascript",
       "rust",
       "php",
-      "html"
+      "html",
+      "python"
   },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
@@ -51,57 +50,46 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 
-
 -- enable mini.nvim
-require('mini.starter').setup()
+-- require('mini.starter').setup()
 require('mini.icons').setup()
-require('mini.statusline').setup()
--- require('mini.fuzzy').setup()
+-- require('mini.statusline').setup()
 require('mini.clue').setup()
 require('mini.git').setup()
 require('mini.diff').setup()
--- require('mini.map').setup()
--- require('mini.pick').setup()
 require('mini.cursorword').setup()
 require('mini.indentscope').setup()
 require('mini.notify').setup()
 require('mini.comment').setup()
 
-
 -- custom remappings
-local opts = { noremap = true, silent = true }
-vim.api.nvim_set_keymap('n', '<Space>', '<Nop>', opts)
-vim.g.mapleader = " "
-vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', opts)
--- pickers
--- vim.api.nvim_set_keymap('n', '<leader>,', ':Pick buffers<CR>', opts)
--- vim.api.nvim_set_keymap('n', '<leader>f', ':Pick files<CR>', opts)
--- vim.api.nvim_set_keymap('n', '<leader>g', ':Pick grep<CR>', opts)
--- vim.api.nvim_set_keymap('n', '<leader>G', ':Pick grep_live<CR>', opts)
--- vim.api.nvim_set_keymap('n', '<leader>h', ':Pick help<CR>', opts)
--- fzf
-vim.api.nvim_set_keymap('n', '<leader>o', ':Files<CR>', opts)
-vim.api.nvim_set_keymap('n', '<leader>,', ':Buffers<CR>', opts)
-vim.api.nvim_set_keymap('n', '<leader>m', ':Marks<CR>', opts)
-vim.api.nvim_set_keymap('n', '<leader>j', ':Jumps<CR>', opts)
-vim.api.nvim_set_keymap('n', '<leader>h', ':History<CR>', opts)
-vim.api.nvim_set_keymap('n', '<leader>/', ':History/<CR>', opts)
-vim.api.nvim_set_keymap('n', '<leader>x', ':Commands<CR>', opts)
-vim.api.nvim_set_keymap('n', '<leader>g', ':Rg<CR>', opts)
-vim.api.nvim_set_keymap('n', '<leader>G', ':RG<CR>', opts)
-vim.api.nvim_set_keymap('n', '<leader>L', ':Lines<CR>', opts)
-vim.api.nvim_set_keymap('n', '<leader>l', ':BLines<CR>', opts)
--- diagnostics
-vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
--- ale
-vim.api.nvim_set_keymap('n', '<leader>a', ':ALEToggle<CR>', opts)
-vim.api.nvim_set_keymap('n', 'gd', ':ALEGoToDefinition<CR>', opts)
-vim.api.nvim_set_keymap('n', 'gtd', ':ALEGoToTypeDefinition<CR>', opts)
-vim.api.nvim_set_keymap('n', 'gr', ':ALEFindReferences<CR>', opts)
-vim.api.nvim_set_keymap('n', 'gk', ':ALEHover<CR>', opts)
-vim.api.nvim_set_keymap('n', '<leader>ca', ':ALECodeAction<CR>', opts)
-vim.api.nvim_set_keymap('n', '<leader>rn', ':ALERename<CR>', opts)
-vim.api.nvim_set_keymap('n', '<leader>rf', ':ALEFileRename<CR>', opts)
+-- local opts = { noremap = true, silent = true }
+-- vim.api.nvim_set_keymap('n', '<Space>', '<Nop>', opts)
+-- vim.g.mapleader = " "
+-- vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', opts)
+-- -- fzf
+-- vim.api.nvim_set_keymap('n', '<leader>o', ':Files<CR>', opts)
+-- vim.api.nvim_set_keymap('n', '<leader>,', ':Buffers<CR>', opts)
+-- vim.api.nvim_set_keymap('n', '<leader>m', ':Marks<CR>', opts)
+-- vim.api.nvim_set_keymap('n', '<leader>j', ':Jumps<CR>', opts)
+-- vim.api.nvim_set_keymap('n', '<leader>h', ':History<CR>', opts)
+-- vim.api.nvim_set_keymap('n', '<leader>/', ':History/<CR>', opts)
+-- vim.api.nvim_set_keymap('n', '<leader>x', ':Commands<CR>', opts)
+-- vim.api.nvim_set_keymap('n', '<leader>g', ':Rg<CR>', opts)
+-- vim.api.nvim_set_keymap('n', '<leader>G', ':RG<CR>', opts)
+-- vim.api.nvim_set_keymap('n', '<leader>L', ':Lines<CR>', opts)
+-- vim.api.nvim_set_keymap('n', '<leader>l', ':BLines<CR>', opts)
+-- -- diagnostics
+-- vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts)
+-- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+-- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+-- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
+-- -- ale
+-- vim.api.nvim_set_keymap('n', '<leader>a', ':ALEToggle<CR>', opts)
+-- vim.api.nvim_set_keymap('n', 'gd', ':ALEGoToDefinition<CR>', opts)
+-- vim.api.nvim_set_keymap('n', 'gtd', ':ALEGoToTypeDefinition<CR>', opts)
+-- vim.api.nvim_set_keymap('n', 'gr', ':ALEFindReferences<CR>', opts)
+-- vim.api.nvim_set_keymap('n', 'gk', ':ALEHover<CR>', opts)
+-- vim.api.nvim_set_keymap('n', '<leader>ca', ':ALECodeAction<CR>', opts)
+-- vim.api.nvim_set_keymap('n', '<leader>rn', ':ALERename<CR>', opts)
+-- vim.api.nvim_set_keymap('n', '<leader>rf', ':ALEFileRename<CR>', opts)
