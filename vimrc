@@ -37,9 +37,6 @@ endif
 
 " enable plugins
 call plug#begin("~/.vim/plugged")
-    " Plug 'Shougo/deoplete.nvim'
-    " Plug 'roxma/nvim-yarp'
-    " Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'junegunn/goyo.vim'
     Plug 'dense-analysis/ale'
     Plug 'preservim/nerdtree'
@@ -59,10 +56,12 @@ call plug#begin("~/.vim/plugged")
     Plug 'zefei/cake16'
     Plug 'Alligator/accent.vim'
 call plug#end()
-" let g:deoplete#enable_at_startup = 1
 let g:ale_completion_enabled = 1
 let g:ale_hover_to_floating_preview = 1
 let g:ale_floating_preview = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %severity%: %s'
 " set some specific linter preferences
 let g:ale_linters = { 'python': ['pylsp'] }
 
@@ -81,6 +80,9 @@ colorscheme PaperColor
 "     endif
 " endfunction
 " autocmd! CursorHold,CursorHoldI * call HighlightWordUnderCursor()
+
+" disable weird syntax highlighting and numbering when composing email in mutt
+autocmd BufNewFile,BufRead /tmp/neomutt* set noautoindent filetype=mail wm=0 tw=75 nonumber
 
 " remap keys
 let mapleader = " "
