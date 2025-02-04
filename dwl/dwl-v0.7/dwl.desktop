@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=dwl
 Comment=dwm for Wayland
-Exec=dwl
+Exec=dwl -s "/home/helpvisa/.config/launch-dwl.sh"
+DesktopNames=sway;wlroots
 Type=Application

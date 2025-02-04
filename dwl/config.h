@@ -4,9 +4,9 @@
                         ((hex >> 8) & 0xFF) / 255.0f, \
                         (hex & 0xFF) / 255.0f }
 /* appearance */
-static const int sloppyfocus               = 0;  /* focus follows mouse */
+static const int sloppyfocus               = 1;  /* focus follows mouse */
 static const int bypass_surface_visibility = 0;  /* 1 means idle inhibitors will disable idle tracking even if it's surface isn't visible  */
-static const unsigned int borderpx         = 2;  /* border pixel of windows */
+static const unsigned int borderpx         = 4;  /* border pixel of windows */
 static const float rootcolor[]             = COLOR(0x222222ff);
 static const float bordercolor[]           = COLOR(0x444444ff);
 static const float focuscolor[]            = COLOR(0x005577ff);
@@ -22,10 +22,15 @@ static int log_level = WLR_ERROR;
 
 /* NOTE: ALWAYS keep a rule declared even if you don't use rules (e.g leave at least one example) */
 static const Rule rules[] = {
-	/* app_id             title       tags mask     isfloating   monitor */
+	/* app_id                         title       tags mask     isfloating   monitor */
 	/* examples: */
-	{ "Gimp_EXAMPLE",     NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
-	/* { "firefox_EXAMPLE",  NULL,       1 << 8,       0,           -1 }, Start on ONLY tag "9" */
+	{ "qalculator",                   NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
+	{ "gcolor3",                      NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
+	{ "steam",                        NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
+	{ "org.gnome.Nautilus",           NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
+	{ "org.gnome.NautilusPreviewer",  NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
+	{ "org.pulseaudio.pavucontrol",   NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
+	{ "Godot",                        NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
 };
 
 /* layout(s) */
@@ -48,6 +53,7 @@ static const MonitorRule monrules[] = {
 	{ "eDP-1",    0.5f,  1,      2,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
 	*/
 	/* defaults */
+	{ "eDP-1",    0.55f, 1,      2.25, &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
 	{ NULL,       0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
 };
 
@@ -57,7 +63,7 @@ static const struct xkb_rule_names xkb_rules = {
 	/* example:
 	.options = "ctrl:nocaps",
 	*/
-	.options = "ctrl:nocaps",
+	.options = "ctrl:nocaps,numpad:mac",
 };
 
 static const int repeat_rate = 25;
@@ -119,9 +125,29 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
+/* launchers */
 static const char *termcmd[] = { "foot", NULL };
 static const char *menucmd[] = { "fuzzel", NULL };
 static const char *web_browser[] = { "firefox", NULL };
+static const char *files[] = { "nautilus", "--new-window", NULL };
+static const char *calc[] = { "foot", "-a", "qalculator", "sh", "-c", "qalc", NULL };
+/* actions */
+static const char *lock_screen[] = { "/home/helpvisa/Scripts/swaylock/lock-and-blur.sh", NULL };
+static const char *suspend[] = { "systemctl", "suspend", NULL };
+static const char *screenshot[] = { "/home/helpvisa/Scripts/sway/screenshot.sh", NULL };
+/* power */
+static const char *pp_perf[] = { "/home/helpvisa/Scripts/sway/power-perf.sh", NULL };
+static const char *pp_bal[] = { "/home/helpvisa/Scripts/sway/power-bal.sh", NULL };
+static const char *pp_save[] = { "/home/helpvisa/Scripts/sway/power-save.sh", NULL };
+/* audio and screen hotkeys */
+static const char *vol_up[] = { "/home/helpvisa/Scripts/sway/vol-up.sh", NULL };
+static const char *vol_down[] = { "/home/helpvisa/Scripts/sway/vol-down.sh", NULL };
+static const char *vol_mute[] = { "/home/helpvisa/Scripts/sway/vol-mute.sh", NULL };
+static const char *mic_mute[] = { "/home/helpvisa/Scripts/sway/mic-mute.sh", NULL };
+static const char *bright_up[] = { "/home/helpvisa/Scripts/sway/bright-up.sh", NULL };
+static const char *bright_down[] = { "/home/helpvisa/Scripts/sway/bright-down.sh", NULL };
+/* overlays */
+static const char *view_notifs[] = { "swaync-client", "-t", "-sw", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
@@ -129,6 +155,25 @@ static const Key keys[] = {
         /* custom commands */
         /* app launchers */
         { MODKEY,                    XKB_KEY_w,          spawn,          {.v = web_browser} },
+        { MODKEY,                    XKB_KEY_n,          spawn,          {.v = files} },
+        { MODKEY,                    XKB_KEY_c,          spawn,          {.v = calc} },
+        /* actions */
+        { MODKEY,                    XKB_KEY_x,          spawn,          {.v = lock_screen} },
+        { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_X,          spawn,          {.v = suspend} },
+        { 0,                         XKB_KEY_Print,      spawn,          {.v = screenshot} },
+        /* power */
+        { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_P,          spawn,          {.v = pp_perf} },
+        { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_O,          spawn,          {.v = pp_bal} },
+        { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_I,          spawn,          {.v = pp_save} },
+        /* audio and screen hotkeys */
+        { 0,               XKB_KEY_XF86AudioRaiseVolume, spawn,          {.v = vol_up} },
+        { 0,               XKB_KEY_XF86AudioLowerVolume, spawn,          {.v = vol_down} },
+        { 0,               XKB_KEY_XF86AudioMute,        spawn,          {.v = vol_mute} },
+        { 0,               XKB_KEY_XF86AudioMicMute,     spawn,          {.v = mic_mute} },
+        { 0,               XKB_KEY_XF86MonBrightnessUp,  spawn,          {.v = bright_up} },
+        { 0,               XKB_KEY_XF86MonBrightnessDown,spawn,          {.v = bright_down} },
+        /* overlays */
+        { MODKEY,                    XKB_KEY_m,          spawn,          {.v = view_notifs} },
         /* base commands */
 	{ WLR_MODIFIER_ALT,          XKB_KEY_space,      spawn,          {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_Return,     spawn,          {.v = termcmd} },
@@ -143,9 +188,9 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_Tab,        view,           {0} },
 	{ MODKEY,                    XKB_KEY_q,          killclient,     {0} },
 	{ MODKEY,                    XKB_KEY_t,          setlayout,      {.v = &layouts[0]} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_f,          setlayout,      {.v = &layouts[1]} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_F,          setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                    XKB_KEY_m,          setlayout,      {.v = &layouts[2]} },
-	// { MODKEY,                    XKB_KEY_space,      setlayout,      {0} },
+	{ MODKEY,                    XKB_KEY_s,          setlayout,      {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_space,      togglefloating, {0} },
 	{ MODKEY,                    XKB_KEY_f,        togglefullscreen, {0} },
 	{ MODKEY,                    XKB_KEY_0,          view,           {.ui = ~0} },
