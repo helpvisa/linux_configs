@@ -30,7 +30,7 @@ dwm_battery () {
     #     printf "%s%% / ~%s h left" "--$CHARGE" "$TIME_LEFT"
     # fi
     # printf "%s\n" "$SEP2"
-    STATUS=$(acpi -b | sed "s/\(Battery 0: \|Fully Charged, \)//;s/Discharging, /--/;s/Charging, /++/;s/\(remaining\|until charged\)/left/")
+    STATUS=$(acpi -b | sed "s/Battery 0: //;s/Discharging, /--/;s/Charging, /++/;s/\(remaining\|until charged\)/left/;s/Full, //;s/rate information unavailable//")
     printf "%s" "$SEP1"
     printf "%s" "$STATUS"
     printf "%s\n" "$SEP2"
