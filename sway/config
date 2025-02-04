@@ -8,13 +8,13 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term foot
-bindsym $mod+Shift+f exec foot -a fuzzyfind sh -c "fzf | (xargs xdg-open)"
+bindsym $mod+Shift+f exec /home/helpvisa/Scripts/sway/search-with-tracker.sh
 for_window [app_id="fuzzyfind"] floating enable
 
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu wofi --show drun | xargs swaymsg exec --
+set $menu fuzzel | xargs swaymsg exec --
 
 ### Autostart
 exec --no-startup-id dex-autostart --autostart --environment sway
@@ -29,7 +29,7 @@ output * bg ~/Pictures/Wallpapers/canyon_dawn.png fill
 exec swayidle -w \
          timeout 900 '~/Scripts/swaylock/lock-and-blur.sh' \
          timeout 1800 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         before-sleep 'exec sleep 1 && ~/Scripts/swaylock/lock-and-blur.sh'
+         before-sleep '~/Scripts/swaylock/lock-and-blur.sh'
 
 ### Input configuration
 # Touchpad:
@@ -56,7 +56,7 @@ input "7511:8:2.4G_Wireless_Optical_Mouse" {
 # modify keyboard map
 input type:keyboard {
     xkb_layout us
-    xkb_options caps:escape_shifted_capslock
+    xkb_options "ctrl:nocaps,numpad:mac"
 }
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -70,7 +70,7 @@ bindsym $mod+Return exec $term
 bindsym $mod+q kill
 
 # Start your launcher
-bindsym $mod+d exec $menu
+bindsym Mod1+Space exec $menu
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
@@ -115,6 +115,8 @@ bindsym $mod+Shift+Right move right
 # Touchpad gestures
 bindgesture swipe:3:right workspace prev
 bindgesture swipe:3:left workspace next
+bindgesture swipe:3:up focus down
+bindgesture swipe:3:down focus up
 
 # Workspaces:
 # Switch to workspace
@@ -150,6 +152,7 @@ bindsym $mod+b splith
 bindsym $mod+v splitv
 
 # Switch the current container between different layout styles
+workspace_layout stacking
 bindsym $mod+s layout stacking
 bindsym $mod+a layout tabbed
 bindsym $mod+e layout toggle split
@@ -167,6 +170,8 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+comma focus parent
 # Move focus to the child container
 bindsym $mod+period focus child
+# mouse warp to containers
+# mouse_warping container
 
 ## Scratchpad:
 # Move the currently focused window to the scratchpad
@@ -174,7 +179,7 @@ bindsym $mod+Shift+minus move scratchpad
 
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
-bindsym $mod+minus [app_id="^(?i)(?!qalculator)(?!org.gnome.Nautilus).*"] scratchpad show
+bindsym $mod+minus [app_id="^(?i)(?!qalculator)"] scratchpad show
 
 # Resizing containers:
 mode "resize" {
@@ -214,10 +219,14 @@ default_border normal 4
 default_floating_border normal 4
 titlebar_padding 1
 titlebar_border_thickness 0
-gaps inner 4
-gaps outer 8
+title_align center
+# set title format
+for_window [class=".*"] title_format "<b> %title</b>"
+# set gaps
+gaps inner 0
+gaps outer 0
 # colours
-client.focused #f7b2b6 #a04f5f #f0612d #faa992 #a04f5f
+client.focused #1f3b37 #677017 #001f00 #899239 #677017
 client.focused_inactive #5f676a #5f676a #ffffff #484e50 #5f676a
 client.unfocused #222222 #222222 #888888 #292d2e #222222
 # mouse
@@ -225,22 +234,25 @@ seat * xcursor_theme Adwaita 32
 # gnome sushi and nautilus always floating
 for_window [app_id=org.gnome.NautilusPreviewer] floating enable
 for_window [app_id=org.gnome.Nautilus] floating enable
-for_window [app_id=org.gnome.Nautilus] move scratchpad
+for_window [app_id=thunar] floating enable
+for_window [app_id=gnome-terminal-server] floating enable
 for_window [class=steam] floating enable
 # qalculator on scratchpad
 for_window [app_id="qalculator"] floating enable
 for_window [app_id="qalculator"] move scratchpad
-
-include /etc/sway/config.d/*
+# colorpicker floating
+for_window [app_id="gcolor3"] floating enable
+# pulseaudio
+for_window [app_id="org.pulseaudio.pavucontrol"] floating enable
+# godot
+for_window [class="Godot"] floating enable
 
 ## Custom application launchers
 # launch web browsers
 bindsym $mod+w exec firefox
 # launch file browser + toggle to scratchpad
-exec --no-startup-id nautilus
-exec --no-startup-id nautilus ~/Downloads
-bindsym $mod+Shift+n exec nautilus
-bindsym $mod+n [app_id=org.gnome.Nautilus] scratchpad show
+bindsym $mod+n exec nautilus --new-window
+# bindsym $mod+n [app_id=org.gnome.Nautilus] scratchpad show
 # launch qalculator for quick mafs
 exec --no-startup-id foot -a  qalculator sh -c "qalc"
 bindsym $mod+Shift+m exec foot -a qalculator sh -c "qalc"
@@ -248,26 +260,34 @@ bindsym $mod+c [app_id="qalculator"] scratchpad show
 # take screenshots
 bindsym Print exec grim -g "$(slurp)" - | wl-copy
 # power profile management
-bindsym $mod+Shift+p exec ~/.config/dwm/power-perf.sh
-bindsym $mod+Shift+o exec ~/.config/dwm/power-bal.sh
-bindsym $mod+Shift+i exec ~/.config/dwm/power-save.sh
+bindsym $mod+Shift+p exec ~/Scripts/sway/power-perf.sh
+bindsym $mod+Shift+o exec ~/Scripts/sway/power-bal.sh
+bindsym $mod+Shift+i exec ~/Scripts/sway/power-save.sh
 # audio and brightness management
-bindsym XF86AudioRaiseVolume exec ~/.config/dwm/vol-up.sh
-bindsym XF86AudioLowerVolume exec ~/.config/dwm/vol-down.sh
-bindsym XF86AudioMute exec ~/.config/dwm/vol-mute.sh
-bindsym XF86AudioMicMute exec ~/.config/dwm/mic-mute.sh
-bindsym XF86MonBrightnessUp exec ~/.config/dwm/bright-up.sh
-bindsym XF86MonBrightnessDown exec ~/.config/dwm/bright-down.sh
+bindsym XF86AudioRaiseVolume exec ~/Scripts/sway/vol-up.sh
+bindsym XF86AudioLowerVolume exec ~/Scripts/sway/vol-down.sh
+bindsym XF86AudioMute exec ~/Scripts/sway/vol-mute.sh
+bindsym XF86AudioMicMute exec ~/Scripts/sway/mic-mute.sh
+bindsym XF86MonBrightnessUp exec ~/Scripts/sway/bright-up.sh
+bindsym XF86MonBrightnessDown exec ~/Scripts/sway/bright-down.sh
 
 # register environment with dbus session after login
 exec_always --no-startup-id dbus-update-activation-environment --all
 # start polkit (install gnome-polkit; fedora uses libexec instead of lib)
 exec --no-startup-id /usr/libexec/polkit-gnome-authentication-agent-1
 
-# toggle darkman
-bindsym $mod+Shift+t exec darkman toggle
+# toggle dark mode
+# bindsym $mod+Shift+t exec "/home/helpvisa/Scripts/theming/toggle-dark-mode.sh"
+
+# swayr commands
+bindsym $mod+d exec /home/helpvisa/.cargo/bin/swayr switch-window
 
 ## Finally: launch programs automatically
-exec swaync
-exec wlsunset -l 43.6523 -L -79.3832
-exec systemctl --user start --now darkman.service
+exec swaync &
+exec wlsunset -l 43.6523 -L -79.3832 -t 3000 &
+exec nm-applet &
+exec blueman-applet &
+# exec /home/helpvisa/Compiles/swayfader/swayfader.py &
+exec /home/helpvisa/.cargo/bin/swayrd
+
+include /etc/sway/config.d/*
