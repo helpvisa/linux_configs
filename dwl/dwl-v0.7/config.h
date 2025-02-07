@@ -173,7 +173,7 @@ static const char *bright_down[] = { "/home/helpvisa/Scripts/sway/bright-down.sh
 /* overlays */
 static const char *view_notifs[] = { "swaync-client", "-t", "-sw", NULL };
 /* deadly */
-static const char *kill_launch_script[] = { "killall", "custom-dwl.sh", NULL };
+static const char *kill_launch_script[] = { "killall", "launch-dwl.sh", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
