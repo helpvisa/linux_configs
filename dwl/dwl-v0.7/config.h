@@ -7,15 +7,26 @@
 static const int sloppyfocus               = 1;  /* focus follows mouse */
 static const int bypass_surface_visibility = 0;  /* 1 means idle inhibitors will disable idle tracking even if it's surface isn't visible  */
 static const unsigned int borderpx         = 4;  /* border pixel of windows */
+static const int showbar                   = 1;
+static const int topbar                    = 1;
+static const char *fonts[]                 = { "Input Mono:size=10" };
 static const float rootcolor[]             = COLOR(0x333135ff);
+static const int trayspacing               = 2; /* Spacing between icons in system tray */
+static const int traymargins               = 1; /* System tray inner margins */
 static const float bordercolor[]           = COLOR(0x3b546aff);
 static const float focuscolor[]            = COLOR(0xbc663fff);
 static const float urgentcolor[]           = COLOR(0xffac79ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.41f, 0.22f, 0.19f, 1.0f}; /* You can also use glsl colors */
+static uint32_t colors[][3]                = {
+	/*               fg          bg          border    */
+	[SchemeNorm] = { 0xbbbbbbff, 0x3b546aff, 0x3b546aff },
+	[SchemeSel]  = { 0xeeeeeeff, 0xbc663fff, 0xbc663fff },
+	[SchemeUrg]  = { 0x222222ff, 0xffac79ff, 0xffac79ff },
+};
 
 /* tagging - TAGCOUNT must be no greater than 31 */
-#define TAGCOUNT (9)
+static char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 /* logging */
 static int log_level = WLR_ERROR;
@@ -64,6 +75,18 @@ static const struct xkb_rule_names xkb_rules = {
 	.options = "ctrl:nocaps",
 	*/
 	.options = "ctrl:nocaps,numpad:mac",
+};
+
+/* input devices */
+static const InputRule inputrules[] = {
+	/* name                      kbcreate                 ptrcreate      */
+	/* ignore bad device - like a touchpad ;) */
+	// { "BAD DEVICE",              NULL,                    NULL                },
+	/* ungroup ydotool device - fixes a bug */
+	{ "ydotoold virtual device", createungroupedkeyboard, createpointer       },
+	/* put your touchpad name here to enable toggle touchpad */
+	{ "DELL07E6:00 06CB:76AF Touchpad", createkeyboard, createtogglepointer },
+	{ NULL,                      createkeyboard,          createpointer       },
 };
 
 static const int repeat_rate = 25;
@@ -132,7 +155,7 @@ static const char *web_browser[] = { "firefox", NULL };
 static const char *files[] = { "nautilus", "--new-window", NULL };
 static const char *calc[] = { "foot", "-a", "qalculator", "sh", "-c", "qalc", NULL };
 /* actions */
-static const char *lock_screen[] = { "/home/helpvisa/Scripts/swaylock/lock-and-blur.sh", NULL };
+static const char *lock_screen[] = { "/home/helpvisa/Scripts/sway/lock-and-blur.sh", NULL };
 static const char *suspend[] = { "systemctl", "suspend", NULL };
 static const char *screenshot[] = { "/home/helpvisa/Scripts/sway/screenshot.sh", NULL };
 static const char *pick_color[] = { "/home/helpvisa/Scripts/sway/color-picker.sh", NULL };
@@ -149,6 +172,8 @@ static const char *bright_up[] = { "/home/helpvisa/Scripts/sway/bright-up.sh", N
 static const char *bright_down[] = { "/home/helpvisa/Scripts/sway/bright-down.sh", NULL };
 /* overlays */
 static const char *view_notifs[] = { "swaync-client", "-t", "-sw", NULL };
+/* deadly */
+static const char *kill_launch_script[] = { "killall", "custom-dwl.sh", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
@@ -195,6 +220,7 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_s,          setlayout,      {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_space,      togglefloating, {0} },
 	{ MODKEY,                    XKB_KEY_f,        togglefullscreen, {0} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_U,          togglepointer,  {0} },
 	{ MODKEY,                    XKB_KEY_0,          view,           {.ui = ~0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_parenright, tag,            {.ui = ~0} },
 	{ MODKEY,                    XKB_KEY_comma,      focusmon,       {.i = WLR_DIRECTION_LEFT} },
@@ -210,9 +236,11 @@ static const Key keys[] = {
 	TAGKEYS(          XKB_KEY_7, XKB_KEY_ampersand,                  6),
 	TAGKEYS(          XKB_KEY_8, XKB_KEY_asterisk,                   7),
 	TAGKEYS(          XKB_KEY_9, XKB_KEY_parenleft,                  8),
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_E,          quit,           {0} },
+	// { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_E,          quit,           {0} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_E,          spawn,          {.v = kill_launch_script} },
 
 	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
+	{ WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_Terminate_Server, spawn, {.v = kill_launch_script} },
 	{ WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_Terminate_Server, quit, {0} },
 	/* Ctrl-Alt-Fx is used to switch to another VT, if you don't know what a VT is
 	 * do not remove them.
@@ -223,7 +251,15 @@ static const Key keys[] = {
 };
 
 static const Button buttons[] = {
-	{ MODKEY, BTN_LEFT,   moveresize,     {.ui = CurMove} },
-	{ MODKEY, BTN_MIDDLE, togglefloating, {0} },
-	{ MODKEY, BTN_RIGHT,  moveresize,     {.ui = CurResize} },
+	{ ClkLtSymbol, 0,      BTN_LEFT,   setlayout,      {.v = &layouts[0]} },
+	{ ClkLtSymbol, 0,      BTN_RIGHT,  setlayout,      {.v = &layouts[2]} },
+	{ ClkTitle,    0,      BTN_MIDDLE, zoom,           {0} },
+	{ ClkStatus,   0,      BTN_MIDDLE, spawn,          {.v = termcmd} },
+	{ ClkClient,   MODKEY, BTN_LEFT,   moveresize,     {.ui = CurMove} },
+	{ ClkClient,   MODKEY, BTN_MIDDLE, togglefloating, {0} },
+	{ ClkClient,   MODKEY, BTN_RIGHT,  moveresize,     {.ui = CurResize} },
+	{ ClkTagBar,   0,      BTN_LEFT,   view,           {0} },
+	{ ClkTagBar,   0,      BTN_RIGHT,  toggleview,     {0} },
+	{ ClkTagBar,   MODKEY, BTN_LEFT,   tag,            {0} },
+	{ ClkTagBar,   MODKEY, BTN_RIGHT,  toggletag,      {0} },
 };

@@ -90,7 +90,7 @@ do
     lowerbar=""
     
     # xsetroot -name "$upperbar"
-    dwlb -status all "$upperbar"
+    echo "$upperbar" > /home/helpvisa/.bar-text
     # Uncomment the line below to enable the lowerbar 
     #xsetroot -name "$upperbar;$lowerbar"
     sleep 1
