@@ -155,7 +155,7 @@ bindsym $mod+v splitv
 workspace_layout stacking
 bindsym $mod+s layout stacking
 bindsym $mod+a layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+d layout toggle split
 
 # Make the current focus fullscreen
 bindsym $mod+f fullscreen
@@ -274,6 +274,7 @@ bindsym XF86MonBrightnessDown exec ~/Scripts/sway/bright-down.sh
 bindsym $mod+z exec ~/Scripts/sway/copyq-clipboard-history.sh
 bindsym $mod+Shift+a exec copyq disable
 bindsym $mod+Shift+z exec copyq enable
+bindsym $mod+Shift+v exec copyq toggle
 
 # register environment with dbus session after login
 exec_always --no-startup-id dbus-update-activation-environment --all
