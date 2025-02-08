@@ -5,12 +5,12 @@
 	"modules-left": [
 		"sway/workspaces",
 		"sway/mode",
-		"sway/scratchpad"
+		"sway/scratchpad",
+		"idle_inhibitor"
 	],
 	"modules-center": [
 	],
 	"modules-right": [
-		"idle_inhibitor",
 		"pulseaudio",
 		"backlight",
 		"network",
@@ -18,7 +18,7 @@
 		"disk",
 		"memory",
 		"cpu",
-		"temperature",
+		// "temperature",
 		"battery",
 		"clock",
 		"tray"
@@ -38,7 +38,7 @@
 		"tooltip-format": "{app}: {title}"
 	},
 	"idle_inhibitor": {
-		"format": "{icon}|",
+		"format": " [{icon}] ",
 		"format-icons": {
 			"activated": "awake",
 			"deactivated": "idle"
@@ -48,7 +48,7 @@
 		"format": "{:%m-%d-%y|%H:%M}"
 	},
 	"disk": {
-		"format": "d: {specific_used:0.0f}GB/{specific_total:0.0f}GB|",
+		"format": " [d: {specific_used:0.0f}GB/{specific_total:0.0f}GB] ",
 		"unit": "GB"
 	},
 	"cpu": {
@@ -93,9 +93,9 @@
 	        "tooltip": true,
 		"format-icons": {
 			"default": "?",
-			"performance": "p",
-			"balanced": "b",
-			"power-saver": "s"
+			"performance": "perf",
+			"balanced": "bal",
+			"power-saver": "save"
 		}
 	},
 	"tray": {
