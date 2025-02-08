@@ -270,24 +270,22 @@ bindsym XF86AudioMute exec ~/Scripts/sway/vol-mute.sh
 bindsym XF86AudioMicMute exec ~/Scripts/sway/mic-mute.sh
 bindsym XF86MonBrightnessUp exec ~/Scripts/sway/bright-up.sh
 bindsym XF86MonBrightnessDown exec ~/Scripts/sway/bright-down.sh
+# view clipboard history (requires copyq)
+bindsym $mod+z exec ~/Scripts/sway/copyq-clipboard-history.sh
+bindsym $mod+Shift+a exec copyq disable
+bindsym $mod+Shift+z exec copyq enable
 
 # register environment with dbus session after login
 exec_always --no-startup-id dbus-update-activation-environment --all
 # start polkit (install gnome-polkit; fedora uses libexec instead of lib)
 exec --no-startup-id /usr/libexec/polkit-gnome-authentication-agent-1
 
-# toggle dark mode
-# bindsym $mod+Shift+t exec "/home/helpvisa/Scripts/theming/toggle-dark-mode.sh"
-
-# swayr commands
-bindsym $mod+d exec /home/helpvisa/.cargo/bin/swayr switch-window
-
 ## Finally: launch programs automatically
 exec swaync &
 exec wlsunset -l 43.6523 -L -79.3832 -t 3000 &
 exec nm-applet &
 exec blueman-applet &
-# exec /home/helpvisa/Compiles/swayfader/swayfader.py &
-exec /home/helpvisa/.cargo/bin/swayrd
+exec darkman set dark &
+# exec copyq &
 
 include /etc/sway/config.d/*
