@@ -271,10 +271,10 @@ bindsym XF86AudioMicMute exec ~/Scripts/sway/mic-mute.sh
 bindsym XF86MonBrightnessUp exec ~/Scripts/sway/bright-up.sh
 bindsym XF86MonBrightnessDown exec ~/Scripts/sway/bright-down.sh
 # view clipboard history (requires copyq)
-bindsym $mod+z exec ~/Scripts/sway/copyq-clipboard-history.sh
-bindsym $mod+Shift+a exec copyq disable
+bindsym $mod+Shift+a exec ~/Scripts/sway/copyq-clipboard-history.sh
+bindsym $mod+Shift+v exec copyq disable
 bindsym $mod+Shift+z exec copyq enable
-bindsym $mod+Shift+v exec copyq toggle
+bindsym $mod+z exec copyq toggle
 
 # register environment with dbus session after login
 exec_always --no-startup-id dbus-update-activation-environment --all
