@@ -80,7 +80,8 @@ window#waybar {
 }
 
 #battery.charging {
-    color: green;
+    color: pink;
+    background-color: #6d768c;
 }
 
 #battery.warning:not(.charging) {
