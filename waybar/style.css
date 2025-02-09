@@ -83,28 +83,13 @@ window#waybar {
     color: green;
 }
 
-@keyframes blink {
-    to {
-        background-color: #ffac79;
-        color: #222222;
-    }
-}
-
 #battery.warning:not(.charging) {
-    color: #ffac79;
-    animation-name: blink;
-    animation-duration: 1.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+    color: #eeeeee;
+    background-color: #7c5c5b;
 }
 #battery.critical:not(.charging) {
-    color: #ffac79;
-    animation-name: blink;
-    animation-duration: 0.75s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+    color: #eeeeee;
+    background-color: #bc654e;
 }
 
 #cpu {
