@@ -4,10 +4,9 @@
 	"height": 24,
 	"modules-left": [
 		"sway/workspaces",
-		"sway/mode",
 		"sway/scratchpad",
-                "sway/window",
-		"idle_inhibitor"
+		"idle_inhibitor",
+                "sway/window"
 	],
 	"modules-center": [
 	],
@@ -19,20 +18,20 @@
 		"disk",
 		"memory",
 		"cpu",
-		// "temperature",
 		"battery",
 		"clock",
 		"tray"
 	],
 	// Modules
 	"sway/window": {
-		"format": " [ {title} ] "
+		"format": " {title} ",
+                "max-length": 30
 	},
 	"sway/mode": {
 		"format": "<span style=\"italic\">{}</span>"
 	},
 	"sway/scratchpad": {
-		"format": "{icon} {count} on pad",
+		"format": "{icon} {count} on pad ",
 		"show-empty": false,
 		"format-icons": ["", "->"],
 		"tooltip": true,
@@ -49,7 +48,7 @@
 		"format": " [{:%m-%d-%y | %H:%M}] "
 	},
 	"disk": {
-		"format": " [disk: {specific_used:0.0f}GB of {specific_total:0.0f}GB | {specific_free:0.0f} free] ",
+		"format": " [{specific_used:0.0f}GB of {specific_total:0.0f}GB | {specific_free:0.0f} free] ",
 		"unit": "GB"
 	},
 	"cpu": {
