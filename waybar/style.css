@@ -154,3 +154,11 @@ window#waybar {
     border-width: 2px;
     border-color: #00ff00;
 }
+
+#custom-notification {
+    color: #bc3f3f;
+}
+#custom-notification:hover {
+    background-color: #bc663f;
+    color: #222222;
+}
