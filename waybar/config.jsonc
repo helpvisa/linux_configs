@@ -11,6 +11,7 @@
 	"modules-center": [
 	],
 	"modules-right": [
+                "custom/notification",
 		"pulseaudio",
 		"backlight",
 		"network",
@@ -100,5 +101,25 @@
 	},
 	"tray": {
 		"spacing": 4
-	}
+	},
+        "custom/notification": {
+            "tooltip": false,
+            "format": " [{}{icon}] ",
+            "format-icons": {
+              "notification": "!",
+              "none": "",
+              "dnd-notification": "x!",
+              "dnd-none": "x",
+              "inhibited-notification": "-!",
+              "inhibited-none": "-",
+              "dnd-inhibited-notification": "x-!",
+              "dnd-inhibited-none": "x-"
+            },
+            "return-type": "json",
+            "exec-if": "which swaync-client",
+            "exec": "swaync-client -swb",
+            "on-click": "swaync-client -t -sw",
+            "on-click-right": "swaync-client -d -sw",
+            "escape": true
+         }
 }
