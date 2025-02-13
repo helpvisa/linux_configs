@@ -4,6 +4,7 @@
     font-family: "Input Mono";
     font-size: 12px;
     min-height: 12px;
+    transition: none;
 }
 
 window#waybar {
@@ -38,8 +39,8 @@ window#waybar {
     */
     color: #bbbbbb;
     border-top: 2px solid transparent;
+    border-radius: 8px;
 }
-
 #workspaces button.focused {
     /*
     color: #2f5347;
@@ -49,7 +50,19 @@ window#waybar {
     border-top: 2px solid #2f5347;
     */
     border-top: 2px solid #eeeeee;
-    border-radius: 8px;
+}
+#workspaces button.urgent {
+    color: #00ff00;
+    border-bottom: 2px solid #00ff00;
+}
+#workspaces button:hover {
+    background-color: #4c657b;
+}
+#workspaces button.focused:hover {
+    background-color: #4c657b;
+}
+#workspaces button.urgent:hover {
+    background-color: #4c657b;
 }
 
 #mode {
