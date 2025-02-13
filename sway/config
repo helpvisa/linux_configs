@@ -53,7 +53,7 @@ input "7511:8:2.4G_Wireless_Optical_Mouse" {
 # modify keyboard map
 input type:keyboard {
     xkb_layout us
-    xkb_options "ctrl:nocaps,numpad:mac"
+    xkb_options "ctrl:nocaps,numpad:mac,compose:rctrl"
 }
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
