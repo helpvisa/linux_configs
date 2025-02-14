@@ -26,11 +26,12 @@ set noequalalways " do not mess with split sizes when a preview window closes
 set omnifunc=syntaxcomplete#Complete
 
 " fix clipboard support on wayland
-augroup wl-clipboard
-    autocmd!
-    autocmd FocusLost * :call system('wl-copy --trim-newline', @+)
-    autocmd FocusGained * :let @+ = system('wl-paste -n')
-augroup END
+" this causes weird focus issues sometimes in gnome?
+" augroup wl-clipboard
+"     autocmd!
+"     autocmd FocusLost * :call system('wl-copy --trim-newline', @+)
+"     autocmd FocusGained * :let @+ = system('wl-paste -n')
+" augroup END
 
 " block cursor in normal mode, line cursor in insert mode
 let &t_SI = "\e[6 q"
