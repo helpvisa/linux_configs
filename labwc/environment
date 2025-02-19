@@ -1,0 +1,5 @@
+XKB_DEFAULT_LAYOUT=us
+XKB_DEFAULT_OPTIONS=ctrl:nocaps,numpad:mac,compose:rctrl
+
+XCURSOR_THEME=Adwaita
+XCURSOR_SIZE=32

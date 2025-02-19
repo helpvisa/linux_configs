@@ -1,0 +1,406 @@
+<?xml version="1.0"?>
+<labwc_config>
+    <core>
+        <decoration>server</decoration>
+        <gap>0</gap>
+        <adaptiveSync>no</adaptiveSync>
+        <allowTearing>fullscreen</allowTearing>
+        <autoEnableOutputs>yes</autoEnableOutputs>
+        <reuseOutputMode>yes</reuseOutputMode>
+        <xwaylandPersistence>yes</xwaylandPersistence>
+    </core>
+
+    <placement>
+        <policy>cascade</policy>
+        <cascadeOffset x="40" y="40" />
+    </placement>
+
+    <windowSwitcher show="yes" preview="yes" outlines="yes" allWorkspaces="no">
+        <fields>
+            <field content="type" width="15%" />
+            <field content="desktop_entry_name" width="20%" />
+            <field content="title" width="50%" />
+            <field content="output" width="15%" />
+        </fields>
+    </windowSwitcher>
+
+    <resistance>
+        <screenEdgeStrength>20</screenEdgeStrength>
+        <windowEdgeStrength>10</windowEdgeStrength>
+    </resistance>
+
+    <focus>
+        <followMouse>yes</followMouse>
+        <followMouseRequiresMovement>yes</followMouseRequiresMovement>
+        <raiseOnFocus>no</raiseOnFocus>
+    </focus>
+
+    <snapping>
+        <range>100</range>
+        <overlay>
+            <enabled>yes</enabled>
+            <delay>
+                <inner>100</inner>
+                <outer>100</outer>
+            </delay>
+        </overlay>
+        <topMaximize>no</topMaximize>
+        <notifyClient>always</notifyClient>
+    </snapping>
+
+    <regions>
+        <region name="top-left" x="0%" y="0%" width="50%" height="50%" />
+        <region name="top-right" x="50%" y="0%" width="50%" height="50%" />
+        <region name="bottom-left" x="0%" y="50%" width="50%" height="50%" />
+        <region name="bottom-right" x="50%" y="50%" width="50%" height="50%" />
+    </regions>
+
+    <desktops number="9">
+        <popupTime>500</popupTime>
+        <prefix>Workspace</prefix>
+    </desktops>
+
+    <theme>
+        <name>Adwaita</name>
+        <icon>Papirus</icon>
+        <titlebar>
+            <!-- icon -->
+            <!-- menu: window menu -->
+            <!-- iconify -->
+            <!-- max -->
+            <!-- close -->
+            <!-- shade -->
+            <!-- desk: pin -->
+            <layout>menu,icon,desk:shade,iconify,max,close</layout>
+            <showTitle>yes</showTitle>
+            <cornerRadius>0</cornerRadius>
+            <keepBorder>yes</keepBorder>
+            <dropShadows>yes</dropShadows>
+            <font>
+                <name>Input Mono</name>
+                <size>10</size>
+                <slant>normal</slant>
+                <weight>bold</weight>
+            </font>
+        </titlebar>
+    </theme>
+
+    <resize>
+        <popupShow>Always</popupShow>
+        <drawContents>yes</drawContents>
+    </resize>
+
+    <keyboard layoutScope="global">
+        <numlock>off</numlock>
+        <repeatRate>25</repeatRate>
+        <repeatDelay>600</repeatDelay>
+        <!-- set keybinds -->
+            <!-- launchers -->
+                <!-- terminal -->
+        <keybind key="W-Return">
+            <action name="Execute" command="foot" />
+        </keybind>
+                <!-- application menu -->
+        <keybind key="A-Space">
+            <action name="Execute" command="fuzzel | xargs swaymsg exec --" />
+        </keybind>
+                <!-- firefox -->
+        <keybind key="W-w">
+            <action name="Execute" command="firefox" />
+        </keybind>
+                <!-- file manager -->
+        <keybind key="W-n">
+            <action name="Execute" command="nautilus --new-window" />
+        </keybind>
+                <!-- calculator -->
+        <keybind key="W-c">
+            <action name="Execute" command="gnome-calculator" />
+        </keybind>
+                <!-- toggle clipboard -->
+        <keybind key="W-z">
+            <action name="Execute" command="copyq toggle" />
+        </keybind>
+                <!-- disable clipboard -->
+        <keybind key="W-S-a">
+            <action name="Execute" command="copyq disable" />
+        </keybind>
+                <!-- enable clipboard -->
+        <keybind key="W-S-z">
+            <action name="Execute" command="copyq enable" />
+        </keybind>
+            <!-- actions -->
+                <!-- show window menu -->
+        <keybind key="W-C-Space">
+            <action name="ShowMenu" menu="client-menu" atCursor="yes" />
+        </keybind>
+                <!-- kill window -->
+        <keybind key="W-q">
+            <action name="Close" />
+        </keybind>
+                <!-- lock screen -->
+        <keybind key="W-x">
+            <action name="Execute" command="~/Scripts/sway/lock-and-blur.sh" />
+        </keybind>
+                <!-- suspend -->
+        <keybind key="W-S-x">
+            <action name="Execute" command="systemctl suspend" />
+        </keybind>
+                <!-- move window to next monitor -->
+        <keybind key="W-S-Period">
+            <action name="MoveToOutput" direction="right" wrap="no" />
+        </keybind>
+                <!-- move window to prev monitor -->
+        <keybind key="W-S-Comma">
+            <action name="MoveToOutput" direction="left" wrap="no" />
+        </keybind>
+                <!-- next workspace -->
+        <keybind key="W-Page_Down">
+            <action name="GoToDesktop" to="right" wrap="yes" />
+        </keybind>
+                <!-- prev workspace -->
+        <keybind key="W-Page_Up">
+            <action name="GoToDesktop" to="left" wrap="yes" />
+        </keybind>
+                <!-- move window to next workspace -->
+        <keybind key="W-S-Page_Down">
+            <action name="SendToDesktop" to="right" wrap="yes" />
+        </keybind>
+                <!-- move window to prev workspace -->
+        <keybind key="W-S-Page_Up">
+            <action name="SendToDesktop" to="left" wrap="yes" />
+        </keybind>
+                <!-- switch to numbered workspace -->
+        <keybind key="W-1">
+            <action name="GoToDesktop" to="1" />
+        </keybind>
+        <keybind key="W-2">
+            <action name="GoToDesktop" to="2" />
+        </keybind>
+        <keybind key="W-3">
+            <action name="GoToDesktop" to="3" />
+        </keybind>
+        <keybind key="W-4">
+            <action name="GoToDesktop" to="4" />
+        </keybind>
+        <keybind key="W-5">
+            <action name="GoToDesktop" to="5" />
+        </keybind>
+        <keybind key="W-6">
+            <action name="GoToDesktop" to="6" />
+        </keybind>
+        <keybind key="W-7">
+            <action name="GoToDesktop" to="7" />
+        </keybind>
+        <keybind key="W-8">
+            <action name="GoToDesktop" to="8" />
+        </keybind>
+        <keybind key="W-9">
+            <action name="GoToDesktop" to="9" />
+        </keybind>
+                <!-- move window to numbered workspace -->
+        <keybind key="W-S-1">
+            <action name="SendToDesktop" to="1" />
+        </keybind>
+        <keybind key="W-S-2">
+            <action name="SendToDesktop" to="2" />
+        </keybind>
+        <keybind key="W-S-3">
+            <action name="SendToDesktop" to="3" />
+        </keybind>
+        <keybind key="W-S-4">
+            <action name="SendToDesktop" to="4" />
+        </keybind>
+        <keybind key="W-S-5">
+            <action name="SendToDesktop" to="5" />
+        </keybind>
+        <keybind key="W-S-6">
+            <action name="SendToDesktop" to="6" />
+        </keybind>
+        <keybind key="W-S-7">
+            <action name="SendToDesktop" to="7" />
+        </keybind>
+        <keybind key="W-S-8">
+            <action name="SendToDesktop" to="8" />
+        </keybind>
+        <keybind key="W-S-9">
+            <action name="SendToDesktop" to="9" />
+        </keybind>
+                <!-- pin window to all workspaces -->
+        <keybind key="W-p">
+            <action name="ToggleOmnipresent" />
+        </keybind>
+                <!-- view last notification -->
+        <keybind key="W-m">
+            <action name="Execute" command="dunstctl history-pop" />
+        </keybind>
+                <!-- clear last notification -->
+        <keybind key="W-S-m">
+            <action name="Execute" command="dunstctl close" />
+        </keybind>
+                <!-- clear all notifications -->
+        <keybind key="W-S-C-m">
+            <action name="Execute" command="dunstctl close-all" />
+        </keybind>
+            <!-- scripted actions -->
+                <!-- take screenshot -->
+        <keybind key="Print">
+            <action name="Execute" command="~/Scripts/sway/screenshot.sh" />
+        </keybind>
+                <!-- set power profiles -->
+        <keybind key="W-S-p">
+            <action name="Execute" command="~/Scripts/sway/power-perf.sh" />
+        </keybind>
+        <keybind key="W-S-o">
+            <action name="Execute" command="~/Scripts/sway/power-bal.sh" />
+        </keybind>
+        <keybind key="W-S-i">
+            <action name="Execute" command="~/Scripts/sway/power-save.sh" />
+        </keybind>
+                <!-- set volume and brightness -->
+        <keybind key="XF86AudioRaiseVolume">
+            <action name="Execute" command="~/Scripts/sway/vol-up.sh" />
+        </keybind>
+        <keybind key="XF86AudioLowerVolume">
+            <action name="Execute" command="~/Scripts/sway/vol-down.sh" />
+        </keybind>
+        <keybind key="XF86AudioMute">
+            <action name="Execute" command="~/Scripts/sway/vol-mute.sh" />
+        </keybind>
+        <keybind key="XF86AudioBrightnessUp">
+            <action name="Execute" command="~/Scripts/sway/bright-up.sh" />
+        </keybind>
+        <keybind key="XF86AudioBrightnessDown">
+            <action name="Execute" command="~/Scripts/sway/bright-down.sh" />
+        </keybind>
+            <!-- window actions -->
+                <!-- make window fullscren -->
+        <keybind key="W-f">
+            <action name="ToggleFullscreen" />
+        </keybind>
+                <!-- maximize window -->
+        <keybind key="W-Up">
+            <action name="ToggleMaximize" direction="both" />
+        </keybind>
+                <!-- unmaximize window -->
+        <keybind key="W-Down">
+            <action name="UnSnap" direction="both" />
+        </keybind>
+                <!-- move window to left edge -->
+        <keybind key="W-Left">
+            <action name="ToggleSnapToEdge" direction="left"/>
+        </keybind>
+        <keybind key="W-C-Left">
+            <action name="ToggleSnapToRegion" region="top-left"/>
+        </keybind>
+        <keybind key="W-S-Left">
+            <action name="ToggleSnapToRegion" region="bottom-left"/>
+        </keybind>
+                <!-- snap window to right edge -->
+        <keybind key="W-Right">
+            <action name="ToggleSnapToEdge" direction="right"/>
+        </keybind>
+        <keybind key="W-C-Right">
+            <action name="ToggleSnapToRegion" region="top-right"/>
+        </keybind>
+        <keybind key="W-S-Right">
+            <action name="ToggleSnapToRegion" region="bottom-right"/>
+        </keybind>
+                <!-- snap window to bottom edge -->
+        <keybind key="W-C-Down">
+            <action name="ToggleSnapToEdge" direction="down"/>
+        </keybind>
+                <!-- snap window to top edge -->
+        <keybind key="W-C-Up">
+            <action name="ToggleSnapToEdge" direction="up"/>
+        </keybind>
+                <!-- next window -->
+        <keybind key="A-Tab">
+            <action name="NextWindow"/>
+        </keybind>
+        <keybind key="W-Tab">
+            <action name="NextWindow"/>
+        </keybind>
+        <keybind key="W-j">
+            <action name="NextWindow"/>
+        </keybind>
+        <keybind key="W-l">
+            <action name="NextWindow"/>
+        </keybind>
+                <!-- prev window -->
+        <keybind key="A-S-Tab">
+            <action name="PreviousWindow"/>
+        </keybind>
+        <keybind key="W-S-Tab">
+            <action name="PreviousWindow"/>
+        </keybind>
+        <keybind key="W-k">
+            <action name="PreviousWindow"/>
+        </keybind>
+        <keybind key="W-h">
+            <action name="PreviousWindow"/>
+        </keybind>
+                <!-- move windows with mouse -->
+    </keyboard>
+
+    <mouse>
+        <doubleClickTime>500</doubleClickTime>
+        <default />
+        <context name="Frame">
+            <mousebind button="W-Left" action="Drag">
+                <action name="Move"/>
+            </mousebind>
+            <mousebind button="W-Right" action="Drag">
+                <action name="Resize"/>
+            </mousebind>
+            <mousebind button="A-Left" action="Drag">
+                <action name="None"/>
+            </mousebind>
+            <mousebind button="A-Right" action="Drag">
+                <action name="None"/>
+            </mousebind>
+        </context>
+    </mouse>
+
+    <libinput>
+        <device category="touchpad">
+            <naturalScroll>yes</naturalScroll>
+            <leftHanded>no</leftHanded>
+            <pointerSpeed>0.0</pointerSpeed>
+            <accelProfile>adaptive</accelProfile>
+            <tap>yes</tap>
+            <tapButtonMap>lrm</tapButtonMap>
+            <tapAndDrag>yes</tapAndDrag>
+            <dragLock>yes</dragLock>
+            <middleEmulation>no</middleEmulation>
+            <disableWhileTyping>yes</disableWhileTyping>
+            <clickMethod>clickfinger</clickMethod>
+            <sendEventsMode>yes</sendEventsMode>
+            <scrollFactor>1.0</scrollFactor>
+        </device>
+        <device category="non-touch">
+            <naturalScroll>no</naturalScroll>
+            <leftHanded>no</leftHanded>
+            <pointerSpeed>-0.516447</pointerSpeed>
+            <accelProfile>flat</accelProfile>
+            <middleEmulation>no</middleEmulation>
+            <disableWhileTyping>no</disableWhileTyping>
+            <sendEventsMode>yes</sendEventsMode>
+            <scrollFactor>1.0</scrollFactor>
+        </device>
+    </libinput>
+
+    <windowRules>
+    </windowRules>
+
+    <menu>
+        <ignoreButtonReleasePeriod>250</ignoreButtonReleasePeriod>
+    </menu>
+
+    <magnifier>
+        <width>400</width>
+        <height>400</height>
+        <initScale>2</initScale>
+        <increment>0.2</increment>
+        <useFilter>true</useFilter>
+    </magnifier>
+</labwc_config>

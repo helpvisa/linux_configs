@@ -1,0 +1,19 @@
+# authenticator
+/usr/libexec/polkit-gnome-authentication-agent-1 &
+
+# generic desktop stuff
+swayidle -w \
+         timeout 900 "$HOME/Scripts/sway/lock-and-blur.sh" \
+         timeout 1200 "swaymsg 'output * dpms off'" \
+            resume "swaymsg 'output * dpms on'" \
+         before-sleep "$HOME/Scripts/sway/lock-and-blur.sh" &
+
+# programs
+sfwbar &
+dunst &
+wlsunset -l 43.6523 -L -79.3832 -t 3000 &
+copyq &
+
+# scripts
+$HOME/Scripts/sway/set-primary-x-display.sh &
+$HOME/Scripts/sway/mon-config.sh &
