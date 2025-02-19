@@ -28,7 +28,7 @@
             "on-click": "activate",
             "on-click-middle": "minimize",
             "icon-theme": "Papirus",
-            "icon-size": 14,
+            "icon-size": 12,
             "tooltip-format": "{title}"
         },
 	"sway/mode": {
