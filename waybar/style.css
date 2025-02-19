@@ -175,3 +175,39 @@ window#waybar {
     background-color: #bc663f;
     color: #222222;
 }
+
+/* only for labwc */
+#taskbar {
+    background-color: #222222;
+}
+#taskbar button {
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+}
+#taskbar button.active {
+    background-color: #444444;
+    border-top: 2px solid #c65b8f;
+}
+#taskbar button.fullscreen {
+    border: 2px solid #c65b8f;
+}
+#taskbar button.minimized {
+    border-bottom: 2px solid #999999;
+}#taskbar button.urgent {
+    border-bottom: 2px solid #ff0000;
+}
+#taskbar button:hover {
+    background-color: #666666;
+}
+#taskbar button.active:hover {
+    background-color: #666666;
+}
+#taskbar button.fullscreen:hover {
+    background-color: #666666;
+}
+#taskbar button.minimized:hover {
+    background-color: #666666;
+}
+#taskbar button.urgent:hover {
+    background-color: #666666;
+}
