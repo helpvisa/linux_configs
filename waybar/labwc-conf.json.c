@@ -13,7 +13,6 @@
 	"modules-center": [
 	],
 	"modules-right": [
-                "custom/notification",
                 "power-profiles-daemon",
 		"pulseaudio",
 		"network",
@@ -29,6 +28,7 @@
             "on-click": "activate",
             "on-click-middle": "minimize",
             "icon-theme": "Papirus",
+            "icon-size": 14,
             "tooltip-format": "{title}"
         },
 	"sway/mode": {
