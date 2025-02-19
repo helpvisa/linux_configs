@@ -7,8 +7,8 @@
 		"sway/workspaces",
 		"sway/mode",
 		"sway/scratchpad",
-                "wlr/taskbar",
-		"idle_inhibitor"
+		"idle_inhibitor",
+                "wlr/taskbar"
 	],
 	"modules-center": [
 	],
