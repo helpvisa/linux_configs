@@ -9,7 +9,7 @@ swayidle -w \
          before-sleep "$HOME/Scripts/sway/lock-and-blur.sh" &
 
 # programs
-sfwbar &
+waybar -c $HOME/.config/waybar/labwc-conf.json.c &
 dunst &
 wlsunset -l 43.6523 -L -79.3832 -t 3000 &
 copyq &
