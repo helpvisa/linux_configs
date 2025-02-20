@@ -1,0 +1,172 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "BlexMono Nerd Font";
+    font-size: 12px;
+    min-height: 12px;
+    transition: none;
+}
+
+window#waybar {
+    background-color: #222222;
+    color: #fce5d2;
+}
+
+#window {
+    font-weight: bold;
+}
+/*
+#workspaces {
+    padding: 0 5px;
+}
+*/
+
+#workspaces button {
+    padding: 0 5px;
+    background: transparent;
+    color: #fce5d2;
+    border-top: 2px solid transparent;
+}
+#workspaces button.focused {
+    color: #d97f2b;
+    border-top: 2px solid #d97f2b;
+}
+#workspaces button.urgent {
+    color: #ff0000;
+    border-bottom: 2px solid #ff0000;
+}
+#workspaces button:hover {
+    box-shadow: inherit;
+    text-shadow: inherit;
+    transition: none;
+    background-color: #333333;
+}
+#workspaces button.focused:hover {
+    box-shadow: inherit;
+    text-shadow: inherit;
+    transition: none;
+    background-color: #333333;
+}
+#workspaces button.urgent:hover {
+    box-shadow: inherit;
+    text-shadow: inherit;
+    transition: none;
+    background-color: #333333;
+}
+
+#mode {
+    background: #533f5b;
+}
+
+#clock, #battery, #cpu, #memory, #network, #pulseaudio, #custom-spotify, #mode {
+    padding: 2 0px;
+    margin: 2 0px;
+}
+
+#tray {
+    padding: 2 5px;
+    margin: 2 5px;
+}
+
+#clock {
+    font-weight: bold;
+}
+
+
+#network.disconnected {
+    background: #f53c3c;
+}
+
+#pulseaudio {
+    background-color: #222222;
+    color: #fce5d2;
+}
+#pulseaudio.muted {
+    background-color: #000000;
+    color: #dac3b0;
+}
+#pulseaudio:hover {
+    background-color: #d97f2b;
+    color: #222222;
+}
+
+#power-profiles-daemon {
+    background-color: #222222;
+    color: #fce5d2;
+}
+#power-profiles-daemon:hover {
+    background-color: #d97f2b;
+    color: #222222;
+}
+
+#network {
+    background-color: #222222;
+    color: #fce5d2;
+}
+#network:hover {
+    background-color: #d97f2b;
+    color: #222222;
+}
+
+#idle_inhibitor {
+    background-color: #222222;
+    color: #fce5d2;
+}
+#idle_inhibitor:hover {
+    background-color: #d97f2b;
+    color: #222222;
+}
+
+#custom-notification {
+    background-color: #222222;
+    color: #d97f2b;
+}
+#custom-notification:hover {
+    background-color: #d97f2b;
+    color: #222222;
+}
+
+#taskbar {
+    background-color: #222222;
+}
+#taskbar button {
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+    color: #fce5d2;
+}
+#taskbar button.active {
+    background-color: #444444;
+    border-top: 2px solid #d97f2b;
+    color: #fce5d2;
+}
+#taskbar button.fullscreen {
+    border: 2px solid #d97f2b;
+    color: #fce5d2;
+}
+#taskbar button.minimized {
+    border-bottom: 2px solid #999999;
+    color: #fce5d2;
+}#taskbar button.urgent {
+    border-bottom: 2px solid #ff0000;
+    color: #fce5d2;
+}
+#taskbar button:hover {
+    background-color: #d97f2b;
+    color: #222222;
+}
+#taskbar button.active:hover {
+    background-color: #d97f2b;
+    color: #222222;
+}
+#taskbar button.fullscreen:hover {
+    background-color: #d97f2b;
+    color: #222222;
+}
+#taskbar button.minimized:hover {
+    background-color: #d97f2b;
+    color: #222222;
+}
+#taskbar button.urgent:hover {
+    background-color: #d97f2b;
+    color: #222222;
+}

@@ -24,12 +24,14 @@
 	],
 	// Modules
         "wlr/taskbar": {
-            "format": "{icon}",
+            "format": "{title}",
             "on-click": "activate",
             "on-click-middle": "minimize",
             "icon-theme": "Papirus",
+            "tooltip-format": "{name}",
             "icon-size": 12,
-            "tooltip-format": "{title}"
+            "markup": true,
+            "active-first": false
         },
 	"sway/mode": {
 		"format": "<span style=\"italic\">{}</span>"
@@ -140,7 +142,6 @@
 	"modules-center": [
 	],
 	"modules-right": [
-                "custom/notification",
 		"pulseaudio",
 		"network",
 		"memory",
@@ -163,7 +164,7 @@
 		"tooltip-format": "{app}: {title}"
 	},
 	"idle_inhibitor": {
-		"format": "{icon}",
+		"format": " [ {icon} ] ",
 		"format-icons": {
 			"activated": "idle off",
 			"deactivated": "idle on"

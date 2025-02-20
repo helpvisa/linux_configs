@@ -11,7 +11,8 @@ swayidle -w \
 # programs
 nm-applet &
 blueman-applet &
-waybar -c $HOME/.config/waybar/labwc-conf.json.c &
+waybar -c $HOME/.config/waybar/labwc-conf.json.c \
+    -s $HOME/.config/waybar/labwc-styles.css &
 dunst &
 wlsunset -l 43.6523 -L -79.3832 -t 3000 &
 copyq &
