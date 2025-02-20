@@ -36,12 +36,12 @@
     </focus>
 
     <snapping>
-        <range>100</range>
+        <range>40</range>
         <overlay>
             <enabled>yes</enabled>
             <delay>
-                <inner>100</inner>
-                <outer>100</outer>
+                <inner>250</inner>
+                <outer>250</outer>
             </delay>
         </overlay>
         <topMaximize>no</topMaximize>
@@ -55,13 +55,13 @@
         <region name="bottom-right" x="50%" y="50%" width="50%" height="50%" />
     </regions>
 
-    <desktops number="9">
+    <desktops number="10">
         <popupTime>500</popupTime>
         <prefix>Workspace</prefix>
     </desktops>
 
     <theme>
-        <name>Adwaita</name>
+        <name>orangish</name>
         <icon>Papirus</icon>
         <titlebar>
             <!-- icon -->
@@ -72,17 +72,17 @@
             <!-- shade -->
             <!-- desk: pin -->
             <layout>menu,icon,desk:shade,iconify,max,close</layout>
-            <showTitle>yes</showTitle>
-            <cornerRadius>0</cornerRadius>
-            <keepBorder>yes</keepBorder>
-            <dropShadows>yes</dropShadows>
-            <font>
-                <name>Input Mono</name>
-                <size>10</size>
-                <slant>normal</slant>
-                <weight>bold</weight>
-            </font>
         </titlebar>
+        <showTitle>yes</showTitle>
+        <cornerRadius>0</cornerRadius>
+        <keepBorder>yes</keepBorder>
+        <dropShadows>yes</dropShadows>
+        <font>
+            <name>Input Mono</name>
+            <size>9</size>
+            <slant>normal</slant>
+            <weight>bold</weight>
+        </font>
     </theme>
 
     <resize>
@@ -132,6 +132,10 @@
                 <!-- show window menu -->
         <keybind key="W-C-Space">
             <action name="ShowMenu" menu="client-menu" atCursor="yes" />
+        </keybind>
+                <!-- show root menu -->
+        <keybind key="W-S-e">
+            <action name="ShowMenu" menu="root-menu" atCursor="yes" />
         </keybind>
                 <!-- kill window -->
         <keybind key="W-q">
@@ -197,6 +201,9 @@
         <keybind key="W-9">
             <action name="GoToDesktop" to="9" />
         </keybind>
+        <keybind key="W-0">
+            <action name="GoToDesktop" to="10" />
+        </keybind>
                 <!-- move window to numbered workspace -->
         <keybind key="W-S-1">
             <action name="SendToDesktop" to="1" />
@@ -224,6 +231,9 @@
         </keybind>
         <keybind key="W-S-9">
             <action name="SendToDesktop" to="9" />
+        </keybind>
+        <keybind key="W-S-0">
+            <action name="SendToDesktop" to="10" />
         </keybind>
                 <!-- pin window to all workspaces -->
         <keybind key="W-p">
@@ -339,7 +349,10 @@
         <keybind key="W-h">
             <action name="PreviousWindow"/>
         </keybind>
-                <!-- move windows with mouse -->
+                <!-- select windows with fuzzel -->
+        <keybind key="W-d">
+            <action name="Execute" command="~/Scripts/sway/switch-window.sh" />
+        </keybind>
     </keyboard>
 
     <mouse>
@@ -394,6 +407,7 @@
 
     <menu>
         <ignoreButtonReleasePeriod>250</ignoreButtonReleasePeriod>
+        <showIcons>yes</showIcons>
     </menu>
 
     <magnifier>
