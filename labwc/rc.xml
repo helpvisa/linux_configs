@@ -288,10 +288,10 @@
         <keybind key="XF86AudioMute">
             <action name="Execute" command="~/Scripts/sway/vol-mute.sh" />
         </keybind>
-        <keybind key="XF86AudioBrightnessUp">
+        <keybind key="XF86MonBrightnessUp">
             <action name="Execute" command="~/Scripts/sway/bright-up.sh" />
         </keybind>
-        <keybind key="XF86AudioBrightnessDown">
+        <keybind key="XF86MonBrightnessDown">
             <action name="Execute" command="~/Scripts/sway/bright-down.sh" />
         </keybind>
             <!-- window actions -->
