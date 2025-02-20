@@ -161,16 +161,28 @@
         <keybind key="W-Page_Down">
             <action name="GoToDesktop" to="right" wrap="yes" />
         </keybind>
+        <keybind key="W-l">
+            <action name="GoToDesktop" to="right" wrap="yes" />
+        </keybind>
                 <!-- prev workspace -->
         <keybind key="W-Page_Up">
+            <action name="GoToDesktop" to="left" wrap="yes" />
+        </keybind>
+        <keybind key="W-h">
             <action name="GoToDesktop" to="left" wrap="yes" />
         </keybind>
                 <!-- move window to next workspace -->
         <keybind key="W-S-Page_Down">
             <action name="SendToDesktop" to="right" wrap="yes" />
         </keybind>
+        <keybind key="W-S-l">
+            <action name="SendToDesktop" to="right" wrap="yes" />
+        </keybind>
                 <!-- move window to prev workspace -->
         <keybind key="W-S-Page_Up">
+            <action name="SendToDesktop" to="left" wrap="yes" />
+        </keybind>
+        <keybind key="W-S-h">
             <action name="SendToDesktop" to="left" wrap="yes" />
         </keybind>
                 <!-- switch to numbered workspace -->
@@ -333,9 +345,6 @@
         <keybind key="W-j">
             <action name="NextWindow"/>
         </keybind>
-        <keybind key="W-l">
-            <action name="NextWindow"/>
-        </keybind>
                 <!-- prev window -->
         <keybind key="A-S-Tab">
             <action name="PreviousWindow"/>
@@ -344,9 +353,6 @@
             <action name="PreviousWindow"/>
         </keybind>
         <keybind key="W-k">
-            <action name="PreviousWindow"/>
-        </keybind>
-        <keybind key="W-h">
             <action name="PreviousWindow"/>
         </keybind>
                 <!-- select windows with fuzzel -->
@@ -365,11 +371,26 @@
             <mousebind button="W-Right" action="Drag">
                 <action name="Resize"/>
             </mousebind>
-            <mousebind button="A-Left" action="Drag">
-                <action name="None"/>
+            <mousebind button="A-Left" action="Drag" />
+            <mousebind button="A-Right" action="Drag" />
+            <mousebind button="A-Left" action="Press" />
+            <mousebind button="A-Right" action="Press" />
+            <mousebind button="A-Left" action="Release" />
+            <mousebind button="A-Right" action="Relase" />
+            <mousebind button="A-Left" action="Click" />
+            <mousebind button="A-Right" action="Click" />
+            <mousebind button="A-Left" action="DoubleClick" />
+            <mousebind button="A-Right" action="DoubleClick" />
+            <mousebind button="A-Left" action="Scroll" />
+            <mousebind button="A-Right" action="Scroll" />
+        </context>
+        <context name="All">
+            <!-- switch workspaces with scrollwheel + Mod4 -->
+            <mousebind direction="W-Up" action="Scroll">
+                <action name="GoToDesktop" to="left" wrap="yes" />
             </mousebind>
-            <mousebind button="A-Right" action="Drag">
-                <action name="None"/>
+            <mousebind direction="W-Down" action="Scroll">
+                <action name="GoToDesktop" to="right" wrap="yes" />
             </mousebind>
         </context>
     </mouse>
