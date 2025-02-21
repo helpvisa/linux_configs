@@ -4,8 +4,8 @@
 # generic desktop stuff
 swayidle -w \
          timeout 900 "$HOME/Scripts/sway/lock-and-blur.sh" \
-         timeout 1200 "swaymsg 'output * dpms off'" \
-            resume "swaymsg 'output * dpms on'" \
+         timeout 1200 "wlopm --off \*" \
+         resume "wlopm --on \*" \
          before-sleep "$HOME/Scripts/sway/lock-and-blur.sh" &
 
 # programs
