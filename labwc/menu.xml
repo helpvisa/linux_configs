@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openbox_menu>
+<menu id="root-menu" label="root-menu">
+    <separator label="Actions"/>
+    <menu id="Launchers" label="Launchers">
+        <item label="File Manager"><action name="Execute"><command><![CDATA[xdg-open .]]></command></action></item>
+        <item label="Terminal"><action name="Execute"><command><![CDATA[xterm]]></command></action></item>
+        <item label="Web Browser"><action name="Execute"><command><![CDATA[xdg-open http://]]></command></action></item>
+    </menu>
+    <menu id="Applications" label="Applications" execute="labwc-menu-generator -p -n"/>
+    <separator label="Management"/>
+    <menu id="System" label="System">
+        <separator label="Session Management"/>
+        <item label="Lock Screen">
+            <action name="Execute"><command>loginctl lock-session</command></action>
+        </item>
+        <separator/>
+        <item label="Log Out">
+            <action name="Exit"/>
+        </item>
+        <item label="Kill User Session">
+            <action name="Execute"><command>loginctl kill-user helpvisa</command></action>
+        </item>
+        <separator/>
+        <separator label="Power"/>
+        <item label="Reboot">
+            <action name="Execute"><command>systemctl reboot</command></action>
+        </item>
+        <item label="Shut Down">
+            <action name="Execute"><command>systemctl poweroff</command></action>
+        </item>
+    </menu>
+
+    <separator label="Prefs"/>
+    <item label="Reconfigure">
+        <action name="Reconfigure"/>
+    </item>
+</menu>
+</openbox_menu>
