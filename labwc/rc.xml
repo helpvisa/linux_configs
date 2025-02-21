@@ -268,9 +268,13 @@
             <action name="Execute" command="dunstctl set-paused toggle" />
         </keybind>
             <!-- scripted actions -->
-                <!-- take screenshot -->
+                <!-- take screenshot of region -->
         <keybind key="Print">
             <action name="Execute" command="~/Scripts/sway/screenshot.sh" />
+        </keybind>
+                <!-- take screenshot of monitor -->
+        <keybind key="Print">
+            <action name="Execute" command="~/Scripts/sway/screenshot-monitor.sh" />
         </keybind>
                 <!-- set power profiles -->
         <keybind key="W-S-p">
