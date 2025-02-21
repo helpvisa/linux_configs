@@ -372,6 +372,9 @@
             <mousebind button="W-Left" action="Click">
                 <action name="Raise"/>
             </mousebind>
+            <mousebind button="W-Right" action="Click">
+                <action name="Raise"/>
+            </mousebind>
             <mousebind button="W-Left" action="Drag">
                 <action name="Raise"/>
                 <action name="Move"/>
