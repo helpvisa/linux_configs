@@ -263,6 +263,10 @@
         <keybind key="W-S-C-m">
             <action name="Execute" command="dunstctl close-all" />
         </keybind>
+                <!-- pause notifications -->
+        <keybind key="W-A-m">
+            <action name="Execute" command="dunstctl set-paused toggle" />
+        </keybind>
             <!-- scripted actions -->
                 <!-- take screenshot -->
         <keybind key="Print">
