@@ -3,9 +3,10 @@
 
 # generic desktop stuff
 swayidle -w \
-         timeout 900 "$HOME/Scripts/sway/lock-and-blur.sh" \
-         timeout 1200 "wlopm --off \*" \
+         timeout 900 "wlopm --off \*" \
+         timeout 1200 "loginctl lock-session" \
          resume "wlopm --on \*" \
+         lock "$HOME/Scripts/sway/lock-and-blur.sh" \
          before-sleep "$HOME/Scripts/sway/lock-and-blur.sh" &
 
 # programs
