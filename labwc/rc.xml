@@ -273,7 +273,7 @@
             <action name="Execute" command="~/Scripts/sway/screenshot.sh" />
         </keybind>
                 <!-- take screenshot of monitor -->
-        <keybind key="Print">
+        <keybind key="W-C-Print">
             <action name="Execute" command="~/Scripts/sway/screenshot-monitor.sh" />
         </keybind>
                 <!-- set power profiles -->
