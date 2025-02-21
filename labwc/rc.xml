@@ -396,6 +396,20 @@
             <mousebind direction="W-Down" action="Scroll">
                 <action name="GoToDesktop" to="right" wrap="yes" />
             </mousebind>
+            <!-- move windows to workspaces with shift + scrollwheel + Mod4 -->
+            <mousebind direction="W-S-Up" action="Scroll">
+                <action name="SendToDesktop" to="left" wrap="yes" />
+            </mousebind>
+            <mousebind direction="W-S-Down" action="Scroll">
+                <action name="SendToDesktop" to="right" wrap="yes" />
+            </mousebind>
+            <!-- zoom in and out of screen -->
+            <mousebind direction="W-A-Up" action="Scroll">
+                <action name="ZoomIn" />
+            </mousebind>
+            <mousebind direction="W-A-Down" action="Scroll">
+                <action name="ZoomOut" />
+            </mousebind>
         </context>
     </mouse>
 
