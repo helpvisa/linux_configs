@@ -369,7 +369,11 @@
         <doubleClickTime>500</doubleClickTime>
         <default />
         <context name="Frame">
+            <mousebind button="W-Left" action="Click">
+                <action name="Raise"/>
+            </mousebind>
             <mousebind button="W-Left" action="Drag">
+                <action name="Raise"/>
                 <action name="Move"/>
             </mousebind>
             <mousebind button="W-Right" action="Drag">
