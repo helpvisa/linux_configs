@@ -5,6 +5,8 @@
     font-size: 12px;
     min-height: 12px;
     transition: none;
+    margin: 0px;
+    padding: 0px;
 }
 
 window#waybar {
@@ -126,6 +128,15 @@ window#waybar {
     color: #222222;
 }
 
+#custom-windowpicker {
+    background-color: #222222;
+    color: #d97f2b;
+}
+#custom-windowpicker:hover {
+    background-color: #d97f2b;
+    color: #222222;
+}
+
 #taskbar {
     background-color: #222222;
 }
@@ -133,6 +144,7 @@ window#waybar {
     border-top: 2px solid transparent;
     border-bottom: 2px solid transparent;
     color: #fce5d2;
+    padding-left: 4px;
 }
 #taskbar button.active {
     background-color: #444444;

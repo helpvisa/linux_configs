@@ -4,10 +4,8 @@
 	    "output": "DP-1",
 	"height": 24,
 	"modules-left": [
-		"sway/workspaces",
-		"sway/mode",
-		"sway/scratchpad",
 		"idle_inhibitor",
+                "custom/windowpicker",
                 "wlr/taskbar"
 	],
 	"modules-center": [
@@ -23,6 +21,10 @@
 		"tray"
 	],
 	// Modules
+        "custom/windowpicker": {
+            "format": " [ select window ] ",
+            "on-click": "~/Scripts/sway/switch-window.sh"
+        },
         "wlr/taskbar": {
             "format": "{title}",
             "on-click": "activate",
