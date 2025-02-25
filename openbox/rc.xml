@@ -173,52 +173,52 @@
                 <!-- next workspace -->
         <keybind key="W-Page_Down">
             <action name="GoToDesktop">
-                <to>right</to>
+                <to>next</to>
                 <wrap>yes</wrap>
             </action>
         </keybind>
         <keybind key="W-l">
             <action name="GoToDesktop">
-                <to>right</to>
+                <to>next</to>
                 <wrap>yes</wrap>
             </action>
         </keybind>
                 <!-- prev workspace -->
         <keybind key="W-Page_Up">
             <action name="GoToDesktop">
-                <to>left</to>
+                <to>previous</to>
                 <wrap>yes</wrap>
             </action>
         </keybind>
         <keybind key="W-h">
             <action name="GoToDesktop">
-                <to>left</to>
+                <to>previous</to>
                 <wrap>yes</wrap>
             </action>
         </keybind>
                 <!-- move window to next workspace -->
         <keybind key="W-S-Page_Down">
             <action name="SendToDesktop">
-                <to>right</to>
+                <to>next</to>
                 <wrap>yes</wrap>
             </action>
         </keybind>
         <keybind key="W-S-l">
             <action name="SendToDesktop">
-                <to>right</to>
+                <to>next</to>
                 <wrap>yes</wrap>
             </action>
         </keybind>
                 <!-- move window to prev workspace -->
         <keybind key="W-S-Page_Up">
             <action name="SendToDesktop">
-                <to>left</to>
+                <to>previous</to>
                 <wrap>yes</wrap>
             </action>
         </keybind>
         <keybind key="W-S-h">
             <action name="SendToDesktop">
-                <to>left</to>
+                <to>previous</to>
                 <wrap>yes</wrap>
             </action>
         </keybind>
@@ -769,25 +769,25 @@
             <!-- switch workspaces with scrollwheel + Mod4 -->
             <mousebind button="Up" action="Click">
                 <action name="GoToDesktop">
-                  <to>left</to>
+                  <to>previous</to>
                   <wrap>yes</wrap>
                 </action>
             </mousebind>
             <mousebind button="Down" action="Click">
                 <action name="GoToDesktop">
-                  <to>right</to>
+                  <to>next</to>
                   <wrap>yes</wrap>
                 </action>
             </mousebind>
             <mousebind button="W-Up" action="Click">
                 <action name="GoToDesktop">
-                  <to>left</to>
+                  <to>previous</to>
                   <wrap>yes</wrap>
                 </action>
             </mousebind>
             <mousebind button="W-Down" action="Click">
                 <action name="GoToDesktop">
-                  <to>right</to>
+                  <to>next</to>
                   <wrap>yes</wrap>
                 </action>
             </mousebind>
@@ -796,13 +796,13 @@
             <!-- switch workspaces with scrollwheel + Mod4 -->
             <mousebind button="W-Up" action="Click">
                 <action name="GoToDesktop">
-                  <to>left</to>
+                  <to>previous</to>
                   <wrap>yes</wrap>
                 </action>
             </mousebind>
             <mousebind button="W-Down" action="Click">
                 <action name="GoToDesktop">
-                  <to>right</to>
+                  <to>next</to>
                   <wrap>yes</wrap>
                 </action>
             </mousebind>
