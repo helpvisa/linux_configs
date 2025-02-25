@@ -70,7 +70,7 @@
 
     <resize>
         <drawContents>yes</drawContents>
-        <popupShow>Always</popupShow>
+        <popupShow>Nonpixel</popupShow>
         <popupPosition>Center</popupPosition>
     </resize>
 
@@ -119,7 +119,7 @@
                 <!-- disable clipboard -->
         <keybind key="W-S-a">
             <action name="Execute">
-                <command>copq disable</command>
+                <command>copyq disable</command>
             </action>
         </keybind>
                 <!-- enable clipboard -->
@@ -375,7 +375,7 @@
                 <command>/home/helpvisa/Scripts/audio/vol-mute.sh</command>
             </action>
         </keybind>
-        <keybind key="W-S-a">
+        <keybind key="W-S-p">
             <action name="Execute">
                 <command>/home/helpvisa/Scripts/caffeine.sh</command>
             </action>
@@ -393,56 +393,92 @@
         </keybind>
                 <!-- unmaximize window -->
         <keybind key="W-Down">
-            <action name="Unmaximize">
-                <direction>both</direction>
+            <action name="UnmaximizeFull"/>
+            <action name="MoveResizeTo">
+                <width>40%</width>
+                <height>40%</height>
+                <x>30%</x>
+                <y>30%</y>
             </action>
         </keybind>
-                <!-- move window to left edge -->
+                <!-- snap window to left edge -->
         <keybind key="W-Left">
-            <action name="MoveToEdge">
-                <direction>west</direction>
-            </action>
+            <action name="UnmaximizeFull"/>
             <action name="MoveResizeTo">
                 <width>50%</width>
+                <height>100%</height>
+                <x>0%</x>
+                <y>0%</y>
             </action>
-            <action name="Maximize">
-                <direction>vertical</direction>
+        </keybind>
+                <!-- snap window to top-left edge -->
+        <keybind key="W-C-Left">
+            <action name="UnmaximizeFull"/>
+            <action name="MoveResizeTo">
+                <width>50%</width>
+                <height>50%</height>
+                <x>0%</x>
+                <y>0%</y>
+            </action>
+        </keybind>
+                <!-- snap window to bottom-left edge -->
+        <keybind key="W-S-Left">
+            <action name="UnmaximizeFull"/>
+            <action name="MoveResizeTo">
+                <width>50%</width>
+                <height>50%</height>
+                <x>0%</x>
+                <y>50%</y>
             </action>
         </keybind>
                 <!-- snap window to right edge -->
         <keybind key="W-Right">
-            <action name="MoveToEdge">
-                <direction>east</direction>
-            </action>
+            <action name="UnmaximizeFull"/>
             <action name="MoveResizeTo">
                 <width>50%</width>
+                <height>100%</height>
+                <x>50%</x>
+                <y>0%</y>
             </action>
-            <action name="Maximize">
-                <direction>vertical</direction>
+        </keybind>
+                <!-- snap window to top-right edge -->
+        <keybind key="W-C-Right">
+            <action name="UnmaximizeFull"/>
+            <action name="MoveResizeTo">
+                <width>50%</width>
+                <height>50%</height>
+                <x>50%</x>
+                <y>0%</y>
+            </action>
+        </keybind>
+                <!-- snap window to bottom-right edge -->
+        <keybind key="W-S-Right">
+            <action name="UnmaximizeFull"/>
+            <action name="MoveResizeTo">
+                <width>50%</width>
+                <height>50%</height>
+                <x>50%</x>
+                <y>50%</y>
             </action>
         </keybind>
                 <!-- snap window to bottom edge -->
         <keybind key="W-C-Down">
-            <action name="MoveToEdge">
-                <direction>south</direction>
-            </action>
+            <action name="UnmaximizeFull"/>
             <action name="MoveResizeTo">
+                <width>100%</width>
                 <height>50%</height>
-            </action>
-            <action name="Maximize">
-                <direction>horizontal</direction>
+                <x>0%</x>
+                <y>50%</y>
             </action>
         </keybind>
                 <!-- snap window to top edge -->
         <keybind key="W-C-Up">
-            <action name="MoveToEdge">
-                <direction>north</direction>
-            </action>
+            <action name="UnmaximizeFull"/>
             <action name="MoveResizeTo">
+                <width>100%</width>
                 <height>50%</height>
-            </action>
-            <action name="Maximize">
-                <direction>horizontal</direction>
+                <x>0%</x>
+                <y>0%</y>
             </action>
         </keybind>
                 <!-- next window -->
@@ -509,6 +545,12 @@
           </mousebind>
           <mousebind button="Left" action="DoubleClick">
             <action name="ToggleMaximize"/>
+          </mousebind>
+          <mousebind button="Up" action="Click">
+            <action name="Shade"/>
+          </mousebind>
+          <mousebind button="Down" action="Click">
+            <action name="Unshade"/>
           </mousebind>
         </context>
 
@@ -725,6 +767,18 @@
 
         <context name="Root">
             <!-- switch workspaces with scrollwheel + Mod4 -->
+            <mousebind button="Up" action="Click">
+                <action name="GoToDesktop">
+                  <to>left</to>
+                  <wrap>yes</wrap>
+                </action>
+            </mousebind>
+            <mousebind button="Down" action="Click">
+                <action name="GoToDesktop">
+                  <to>right</to>
+                  <wrap>yes</wrap>
+                </action>
+            </mousebind>
             <mousebind button="W-Up" action="Click">
                 <action name="GoToDesktop">
                   <to>left</to>
