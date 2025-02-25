@@ -1,0 +1,33 @@
+[Desktop Entry]
+Name[de]=Buffer
+Name[en_GB]=Buffer
+Name[it_IT]=Buffer
+Name[nb]=Buffer
+Name[pt_BR]=Buffer
+Name=Buffer
+Comment[de]=Kurzlebigen Text wertschätzen
+Comment[en_GB]=Embrace ephemeral text
+Comment[it_IT]=Abbraccia il testo effimero
+Comment[nb]=Omfavne flyktig tekst
+Comment[pt_BR]=Abrace o texto efêmero
+Comment=Embrace ephemeral text
+Icon=org.gnome.gitlab.cheywood.Buffer
+Exec=/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=buffer --file-forwarding org.gnome.gitlab.cheywood.Buffer @@u %U @@
+Terminal=false
+Type=Application
+Categories=Utility;GTK;GNOME;TextEditor;TextTools
+Keywords[de]=text;minimal;distraction;editor;focused;write;document;scratchpad;temporary;buffer;gnome;gtk;Text;minimal;Ablenkung;Editor;fokussiert;schreiben;Dokument;Notizblock;vorübergehend;Puffer;GNOME;Gtk;
+Keywords[en_GB]=text;minimal;distraction;editor;focused;write;document;scratchpad;temporary;buffer;gnome;gtk;
+Keywords[it_IT]=text;minimal;distraction;editor;focused;write;document;scratchpad;temporary;buffer;gnome;gtk;
+Keywords[nb]=tekst;minimal;distraksjon;redigerer;skriv;dokument;kladd;midlertidig;buffer;gnome;gtk;
+Keywords[pt_BR]=texto;minimalista;distração;editor;focado;foco;escrever;escrita;documento;bloco;notas;nota;temporário;buffer;gnome;gtk;
+Keywords=text;minimal;distraction;editor;focused;write;document;scratchpad;temporary;buffer;gnome;gtk;
+StartupNotify=true
+Actions=new-window;
+X-Purism-FormFactor=Workstation;
+X-Flatpak=org.gnome.gitlab.cheywood.Buffer
+
+[Desktop Action new-window]
+Name=New Window
+Comment=Embrace a new ephemeral text window
+Exec=/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=buffer --file-forwarding org.gnome.gitlab.cheywood.Buffer @@u -n %U @@
