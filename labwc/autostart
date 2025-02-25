@@ -5,7 +5,7 @@
 swayidle -w \
          timeout 900 "wlopm --off \*" \
          timeout 1200 "loginctl lock-session" \
-         resume "wlopm --on \*" \
+         resume "sleep 2 && wlopm --on \*" \
          lock "$HOME/Scripts/sway/lock-and-blur.sh" \
          before-sleep "$HOME/Scripts/sway/lock-and-blur.sh" &
 
@@ -15,8 +15,9 @@ blueman-applet &
 waybar -c $HOME/.config/waybar/labwc-conf.json.c \
     -s $HOME/.config/waybar/labwc-styles.css &
 dunst &
-wlsunset -l 43.6523 -L -79.3832 -t 3000 &
 copyq &
 
-# scripts
-$HOME/Scripts/sway/mon-config.sh &
+# monitor configuration
+kanshi &
+swaybg -i /home/helpvisa/Pictures/Wallpapers/somepic.jpg -m fill &
+wlsunset -l 43.6523 -L -79.3832 -t 3000 &
