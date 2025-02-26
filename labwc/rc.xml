@@ -461,10 +461,10 @@
     </menu>
 
     <magnifier>
-        <width>400</width>
-        <height>400</height>
+        <width>-1</width>
+        <height>-1</height>
         <initScale>2</initScale>
-        <increment>0.2</increment>
+        <increment>0.5</increment>
         <useFilter>true</useFilter>
     </magnifier>
 </labwc_config>
