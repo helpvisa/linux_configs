@@ -5,7 +5,7 @@
 swayidle -w \
          timeout 900 "wlopm --off \*" \
          timeout 1200 "loginctl lock-session" \
-         resume "sleep 2 && wlopm --on \*" \
+         resume "wlopm --on \*" \
          lock "$HOME/Scripts/sway/lock-and-blur.sh" \
          before-sleep "$HOME/Scripts/sway/lock-and-blur.sh" &
 

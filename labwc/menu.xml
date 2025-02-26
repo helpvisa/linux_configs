@@ -19,7 +19,7 @@
             <action name="Exit"/>
         </item>
         <item label="Terminate User Session">
-            <action name="Execute"><command>loginctl terminate-user helpvisa</command></action>
+            <action name="Execute"><command>swaynag -t warning -m 'Terminate all user sessions?' -B 'YES!' 'loginctl terminate-user helpvisa'</command></action>
         </item>
         <separator/>
         <separator label="Power"/>
