@@ -102,7 +102,7 @@
         </keybind>
                 <!-- application menu -->
         <keybind key="A-Space">
-            <action name="Execute" command="fuzzel | xargs swaymsg exec --" />
+            <action name="Execute" command="fuzzel" />
         </keybind>
                 <!-- firefox -->
         <keybind key="W-w">
