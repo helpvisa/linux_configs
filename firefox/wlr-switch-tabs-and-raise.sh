@@ -3,8 +3,25 @@
 # requires activate-window-by-title
 
 LIST=$(~/.local/bin/brotab list)
-# SELECTION=$(printf "%s" "$LIST" | fzf --style=minimal --layout=reverse --margin 5% --prompt='activate tab: ')
-SELECTION=$(printf "%s" "$LIST" | fuzzel -d --placeholder='activate browser tab')
+# SELECTION=$(printf "%s" "$LIST" | fuzzel -d --placeholder='activate browser tab')
+SELECTION=$(printf "%s" "$LIST" \
+    | BEMENU_BACKEND=wayland bemenu -i -l 30 -f \
+    -H 24 \
+    --counter=always \
+    -p 'raise window <>' \
+    --fn 'Input Mono 12' \
+    --tb='#222222' \
+    --fb='#222222' \
+    --cb='#222222' \
+    --nb='#222222' \
+    --hb='#333333' \
+    --fbb='#222222' \
+    --sb='#222222' \
+    --ab='#222222' \
+    --scb='#222222' \
+    --tf='#222222' \
+    --tb='#d97f2b' \
+    --hf='#d97f2b')
 
 if [ -z "$SELECTION" ]; then
     printf "%s\n" "no selection made!"
