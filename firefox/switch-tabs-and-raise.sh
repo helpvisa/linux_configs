@@ -7,13 +7,14 @@ LIST=$(brotab list)
 SELECTION=$(printf "%s" "$LIST" | BEMENU_BACKEND=curses bemenu -i -p 'raise window:')
 
 if [ -z "$SELECTION" ]; then
-    printf "%s" "no selection made!"
+    printf "%s\n" "no selection made!"
 else
     TAB_ID=$(printf "%s" "$SELECTION" | awk '{print $1}')
     brotab activate "$TAB_ID"
 
     # now raise the window (gnome-specific
-    WINDOW_NAME=$(printf "%s" "$SELECTION" | awk '{print $2}')
+    WINDOW_NAME=$(printf "%s" "$SELECTION" | awk '{split($0,array,"\t"); print array[2]}')
+    printf "%s" "$WINDOW_NAME"
     gdbus call --session \
         --dest org.gnome.Shell \
         --object-path /de/lucaswerkmeister/ActivateWindowByTitle \
