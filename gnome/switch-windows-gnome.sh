@@ -10,13 +10,13 @@ LIST_RAW=$(gdbus call --session --dest org.gnome.Shell \
         --object-path /org/gnome/Shell/Extensions/Windows \
         --method org.gnome.Shell.Extensions.Windows.List \
         | head -c -4 | tail -c +3 | sed 's/\\"/"/g')
-LIST=$(printf "%s" "$LIST_RAW" | jq -r '.[] | "\(.wm_class): \(.title)"')
+        LIST=$(printf "%s" "$LIST_RAW" | jq -r '.[] | select( .title != null ) | "\(.wm_class): \(.title)"')
 
 # use picker to select window; must be GNOME compatible so no fuzzel :(
 # WINDOW=$(printf "%s" "$LIST" | BEMENU_BACKEND=curses bemenu -i -p 'raise window:')
 WINDOW=$(printf "%s" "$LIST" | fzf --style=minimal --layout=reverse --margin 5% --prompt='raise window: ')
 SELECTION=$(printf "%s" "$WINDOW" | awk '{split($0,f,": "); sub(/^([^: ]+: )/,"",$0); print $0}')
-printf "%s" "$SELECTION"
+
 if [ -z "$SELECTION" ]; then
     printf "%s" "no selection made!"
 else
