@@ -11,20 +11,22 @@ if [ -z "$SELECTION" ]; then
 else
     TAB_ID=$(printf "%s" "$SELECTION" | awk '{print $1}')
 
-    brotab activate "$TAB_ID"
+    brotab activate "$TAB_ID" 2>/dev/null
     if [ $? -ne 0 ]; then
         firefox --new-tab "https://duckduckgo.com/?q=${SELECTION}"
         # this delay may need to be modified depending on computer + connection
         sleep 0.5
+        # (gnome-specific)
+        LIST_RAW=$(gdbus call --session --dest org.gnome.Shell \
+                --object-path /org/gnome/Shell/Extensions/Windows \
+                --method org.gnome.Shell.Extensions.Windows.List \
+                | head -c -4 | tail -c +3 | sed 's/\\"/"/g')
+        LIST=$(printf "%s" "$LIST_RAW" | jq -r '.[] | select( .title != null ) | "\(.wm_class): \(.title)"')
+        WINDOW_NAME=$(printf "%s" "$LIST" | grep -i "$SELECTION" | awk '{split($0,f,": "); sub(/^([^: ]+: )/,"",$0); print $0}')
+    else
+        WINDOW_NAME=$(printf "%s" "$SELECTION" | awk '{split($0,array,"\t"); print array[2]}')
     fi
 
-    # now raise the window (gnome-specific
-    LIST_RAW=$(gdbus call --session --dest org.gnome.Shell \
-            --object-path /org/gnome/Shell/Extensions/Windows \
-            --method org.gnome.Shell.Extensions.Windows.List \
-            | head -c -4 | tail -c +3 | sed 's/\\"/"/g')
-    LIST=$(printf "%s" "$LIST_RAW" | jq -r '.[] | select( .title != null ) | "\(.wm_class): \(.title)"')
-    WINDOW_NAME=$(printf "%s" "$LIST" | grep -i "$SELECTION" | awk '{split($0,f,": "); sub(/^([^: ]+: )/,"",$0); print $0}')
     gdbus call --session \
         --dest org.gnome.Shell \
         --object-path /de/lucaswerkmeister/ActivateWindowByTitle \
