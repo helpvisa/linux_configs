@@ -8,7 +8,7 @@ SELECTION=$(printf "%s" "$LIST" \
     | BEMENU_BACKEND=wayland bemenu -i -l 30 -f \
     -H 24 \
     --counter=always \
-    -p 'raise window <>' \
+    -p 'activate tab <>' \
     --fn 'Input Mono 12' \
     --tb='#222222' \
     --fb='#222222' \

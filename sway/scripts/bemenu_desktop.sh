@@ -4,7 +4,7 @@ LAUNCHER=" \
     BEMENU_BACKEND=wayland bemenu -i -l 30 -f \
     -H 24 \
     --counter=always \
-    -p 'raise window <>' \
+    -p 'launch <>' \
     --fn 'Input Mono 12' \
     --tb='#222222' \
     --fb='#222222' \
