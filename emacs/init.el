@@ -4,7 +4,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(wombat))
- '(package-selected-packages '(neotree company evil)))
+ '(package-selected-packages
+   '(highlight-indent-guides editorconfig popwin neotree company evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -33,6 +34,20 @@
    (format "%s -f TAGS -e -R %s" path-to-ctags (directory-file-name dir-name)))
 )
 
+;; change default indentation options
+(setq-default indent-tabs-mode nil) ;; indent with spaces
+(setq-default tab-width 4) ;; and set a default indentation width
+
+
+;; custom functions
+(defun connect-or-disconnect-lsp ()
+  "Enable or disable lsp-mode in the current buffer."
+  (interactive)
+  (if lsp-mode
+      (lsp-disconnect)
+      (lsp))
+)
+
 
 ;; set up melpa packages
 (require 'package)
@@ -47,14 +62,16 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :init
-  (setq lsp-keymap-prefix "C-c l") ;; or 'C-l', 's-l'
-  :config
-  (lsp-enable-which-key-integration t))
+  (setq lsp-keymap-prefix "C-c l")) ;; or 'C-l', 's-l'
+  ;; :config
+  ;; (lsp-enable-which-key-integration t))
 ;; setup mode hooks
 (add-hook 'c-mode-hook #'lsp)
 (add-hook 'c++-mode-hook #'lsp)
 (add-hook 'python-mode-hook #'lsp)
 (add-hook 'js-mode-hook #'lsp)
+;; enable in most programming modes anyway
+;; (add-hook 'prog-mode-hook #'lsp)
 
 ;; download and enable company
 (unless (package-installed-p 'company)
@@ -73,6 +90,8 @@
 ;; setup custom evil keybinds
 (evil-define-key 'normal 'global "gcc" 'comment-line)
 (evil-define-key 'visual 'global "gc" 'comment-or-uncomment-region)
+;; toggle lsp
+(evil-define-key 'normal 'global (kbd "<SPC> a") 'connect-or-disconnect-lsp)
 
 ;; download and enable fzf
 (unless (package-installed-p 'fzf)
@@ -103,3 +122,22 @@
   (package-install 'neotree))
 (use-package neotree)
 (evil-define-key 'normal 'global (kbd "<SPC> e") 'neotree-toggle)
+
+;; download and enable popup windows with popwin.el
+(unless (package-installed-p 'popwin)
+  (package-install 'popwin))
+(use-package popwin)
+(popwin-mode 1)
+
+;; download and enable editorconfig
+(unless (package-installed-p 'editorconfig)
+  (package-install 'editorconfig))
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
+;; download and enable hightlight-indent-guides
+(unless (package-installed-p 'highlight-indent-guides)
+  (package-install 'highlight-indent-guides))
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
