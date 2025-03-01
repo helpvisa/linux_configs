@@ -12,8 +12,20 @@ else
     TAB_ID=$(printf "%s" "$SELECTION" | awk '{print $1}')
 
     brotab activate "$TAB_ID" 2>/dev/null
-    if [ $? -ne 0 ]; then
-        firefox --new-tab "https://duckduckgo.com/?q=${SELECTION}"
+    if [ $? -ne 0 ] || [ -z "$(brotab clients)" ]; then
+        if printf "%s" "$SELECTION" | grep -q "\."; then
+            URL="${SELECTION}"
+        else
+            URL="https://duckduckgo.com/?q=${SELECTION}"
+        fi
+
+        if ! pgrep firefox; then
+            nohup firefox "${URL}" >/dev/null 2>&1 &
+            echo "opening new firefox instance"
+        else
+            nohup firefox --new-tab "${URL}" >/dev/null 2>&1 &
+        fi
+
         # this delay may need to be modified depending on computer + connection
         sleep 0.5
         # (gnome-specific)
@@ -27,6 +39,9 @@ else
         WINDOW_NAME=$(printf "%s" "$SELECTION" | awk '{split($0,array,"\t"); print array[2]}')
     fi
 
+    if [ -z "$WINDOW_NAME" ]; then
+        WINDOW_NAME="Mozilla Firefox"
+    fi
     gdbus call --session \
         --dest org.gnome.Shell \
         --object-path /de/lucaswerkmeister/ActivateWindowByTitle \
