@@ -5,7 +5,7 @@ SELECTION=$(printf "%s" "" \
     | BEMENU_BACKEND=wayland bemenu -i -l 30 \
     -H 25 \
     --counter=always \
-    -p 'activate tab <>' \
+    -p 'search the web <>' \
     --fn 'Input Mono 12' \
     --tb='#3b546a' \
     --fb='#3b546a' \
