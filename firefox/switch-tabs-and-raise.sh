@@ -3,7 +3,7 @@
 # requires activate-window-by-title
 
 LIST=$(brotab list)
-SELECTION=$(printf "%s" "$LIST" | fzf --bind=enter:replace-query+print-query --style=minimal --layout=reverse --margin 5% --prompt='activate tab: ')
+SELECTION=$(printf "%s" "$LIST" | fzf --bind=enter:replace-query+print-query --style=minimal --layout=reverse --margin 3% --prompt='activate tab: ')
 # SELECTION=$(printf "%s" "$LIST" | BEMENU_BACKEND=curses bemenu -i -p 'raise window:')
 
 if [ -z "$SELECTION" ]; then
