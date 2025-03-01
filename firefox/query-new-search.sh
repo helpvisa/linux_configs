@@ -9,6 +9,7 @@ if [ -z "$SELECTION" ]; then
 else
     if printf "%s" "$SELECTION" | grep -q "\."; then
         URL="${SELECTION}"
+        SELECTION=$(printf "%s" "$SELECTION" | cut -d'.' -f1)
     else
         URL="https://duckduckgo.com/?q=${SELECTION}"
     fi
@@ -29,6 +30,9 @@ else
                 | head -c -4 | tail -c +3 | sed 's/\\"/"/g')
         LIST=$(printf "%s" "$LIST_RAW" | jq -r '.[] | select( .title != null ) | "\(.wm_class): \(.title)"')
         WINDOW_NAME=$(printf "%s" "$LIST" | grep -i "$SELECTION" | awk '{split($0,f,": "); sub(/^([^: ]+: )/,"",$0); print $0}')
+        if [ -z "$WINDOW_NAME" ]; then
+            WINDOW_NAME="Mozilla Firefox"
+        fi
         gdbus call --session \
             --dest org.gnome.Shell \
             --object-path /de/lucaswerkmeister/ActivateWindowByTitle \
