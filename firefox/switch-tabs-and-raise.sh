@@ -15,6 +15,7 @@ else
     if [ $? -ne 0 ] || [ -z "$(brotab clients)" ]; then
         if printf "%s" "$SELECTION" | grep -q "\."; then
             URL="${SELECTION}"
+            SELECTION="$(printf "%s" "$SELECTION" | cut -d'.' -f1)"
         else
             URL="https://duckduckgo.com/?q=${SELECTION}"
         fi
