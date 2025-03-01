@@ -23,11 +23,17 @@ SELECTION=$(printf "%s" "" \
 if [ -z "$SELECTION" ]; then
     printf "%s\n" "no selection made!"
 else
+    if printf "%s" "$SELECTION" | grep -q "\."; then
+        URL="${SELECTION}"
+    else
+        URL="https://duckduckgo.com/?q=${SELECTION}"
+    fi
+
     if [ -z "$(pgrep firefox)" ]; then
-        nohup firefox "https://duckduckgo.com/?q=${SELECTION}" >/dev/null 2>&1 &
+        nohup firefox "${URL}" >/dev/null 2>&1 &
         echo "opening new firefox instance"
     else
-        nohup firefox --new-tab "https://duckduckgo.com/?q=${SELECTION}" >/dev/null 2>&1 &
+        nohup firefox --new-tab "${URL}" >/dev/null 2>&1 &
         echo "using existing firefox instance"
 
         # this delay may need to be modified depending on computer + connection
