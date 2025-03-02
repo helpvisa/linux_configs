@@ -17,6 +17,8 @@ else
     if [ -z "$(pgrep firefox)" ]; then
         nohup firefox "${URL}" >/dev/null 2>&1 &
         echo "opening new firefox instance"
+        # terminal likely exits before firefox is done launching; briefly sleep to fix this
+        sleep 1
     else
         nohup firefox --new-tab "${URL}" >/dev/null 2>&1 &
         echo "using existing firefox instance"

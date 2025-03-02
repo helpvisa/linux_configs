@@ -23,6 +23,8 @@ else
         if ! pgrep firefox; then
             nohup firefox "${URL}" >/dev/null 2>&1 &
             echo "opening new firefox instance"
+            # sleep to make sure firefox opens
+            sleep 1
         else
             nohup firefox --new-tab "${URL}" >/dev/null 2>&1 &
         fi
@@ -38,6 +40,9 @@ else
         WINDOW_NAME=$(printf "%s" "$LIST" | grep -i "$SELECTION" | awk '{split($0,f,": "); sub(/^([^: ]+: )/,"",$0); print $0}')
     else
         WINDOW_NAME=$(printf "%s" "$SELECTION" | awk '{split($0,array,"\t"); print array[2]}')
+        if [ "$WINDOW_NAME" = "New Tab" ]; then
+            WINDOW_NAME="Mozilla Firefox"
+        fi
     fi
 
     if [ -z "$WINDOW_NAME" ]; then
