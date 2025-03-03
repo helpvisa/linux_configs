@@ -15,7 +15,8 @@ LIST_RAW=$(gdbus call --session --dest org.gnome.Shell \
 # use picker to select window; must be GNOME compatible so no fuzzel :(
 # WINDOW=$(printf "%s" "$LIST" | BEMENU_BACKEND=curses bemenu -i -p 'raise window:')
 WINDOW=$(printf "%s" "$LIST" | fzf --style=minimal --layout=reverse --margin 3% --prompt='raise window: ')
-SELECTION=$(printf "%s" "$WINDOW" | awk '{split($0,f,": "); sub(/^([^: ]+: )/,"",$0); print $0}')
+SELECTION=$(printf "%s" "$WINDOW" | sed 's/^[^:]*://' | tail -c +2)
+printf "%s" "$SELECTION"
 
 if [ -z "$SELECTION" ]; then
     printf "%s" "no selection made!"
