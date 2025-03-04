@@ -20,6 +20,7 @@ else
     if ! pgrep firefox; then
         nohup firefox "${URL}" >/dev/null 2>&1 &
         echo "opening new firefox instance"
+        sleep 1
     else
         nohup firefox --new-tab "${URL}" >/dev/null 2>&1 &
 
