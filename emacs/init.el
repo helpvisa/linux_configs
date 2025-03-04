@@ -3,15 +3,17 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(global-display-line-numbers-mode t)
  '(package-selected-packages
-   '(magit highlight-indent-guides editorconfig popwin neotree company evil))
+   '(which-key magit highlight-indent-guides editorconfig popwin neotree company evil))
+ '(tool-bar-mode nil)
  '(treesit-font-lock-level 4))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Input Mono" :foundry "FBI " :slant normal :weight regular :height 128 :width normal)))))
+ '(default ((t (:family "Input Mono" :foundry "FBI " :slant normal :weight regular :height 120 :width normal)))))
 
 
 ;; custom
@@ -19,6 +21,11 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+
+;; enable recent files
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+
 ;; make emacs create all backup files in a very particular directory,
 ;; and make sure that backups are created as copies of the original file
 (setq backup-directory-alist `(("." . "~/.emacs-backups")))
@@ -47,10 +54,13 @@
 ;; display line numbers by default and disable line wrapping
 (global-display-line-numbers-mode)
 (setq-default truncate-lines t)
+;; and enable a line ruler by default
+(setq-default display-fill-column-indicator-column 80)
+(global-display-fill-column-indicator-mode)
 
-;; enable ido mode
-(require 'ido)
-(ido-mode t)
+;; enable fido mode with vertical completions
+(fido-mode t)
+(icomplete-vertical-mode t)
 
 ;; custom functions
 (defun connect-or-disconnect-lsp ()
@@ -80,6 +90,20 @@
              '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 (package-refresh-contents)
+
+;; enable orderless for fido
+(unless (package-installed-p 'orderless)
+  (package-install 'catppuccin-theme))
+(use-package orderless
+  :ensure t
+  :config
+  (fido-mode)
+  :custom
+  (completion-styles '(orderless)))
+
+(defun my-icomplete-styles ()
+  (setq-local completion-styles '(orderless)))
+(add-hook 'icomplete-minibuffer-setup-hook 'my-icomplete-styles)
 
 ;; enable our theme of choice
 (unless (package-installed-p 'catppuccin-theme)
@@ -130,9 +154,11 @@
 (evil-define-key 'normal 'global (kbd "<SPC> a") 'connect-or-disconnect-lsp)
 
 ;; setup extra evil keybinds 
+(evil-define-key 'normal 'global (kbd "<SPC> r f") 'recentf)
 (evil-define-key 'normal 'global (kbd "<SPC> o f") 'find-file)
-(evil-define-key 'normal 'global (kbd "<SPC> ,") 'ido-switch-buffer)
+(evil-define-key 'normal 'global (kbd "<SPC> ,") 'switch-to-buffer)
 (evil-define-key 'normal 'global (kbd "<SPC> g") 'rgrep)
+(evil-define-key 'normal 'global (kbd "<SPC> l g") 'lgrep)
 (evil-define-key 'normal 'global (kbd "<SPC> m") 'evil-show-marks)
 (evil-define-key 'normal 'global (kbd "<SPC> t") 'tags-search)
 (evil-define-key 'normal 'global (kbd "gtd") 'lsp-goto-type-definition)
@@ -183,3 +209,9 @@
 ;; let's also install and setup magit
 (unless (package-installed-p 'magit)
   (package-install 'magit))
+
+;; and which-key for ez completions and reminders
+(unless (package-installed-p 'which-key)
+  (package-install 'which-key))
+(require 'which-key)
+(which-key-mode)
