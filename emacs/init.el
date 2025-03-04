@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(global-display-line-numbers-mode t)
  '(package-selected-packages
-   '(which-key magit highlight-indent-guides editorconfig popwin neotree company evil))
+   '(flycheck which-key magit highlight-indent-guides editorconfig popwin neotree company evil))
  '(tool-bar-mode nil)
  '(treesit-font-lock-level 4))
 (custom-set-faces
@@ -17,6 +17,9 @@
 
 
 ;; custom
+;; update load path
+(add-to-list 'load-path "~/.config/emacs/custom-elisp")
+
 ;; disable toolbars
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -170,6 +173,11 @@
 (evil-define-key 'normal 'global (kbd "gh") 'display-local-help)
 (evil-define-key 'normal 'global (kbd "gbh") 'flymake-show-buffer-diagnostics)
 (evil-define-key 'normal 'global (kbd "gBh") 'flymake-show-project-diagnostics)
+
+;; download and enable pycheck for diagnostics under cursor
+(unless (package-installed-p 'flycheck)
+  (package-install 'flycheck))
+(global-flycheck-mode +1)
 
 ;; download and enable emacs-neotree
 (unless (package-installed-p 'neotree)
