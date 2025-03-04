@@ -82,9 +82,9 @@
 (package-refresh-contents)
 
 ;; enable our theme of choice
-(unless (package-installed-p 'kuronami-theme)
-  (package-install 'kuronami-theme))
-(load-theme 'kuronami t)
+(unless (package-installed-p 'catppuccin-theme)
+  (package-install 'catppuccin-theme))
+(load-theme 'catppuccin t)
 
 ;; download and enable lsp-mode
 (unless (package-installed-p 'lsp-mode)
