@@ -167,7 +167,7 @@
 (evil-define-key 'normal 'global (kbd "gr") 'lsp-find-references)
 (evil-define-key 'normal 'global (kbd "gi") 'lsp-find-implementation)
 (evil-define-key 'normal 'global (kbd "<SPC> r n") 'lsp-rename)
-(evil-define-key 'normal 'global (kbd "gh") 'flymake-show-diagnostic)
+(evil-define-key 'normal 'global (kbd "gh") 'display-local-help)
 (evil-define-key 'normal 'global (kbd "gbh") 'flymake-show-buffer-diagnostics)
 (evil-define-key 'normal 'global (kbd "gBh") 'flymake-show-project-diagnostics)
 
