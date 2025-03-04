@@ -3,18 +3,22 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(wombat))
  '(package-selected-packages
-   '(highlight-indent-guides editorconfig popwin neotree company evil)))
+   '(magit highlight-indent-guides editorconfig popwin neotree company evil))
+ '(treesit-font-lock-level 4))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:family "Input Mono" :foundry "FBI " :slant normal :weight regular :height 128 :width normal)))))
 
 
 ;; custom
+;; disable toolbars
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
 ;; make emacs create all backup files in a very particular directory,
 ;; and make sure that backups are created as copies of the original file
 (setq backup-directory-alist `(("." . "~/.emacs-backups")))
@@ -37,7 +41,16 @@
 ;; change default indentation options
 (setq-default indent-tabs-mode nil) ;; indent with spaces
 (setq-default tab-width 4) ;; and set a default indentation width
+(setq-default c-basic-offset 4)
+(setq-default c-indent-level 4)
 
+;; display line numbers by default and disable line wrapping
+(global-display-line-numbers-mode)
+(setq-default truncate-lines t)
+
+;; enable ido mode
+(require 'ido)
+(ido-mode t)
 
 ;; custom functions
 (defun connect-or-disconnect-lsp ()
@@ -48,6 +61,18 @@
       (lsp))
 )
 
+;; remap major modes for treesittre
+(setq major-mode-remap-alist
+ '((sh-mode . sh-ts-mode)
+   (bash-mode . bash-ts-mode)
+   (js2-mode . js-ts-mode)
+   (typescript-mode . typescript-ts-mode)
+   (json-mode . json-ts-mode)
+   (css-mode . css-ts-mode)
+   (c-mode . c-ts-mode)
+   (cpp-mode . cpp-ts-mode)
+   (java-mode . java-ts-mode)
+   (python-mode . python-ts-mode)))
 
 ;; set up melpa packages
 (require 'package)
@@ -55,6 +80,11 @@
              '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 (package-refresh-contents)
+
+;; enable our theme of choice
+(unless (package-installed-p 'kuronami-theme)
+  (package-install 'kuronami-theme))
+(load-theme 'kuronami t)
 
 ;; download and enable lsp-mode
 (unless (package-installed-p 'lsp-mode)
@@ -67,9 +97,15 @@
   ;; (lsp-enable-which-key-integration t))
 ;; setup mode hooks
 (add-hook 'c-mode-hook #'lsp)
+(add-hook 'c-ts-mode-hook #'lsp)
 (add-hook 'c++-mode-hook #'lsp)
+(add-hook 'c++-ts-mode-hook #'lsp)
 (add-hook 'python-mode-hook #'lsp)
+(add-hook 'python-ts-mode-hook #'lsp)
 (add-hook 'js-mode-hook #'lsp)
+(add-hook 'js2-mode-hook #'lsp)
+(add-hook 'js-ts-mode-hook #'lsp)
+(add-hook 'sh-mode-hook #'lsp)
 ;; enable in most programming modes anyway
 ;; (add-hook 'prog-mode-hook #'lsp)
 
@@ -93,41 +129,27 @@
 ;; toggle lsp
 (evil-define-key 'normal 'global (kbd "<SPC> a") 'connect-or-disconnect-lsp)
 
-;; download and enable fzf
-(unless (package-installed-p 'fzf)
-  (package-install 'fzf))
-(use-package fzf
-  ;; :bind
-  ;; set emacs keybinds here
-  :config
-  (setq fzf/args "-x --color bw --print-query --style=minimal --margin=1,0 --no-hscroll"
-	fzf/executable "fzf"
-	fzf/git-grep-args "-i --line-number %s"
-	;; command used for 'fzf-grep-*' functions
-	;; example usage for ripgrep:
-	;; fzf/grep-command "rg --no-heading -nH"
-	fzf/grep-command "grep -nrH"
-	;; if nil, the fzf buffer appears at top of window
-	fzf/position-bottom t
-	fzf/window-height 15))
-;; setup evil keybinds for fzf
-(evil-define-key 'normal 'global (kbd "<SPC> o f") 'fzf-find-file)
-(evil-define-key 'normal 'global (kbd "<SPC> o F") 'fzf-find-file-in-dir)
-(evil-define-key 'normal 'global (kbd "<SPC> ,") 'fzf-switch-buffer)
-(evil-define-key 'normal 'global (kbd "<SPC> g") 'fzf-grep)
-(evil-define-key 'normal 'global (kbd "<SPC> G") 'fzf-grep-with-narrowing)
+;; setup extra evil keybinds 
+(evil-define-key 'normal 'global (kbd "<SPC> o f") 'find-file)
+(evil-define-key 'normal 'global (kbd "<SPC> ,") 'ido-switch-buffer)
+(evil-define-key 'normal 'global (kbd "<SPC> g") 'rgrep)
+(evil-define-key 'normal 'global (kbd "<SPC> m") 'evil-show-marks)
+(evil-define-key 'normal 'global (kbd "<SPC> t") 'tags-search)
+(evil-define-key 'normal 'global (kbd "gtd") 'lsp-goto-type-definition)
+(evil-define-key 'normal 'global (kbd "gk") 'lsp-describe-thing-at-point)
+(evil-define-key 'normal 'global (kbd "gd") 'lsp-find-definition)
+(evil-define-key 'normal 'global (kbd "gr") 'lsp-find-references)
+(evil-define-key 'normal 'global (kbd "gi") 'lsp-find-implementation)
+(evil-define-key 'normal 'global (kbd "<SPC> r n") 'lsp-rename)
+(evil-define-key 'normal 'global (kbd "gh") 'flymake-show-diagnostic)
+(evil-define-key 'normal 'global (kbd "gbh") 'flymake-show-buffer-diagnostics)
+(evil-define-key 'normal 'global (kbd "gBh") 'flymake-show-project-diagnostics)
 
 ;; download and enable emacs-neotree
 (unless (package-installed-p 'neotree)
   (package-install 'neotree))
 (use-package neotree)
 (evil-define-key 'normal 'global (kbd "<SPC> e") 'neotree-toggle)
-
-;; download and enable popup windows with popwin.el
-(unless (package-installed-p 'popwin)
-  (package-install 'popwin))
-(use-package popwin)
-(popwin-mode 1)
 
 ;; download and enable editorconfig
 (unless (package-installed-p 'editorconfig)
@@ -141,3 +163,23 @@
 (unless (package-installed-p 'highlight-indent-guides)
   (package-install 'highlight-indent-guides))
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+
+;; setup tree-sitter grammar alist
+(setq treesit-language-source-alist
+   '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+     (c "https://github.com/tree-sitter/tree-sitter-c")
+     (html "https://github.com/tree-sitter/tree-sitter-html")
+     (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+     (css "https://github.com/tree-sitter/tree-sitter-css")
+     (json "https://github.com/tree-sitter/tree-sitter-json")
+     (python "https://github.com/tree-sitter/tree-sitter-python")
+     (bash "https://github.com/tree-sitter/tree-sitter-bash")
+     (java "https://github.com/tree-sitter/tree-sitter-java")))
+;; and install the grammars
+(dolist (lang treesit-language-source-alist)
+  (unless (treesit-language-available-p (car lang))
+    (treesit-install-language-grammar (car lang))))
+
+;; let's also install and setup magit
+(unless (package-installed-p 'magit)
+  (package-install 'magit))
