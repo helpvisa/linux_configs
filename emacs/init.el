@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(global-display-line-numbers-mode t)
  '(package-selected-packages
-   '(writeroom-mode flycheck which-key magit highlight-indent-guides editorconfig popwin neotree company evil))
+   '(vterm writeroom-mode flycheck which-key magit highlight-indent-guides editorconfig popwin neotree company evil))
  '(tool-bar-mode nil)
  '(treesit-font-lock-level 4))
 (custom-set-faces
@@ -241,6 +241,11 @@
 ;; writeroom for distraction-free writing
 (unless (package-installed-p 'writeroom-mode)
   (package-install 'writeroom-mode))
+
+;; enable libvterm
+(use-package vterm
+  :ensure t)
+(evil-define-key 'normal 'global (kbd "<SPC> o t") 'vterm)
 
 (provide 'init)
 ;;; init.el ends here
