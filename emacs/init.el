@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(global-display-line-numbers-mode t)
  '(package-selected-packages
-   '(flycheck which-key magit highlight-indent-guides editorconfig popwin neotree company evil))
+   '(writeroom-mode flycheck which-key magit highlight-indent-guides editorconfig popwin neotree company evil))
  '(tool-bar-mode nil)
  '(treesit-font-lock-level 4))
 (custom-set-faces
@@ -19,6 +19,8 @@
 ;; custom
 ;; update load path
 (add-to-list 'load-path "~/.config/emacs/custom-elisp")
+;; uncomment if you want emacs GTK windows to have no titlebar
+;; (setq default-frame-alist '((undecorated . t)))
 
 ;; disable toolbars
 (scroll-bar-mode -1)
@@ -235,6 +237,10 @@
 (popwin-mode 1)
 ;; and setup some custom modes for our annoying *lsp-help* buffers
 (push "*lsp-help*" popwin:special-display-config)
+
+;; writeroom for distraction-free writing
+(unless (package-installed-p 'writeroom-mode)
+  (package-install 'writeroom-mode))
 
 (provide 'init)
 ;;; init.el ends here
