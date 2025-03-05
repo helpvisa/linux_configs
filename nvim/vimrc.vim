@@ -42,22 +42,24 @@ call plug#begin("~/.nvim/plugged")
     Plug 'echasnovski/mini.nvim', { 'branch': 'stable' }
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
-    Plug 'ludovicchabant/vim-gutentags'
+    " Plug 'ludovicchabant/vim-gutentags'
 
     " colour schemes
     Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
     Plug 'austinliuigi/smoke.nvim'
 call plug#end()
-" let g:deoplete#enable_at_startup = 1
 let g:ale_completion_enabled = 1
 let g:ale_hover_to_floating_preview = 1
 let g:ale_floating_preview = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %severity%: %s'
 " set some specific linter preferences
 let g:ale_linters = { 'python': ['pylsp'] }
 
 " set colorscheme
 set background=dark
-colorscheme catppuccin-frappe
+colorscheme catppuccin
 set guifont=Input\ Mono\ 12
 
 " remap keys

@@ -25,14 +25,6 @@ set noequalalways " do not mess with split sizes when a preview window closes
 " insert-mode omnicompletion setup; trigger with C-x C-o when inserting
 set omnifunc=ale#completion#OmniFunc
 
-" fix clipboard support on wayland
-" this causes weird focus issues sometimes in gnome?
-" augroup wl-clipboard
-"     autocmd!
-"     autocmd FocusLost * :call system('wl-copy --trim-newline', @+)
-"     autocmd FocusGained * :let @+ = system('wl-paste -n')
-" augroup END
-
 " block cursor in normal mode, line cursor in insert mode
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
@@ -53,12 +45,14 @@ call plug#begin("~/.vim/plugged")
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     Plug 'itchyny/vim-cursorword'
-    Plug 'ludovicchabant/vim-gutentags'
-	if has('patch-8.0.902')
-	  Plug 'mhinz/vim-signify'
-	else
-	  Plug 'mhinz/vim-signify', { 'tag': 'legacy' }
-	endif
+    " Plug 'ludovicchabant/vim-gutentags'
+    if has('patch-8.0.902')
+      Plug 'mhinz/vim-signify'
+    else
+      Plug 'mhinz/vim-signify', { 'tag': 'legacy' }
+    endif
+    " fix clipboard on wayland
+    Plug 'jasonccox/vim-wayland-clipboard'
     " colour schemes
     Plug 'NLKNguyen/papercolor-theme'
     Plug 'zefei/cake16'
@@ -91,6 +85,7 @@ colorscheme PaperColor
 
 " disable weird syntax highlighting and numbering when composing email in mutt
 autocmd BufNewFile,BufRead /tmp/neomutt* set noautoindent filetype=mail wm=0 tw=75 nonumber
+autocmd BufNewFile,BufRead /tmp/mutt* set noautoindent filetype=mail wm=0 tw=75 nonumber
 
 " remap keys
 let mapleader = " "
