@@ -8,12 +8,6 @@
    '(vterm writeroom-mode flycheck which-key magit highlight-indent-guides editorconfig popwin neotree company evil))
  '(tool-bar-mode nil)
  '(treesit-font-lock-level 4))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Input Mono" :foundry "FBI " :slant normal :weight regular :height 120 :width normal)))))
 
 
 ;; custom
@@ -21,6 +15,10 @@
 (add-to-list 'load-path "~/.config/emacs/custom-elisp")
 ;; uncomment if you want emacs GTK windows to have no titlebar
 ;; (setq default-frame-alist '((undecorated . t)))
+
+;; set default size for new frames
+(setq default-frame-alist '((width . 90)
+                            (height . 36)))
 
 ;; disable toolbars
 (scroll-bar-mode -1)
@@ -60,12 +58,21 @@
 (global-display-line-numbers-mode)
 (setq-default truncate-lines t)
 ;; and enable a line ruler by default
+(setq-default fill-column 79)
 (setq-default display-fill-column-indicator-column 80)
 (global-display-fill-column-indicator-mode)
 
 ;; enable fido mode with vertical completions
 (fido-mode t)
 (icomplete-vertical-mode t)
+
+;; enable flyspell, auto-fill, and writeroom if being used as email writer
+(add-to-list 'auto-mode-alist '("/tmp/mutt*" . mail-mode))
+(add-to-list 'auto-mode-alist '("/tmp/neomutt*" . mail-mode))
+(add-hook 'mail-mode-hook 'flyspell-mode)
+(add-hook 'mail-mode-hook 'auto-fill-mode)
+(add-hook 'mail-mode-hook 'writeroom-mode)
+(add-hook 'mail-mode-hook (setq fill-column 75))
 
 ;; custom functions
 (defun connect-or-disconnect-lsp ()
@@ -78,8 +85,7 @@
 
 ;; remap major modes for treesittre
 (setq major-mode-remap-alist
- '((sh-mode . sh-ts-mode)
-   (bash-mode . bash-ts-mode)
+ '((bash-mode . bash-ts-mode)
    (js-mode . js-ts-mode)
    (typescript-mode . typescript-ts-mode)
    (json-mode . json-ts-mode)
@@ -95,6 +101,10 @@
              '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 (package-refresh-contents)
+
+;; make sure use-package is installed
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
 
 ;; enable orderless for fido
 (unless (package-installed-p 'orderless)
