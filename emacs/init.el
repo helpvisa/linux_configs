@@ -69,10 +69,12 @@
 ;; enable flyspell, auto-fill, and writeroom if being used as email writer
 (add-to-list 'auto-mode-alist '("/tmp/mutt*" . mail-mode))
 (add-to-list 'auto-mode-alist '("/tmp/neomutt*" . mail-mode))
-(add-hook 'mail-mode-hook 'flyspell-mode)
-(add-hook 'mail-mode-hook 'auto-fill-mode)
-(add-hook 'mail-mode-hook 'writeroom-mode)
-(add-hook 'mail-mode-hook (setq fill-column 75))
+(add-hook 'mail-mode-hook (lambda ()
+                            (auto-fill-mode)
+                            (setq fill-column 72)
+                            (flyspell-mode)
+                            (display-line-numbers-mode 0)
+                            (message "Activating mail-mode hooks.")))
 
 ;; custom functions
 (defun connect-or-disconnect-lsp ()
