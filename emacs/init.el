@@ -247,5 +247,11 @@
   :ensure t)
 (evil-define-key 'normal 'global (kbd "<SPC> o t") 'vterm)
 
+;; and diffs with vdiff
+(unless (package-installed-p 'vdiff)
+  (package-install 'vdiff))
+(require 'vdiff)
+(evil-define-key 'normal vdiff-mode-map "," vdiff-mode-prefix-map)
+
 (provide 'init)
 ;;; init.el ends here
