@@ -28,11 +28,15 @@ if [ -z "$SELECTION" ]; then
     printf "%s\n" "no selection made!"
 else
     TAB_ID=$(printf "%s" "$SELECTION" | awk '{print $1}')
+    TAB_NAME=$(printf "%s" "$SELECTION" \
+        | sed 's/^[^\t]*\t//' \
+        | sed 's/\t.*//')
 
     ~/.local/bin/brotab activate "$TAB_ID"
     if [ $? -ne 0 ] || [ -z "$(~/.local/bin/brotab clients)" ]; then
         if printf "%s" "$SELECTION" | grep -q "\."; then
             URL="${SELECTION}"
+            SELECTION=$(printf "%s" "$SELECTION" | cut -d'.' -f1)
         else
             URL="https://duckduckgo.com/?q=${SELECTION}"
         fi
@@ -40,20 +44,20 @@ else
         if ! pgrep firefox; then
             nohup firefox "${URL}" >/dev/null 2>&1 &
             echo "opening new firefox instance"
+            sleep 1
         else
             nohup firefox --new-tab "${URL}" >/dev/null 2>&1 &
         fi
-
-        # this value may need changing depending on machine
-        sleep 0.3
-        TAB_NAME="$SELECTION"
-    else
-        TAB_NAME=$(printf "%s" "$SELECTION" | awk '{split($0,array,"\t"); print array[2]}')
     fi
 
-    # now raise the window (wlr-specific)
-    APP_DETAILS=$(wlrctl toplevel list | grep "$TAB_NAME")
-    APP_ID="$(printf "%s" "$APP_DETAILS" | awk 'BEGIN {FS=": ";}{print $1}')"
-    NAME="$(printf "%s" "$APP_DETAILS" | awk '{split($0,f,": "); sub(/^([^: ]+: )/,"",$0); print $0}')"
+    # keep checking for our new tab
+    while [ -z "$NAME" ]; do
+        # (wlr-specific)
+        APP_DETAILS=$(wlrctl toplevel list | grep "$TAB_NAME")
+        APP_ID="$(printf "%s" "$APP_DETAILS" \
+            | awk 'BEGIN {FS=": ";}{print $1}')"
+        NAME="$(printf "%s" "$APP_DETAILS" \
+            | sed 's/^[^:\ ]*:\ //')"
+    done
     wlrctl toplevel focus "app_id:${APP_ID}" "title:${NAME}" "state:inactive"
 fi

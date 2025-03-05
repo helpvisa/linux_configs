@@ -1,22 +1,22 @@
 #!/bin/sh
-# requires activate-window-by-title
+# Requires activate-window-by-title
 
 SELECTION=$(printf "%s" "" \
-    | BEMENU_BACKEND=wayland bemenu -i -l 30 \
+    | Bemenu_BACKEND=wayland bemenu -i -l 30 \
     -H 25 \
     --counter=always \
     -p 'search the web <>' \
     --fn 'Input Mono 12' \
-    --tb='#3b546a' \
-    --fb='#3b546a' \
-    --cb='#3b546a' \
-    --nb='#3b546a' \
-    --hb='#4c657b' \
-    --fbb='#3b546a' \
-    --sb='#3b546a' \
-    --ab='#3b546a' \
-    --scb='#3b546a' \
-    --tf='#3b546a' \
+    --tb='#222222' \
+    --fb='#222222' \
+    --cb='#222222' \
+    --nb='#222222' \
+    --hb='#333333' \
+    --fbb='#222222' \
+    --sb='#222222' \
+    --ab='#222222' \
+    --scb='#222222' \
+    --tf='#222222' \
     --tb='#d97f2b' \
     --hf='#d97f2b')
 
@@ -25,23 +25,27 @@ if [ -z "$SELECTION" ]; then
 else
     if printf "%s" "$SELECTION" | grep -q "\."; then
         URL="${SELECTION}"
+        SELECTION=$(printf "%s" "$SELECTION" | cut -d'.' -f1)
     else
         URL="https://duckduckgo.com/?q=${SELECTION}"
     fi
 
-    if [ -z "$(pgrep firefox)" ]; then
+    if ! pgrep firefox; then
         nohup firefox "${URL}" >/dev/null 2>&1 &
         echo "opening new firefox instance"
+        sleep 1
     else
         nohup firefox --new-tab "${URL}" >/dev/null 2>&1 &
-        echo "using existing firefox instance"
 
-        # this delay may need to be modified depending on computer + connection
-        sleep 0.3
-        # (wlr-specific)
-        APP_DETAILS=$(wlrctl toplevel list | grep "$SELECTION")
-        APP_ID="$(printf "%s" "$APP_DETAILS" | awk 'BEGIN {FS=": ";}{print $1}')"
-        NAME="$(printf "%s" "$APP_DETAILS" | awk '{split($0,f,": "); sub(/^([^: ]+: )/,"",$0); print $0}')"
+        # keep checking for our new tab
+        while [ -z "$NAME" ]; do
+            # (wlr-specific)
+            APP_DETAILS=$(wlrctl toplevel list | grep "$SELECTION")
+            APP_ID="$(printf "%s" "$APP_DETAILS" \
+                | awk 'BEGIN {FS=": ";}{print $1}')"
+            NAME="$(printf "%s" "$APP_DETAILS" \
+                | sed 's/^[^:\ ]*:\ //')"
+        done
         wlrctl toplevel focus "app_id:${APP_ID}" "title:${NAME}" "state:inactive"
     fi
 fi
