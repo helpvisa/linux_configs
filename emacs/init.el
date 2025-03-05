@@ -153,8 +153,9 @@
 ;; setup custom evil keybinds
 (evil-define-key 'normal 'global "gcc" 'comment-line)
 (evil-define-key 'visual 'global "gc" 'comment-or-uncomment-region)
-;; toggle lsp
-(evil-define-key 'normal 'global (kbd "<SPC> a") 'connect-or-disconnect-lsp)
+;; toggle lsp and flycheck
+(evil-define-key 'normal 'global (kbd "<SPC> A") 'connect-or-disconnect-lsp)
+(evil-define-key 'normal 'global (kbd "<SPC> a") 'flycheck-mode)
 
 ;; setup extra evil keybinds 
 (evil-define-key 'normal 'global (kbd "<SPC> r f") 'recentf)
@@ -184,6 +185,9 @@
   (package-install 'neotree))
 (use-package neotree)
 (evil-define-key 'normal 'global (kbd "<SPC> e") 'neotree-toggle)
+
+(eval-after-load 'neotree
+  '(evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter))
 
 ;; download and enable editorconfig
 (unless (package-installed-p 'editorconfig)
@@ -223,3 +227,14 @@
   (package-install 'which-key))
 (require 'which-key)
 (which-key-mode)
+
+;; use popwin to free us of annoying splits for *help* and such
+(unless (package-installed-p 'popwin)
+  (package-install 'popwin))
+(require 'popwin)
+(popwin-mode 1)
+;; and setup some custom modes for our annoying *lsp-help* buffers
+(push "*lsp-help*" popwin:special-display-config)
+
+(provide 'init)
+;;; init.el ends here
