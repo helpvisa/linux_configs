@@ -77,6 +77,7 @@
                             (message "Activating mail-mode hooks.")))
 
 ;; custom functions
+;; toggle lsp
 (defun connect-or-disconnect-lsp ()
   "Enable or disable lsp-mode in the current buffer."
   (interactive)
@@ -84,8 +85,30 @@
       (lsp-disconnect)
       (lsp))
 )
+;; backspace to previous tabstop and replace backspace with it ...
+(defvar my-offset 4 "My indentation offset.")
+(defun backspace-whitespace-to-tab-stop ()
+  "Delete whitespace to the next tab-stop, otherwise delete one character."
+  (interactive)
+  (if (or indent-tabs-mode
+          (region-active-p)
+          (save-excursion
+            (> (point) (progn (back-to-indentation)
+                              (point)))))
+      (call-interactively 'backward-delete-char-untabify)
+    (let ((movement (% (current-column) my-offset))
+          (p (point)))
+      (when (= movement 0) (setq movement my-offset))
+      ;; Account for edge case near beginning of buffer
+      (setq movement (min (- p 1) movement))
+      (save-match-data
+        (if (string-match "[^\t ]*\\([\t ]+\\)$" (buffer-substring-no-properties (- p movement) p))
+            (backward-delete-char (- (match-end 1) (match-beginning 1)))
+          (call-interactively 'backward-delete-char))))))
+;; rebind backspace to this func
+(global-set-key (kbd "<DEL>") 'backspace-whitespace-to-tab-stop)
 
-;; remap major modes for treesittre
+;; remap major modes for treesitter
 (setq major-mode-remap-alist
  '((bash-mode . bash-ts-mode)
    (js-mode . js-ts-mode)
