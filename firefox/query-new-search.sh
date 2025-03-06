@@ -25,17 +25,23 @@ else
         nohup firefox --new-tab "${URL}" >/dev/null 2>&1 &
 
         # keep checking for our new tab
-        while [ -z "$WINDOW" ]; do
+        SELECTION=$(printf "%s" "$SELECTION" | sed 's/\*//g')
+        CHECK=1
+        while [ -z "$WINDOW" ] && [ "25" -gt "$CHECK" ]; do
             # (gnome-specific)
             LIST_RAW=$(gdbus call --session --dest org.gnome.Shell \
                     --object-path /org/gnome/Shell/Extensions/Windows \
                     --method org.gnome.Shell.Extensions.Windows.List \
                     | head -c -4 | tail -c +3 | sed 's/\\"/"/g')
             LIST=$(printf "%s" "$LIST_RAW" \
-                | jq -r '.[] | select( .title != null ) | "\(.wm_class): \(.title) :\(.id)"')
+                | jq -r '.[] | select( .title != null ) | "\(.wm_class): \(.title) :\(.id)"' \
+                | sed 's/\*//g')
             WINDOW=$(printf "%s" "$LIST" \
                 | grep -i "$SELECTION" \
                 | sed 's/.*://')
+            # increment check counter
+            CHECK=$(echo "$CHECK 1 + p" | dc)
+            printf "%d\n" "$CHECK"
             sleep 0.2
         done
 

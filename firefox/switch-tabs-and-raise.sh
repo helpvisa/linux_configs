@@ -16,7 +16,8 @@ else
     # remove tab id and url, leaving only title
     TAB_TITLE=$(printf "%s" "$SELECTION" \
         | sed 's/^[^\t]*\t//' \
-        | sed 's/\t.*//')
+        | sed 's/\t.*//' \
+        | sed 's/\*//g')
 
     brotab activate "$TAB_ID" 2>/dev/null
     if [ $? -ne 0 ] || [ -z "$(brotab clients)" ]; then
@@ -38,17 +39,22 @@ else
     fi
 
     # keep checking for our new tab or window
-    while [ -z "$WINDOW" ]; do
+    CHECK=1
+    while [ -z "$WINDOW" ] && [ "25" -gt "$CHECK" ]; do
         # (gnome-specific)
         LIST_RAW=$(gdbus call --session --dest org.gnome.Shell \
                 --object-path /org/gnome/Shell/Extensions/Windows \
                 --method org.gnome.Shell.Extensions.Windows.List \
                 | head -c -4 | tail -c +3 | sed 's/\\"/"/g')
         LIST=$(printf "%s" "$LIST_RAW" \
-            | jq -r '.[] | select( .title != null ) | "\(.wm_class): \(.title) :\(.id)"')
+            | jq -r '.[] | select( .title != null ) | "\(.wm_class): \(.title) :\(.id)"' \
+            | sed 's/\*//g')
         WINDOW=$(printf "%s" "$LIST" \
             | grep -i "$TAB_TITLE" \
             | sed 's/.*://')
+        # increment check counter
+        CHECK=$(echo "$CHECK 1 + p" | dc)
+        printf "%d\n" "$CHECK"
         sleep 0.2
     done
 

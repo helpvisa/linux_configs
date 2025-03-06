@@ -39,7 +39,7 @@ else
 
         # keep checking for our new tab
         CHECKS=1
-        while [ -z "$NAME" ] && [ "10" -gt "$CHECKS" ]; do
+        while [ -z "$NAME" ] && [ "25" -gt "$CHECKS" ]; do
             # (wlr-specific)
             APP_DETAILS=$(wlrctl toplevel list | grep "$SELECTION")
             APP_ID="$(printf "%s" "$APP_DETAILS" \
@@ -49,7 +49,7 @@ else
             # increment check counter
             CHECKS=$(echo "$CHECKS 1 + p" | dc)
             printf "%d\n" "$CHECKS"
-            sleep 0.3
+            sleep 0.2
         done
         printf "%s\n" "$NAME"
         wlrctl toplevel focus "app_id:${APP_ID}" "title:${NAME}" "state:inactive"
