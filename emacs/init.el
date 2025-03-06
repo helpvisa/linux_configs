@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(global-display-line-numbers-mode t)
  '(package-selected-packages
-   '(vterm writeroom-mode flycheck which-key magit highlight-indent-guides editorconfig popwin neotree company evil))
+   '(evil-collection vdiff vterm writeroom-mode flycheck which-key magit highlight-indent-guides editorconfig popwin neotree company evil))
  '(tool-bar-mode nil)
  '(treesit-font-lock-level 4))
 
@@ -160,18 +160,23 @@
   (package-install 'evil))
 (setq evil-want-C-u-scroll t) ;; enable C-u to scroll instead of repeat
 (setq evil-want-fine-undo 'fine) ;; enable undo like vim
+(setq evil-want-keybinding 'nil)
 (require 'evil)
 (evil-mode 1)
 ;; setup undo system
 (evil-set-undo-system 'undo-redo)
-;; setup custom evil keybinds
-(evil-define-key 'normal 'global "gcc" 'comment-line)
-(evil-define-key 'visual 'global "gc" 'comment-or-uncomment-region)
+;; load from evil-collection (mode-by-mode)
+(unless (package-installed-p 'evil-collection)
+  (package-install 'evil-collection))
+(evil-collection-init 'magit)
+(evil-collection-init 'ediff)
+
 ;; toggle lsp and flycheck
 (evil-define-key 'normal 'global (kbd "<SPC> A") 'connect-or-disconnect-lsp)
 (evil-define-key 'normal 'global (kbd "<SPC> a") 'flycheck-mode)
-
 ;; setup extra evil keybinds 
+(evil-define-key 'normal 'global "gcc" 'comment-line)
+(evil-define-key 'visual 'global "gc" 'comment-or-uncomment-region)
 (evil-define-key 'normal 'global (kbd "<SPC> r f") 'recentf)
 (evil-define-key 'normal 'global (kbd "<SPC> o f") 'find-file)
 (evil-define-key 'normal 'global (kbd "<SPC> ,") 'switch-to-buffer)
