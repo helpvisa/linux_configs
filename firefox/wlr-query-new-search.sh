@@ -38,14 +38,20 @@ else
         nohup firefox --new-tab "${URL}" >/dev/null 2>&1 &
 
         # keep checking for our new tab
-        while [ -z "$NAME" ]; do
+        CHECKS=1
+        while [ -z "$NAME" ] && [ "10" -gt "$CHECKS" ]; do
             # (wlr-specific)
             APP_DETAILS=$(wlrctl toplevel list | grep "$SELECTION")
             APP_ID="$(printf "%s" "$APP_DETAILS" \
                 | awk 'BEGIN {FS=": ";}{print $1}')"
             NAME="$(printf "%s" "$APP_DETAILS" \
                 | sed 's/^[^:\ ]*:\ //')"
+            # increment check counter
+            CHECKS=$(echo "$CHECKS 1 + p" | dc)
+            printf "%d\n" "$CHECKS"
+            sleep 0.3
         done
+        printf "%s\n" "$NAME"
         wlrctl toplevel focus "app_id:${APP_ID}" "title:${NAME}" "state:inactive"
     fi
 fi
