@@ -2,7 +2,7 @@
 # Requires activate-window-by-title
 
 SELECTION=$(printf "%s" "" \
-    | Bemenu_BACKEND=wayland bemenu -i -l 30 \
+    | BEMENU_BACKEND=wayland bemenu -i -l 30 \
     -H 25 \
     --counter=always \
     -p 'search the web <>' \
