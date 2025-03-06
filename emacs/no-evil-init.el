@@ -5,12 +5,24 @@
  ;; If there is more than one, they won't work right.
  '(global-display-line-numbers-mode t)
  '(package-selected-packages
-   '(evil-collection vdiff vterm writeroom-mode flycheck which-key magit highlight-indent-guides editorconfig popwin neotree company evil))
+   '(multiple-cursors evil-collection vdiff vterm writeroom-mode flycheck which-key magit highlight-indent-guides editorconfig popwin neotree company evil))
  '(tool-bar-mode nil)
  '(treesit-font-lock-level 4))
 
 
 ;; custom
+;; setup some custom keybindings
+;; scroll by a half-view's length even with default emacs binds
+(autoload 'View-scroll-half-page-forward "view")
+(autoload 'View-scroll-half-page-backward "view")
+(define-key global-map (kbd "C-v") 'View-scroll-half-page-forward)
+(define-key global-map (kbd "M-v") 'View-scroll-half-page-backward)
+(define-key global-map (kbd "C-c /") 'comment-line)
+(define-key global-map (kbd "C-c C-/") 'comment-or-uncomment-region)
+(define-key global-map (kbd "C-c r") 'recentf)
+(define-key global-map (kbd "C-c b") 'switch-to-buffer)
+(define-key global-map (kbd "C-c g") 'rgrep)
+
 ;; update load path
 (add-to-list 'load-path "~/.config/emacs/custom-elisp")
 ;; uncomment if you want emacs GTK windows to have no titlebar
@@ -157,9 +169,9 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :init
-  (setq lsp-keymap-prefix "C-c l")) ;; or 'C-l', 's-l'
-  ;; :config
-  ;; (lsp-enable-which-key-integration t))
+  (setq lsp-keymap-prefix "C-c l") ;; or 'C-l', 's-l'
+  :config
+  (lsp-enable-which-key-integration t))
 ;; setup mode hooks
 (add-hook 'c-mode-hook #'lsp)
 (add-hook 'c-ts-mode-hook #'lsp)
@@ -171,52 +183,21 @@
 (add-hook 'js2-mode-hook #'lsp)
 (add-hook 'js-ts-mode-hook #'lsp)
 (add-hook 'sh-mode-hook #'lsp)
+(add-hook 'bash-mode-hook #'lsp)
+(add-hook 'bash-ts-mode-hook #'lsp)
 ;; enable in most programming modes anyway
 ;; (add-hook 'prog-mode-hook #'lsp)
+(define-key global-map (kbd "C-c f d") 'lsp-find-definition)
+(define-key global-map (kbd "C-c f r") 'lsp-find-references)
+(define-key global-map (kbd "C-c f R") 'lsp-rename)
+(define-key global-map (kbd "C-c f h") 'display-local-help)
+(define-key global-map (kbd "C-c f b h") 'flymake-show-buffer-diagnostics)
+(define-key global-map (kbd "C-c f p h") 'flymake-show-project-diagnostics)
 
 ;; download and enable company
 (unless (package-installed-p 'company)
   (package-install 'company))
 (company-mode 1)
-
-;; download and enable evil
-(unless (package-installed-p 'evil)
-  (package-install 'evil))
-(setq evil-want-C-u-scroll t) ;; enable C-u to scroll instead of repeat
-(setq evil-want-fine-undo 'fine) ;; enable undo like vim
-(setq evil-want-keybinding 'nil)
-(require 'evil)
-(evil-mode 1)
-;; setup undo system
-(evil-set-undo-system 'undo-redo)
-;; load from evil-collection (mode-by-mode)
-(unless (package-installed-p 'evil-collection)
-  (package-install 'evil-collection))
-(evil-collection-init 'magit)
-(evil-collection-init 'ediff)
-
-;; toggle lsp and flycheck
-(evil-define-key 'normal 'global (kbd "<SPC> A") 'connect-or-disconnect-lsp)
-(evil-define-key 'normal 'global (kbd "<SPC> a") 'flycheck-mode)
-;; setup extra evil keybinds 
-(evil-define-key 'normal 'global "gcc" 'comment-line)
-(evil-define-key 'visual 'global "gc" 'comment-or-uncomment-region)
-(evil-define-key 'normal 'global (kbd "<SPC> r f") 'recentf)
-(evil-define-key 'normal 'global (kbd "<SPC> o f") 'find-file)
-(evil-define-key 'normal 'global (kbd "<SPC> ,") 'switch-to-buffer)
-(evil-define-key 'normal 'global (kbd "<SPC> g") 'rgrep)
-(evil-define-key 'normal 'global (kbd "<SPC> l g") 'lgrep)
-(evil-define-key 'normal 'global (kbd "<SPC> m") 'evil-show-marks)
-(evil-define-key 'normal 'global (kbd "<SPC> t") 'tags-search)
-(evil-define-key 'normal 'global (kbd "gtd") 'lsp-goto-type-definition)
-(evil-define-key 'normal 'global (kbd "gk") 'lsp-describe-thing-at-point)
-(evil-define-key 'normal 'global (kbd "gd") 'lsp-find-definition)
-(evil-define-key 'normal 'global (kbd "gr") 'lsp-find-references)
-(evil-define-key 'normal 'global (kbd "gi") 'lsp-find-implementation)
-(evil-define-key 'normal 'global (kbd "<SPC> r n") 'lsp-rename)
-(evil-define-key 'normal 'global (kbd "gh") 'display-local-help)
-(evil-define-key 'normal 'global (kbd "gbh") 'flymake-show-buffer-diagnostics)
-(evil-define-key 'normal 'global (kbd "gBh") 'flymake-show-project-diagnostics)
 
 ;; download and enable pycheck for diagnostics under cursor
 (unless (package-installed-p 'flycheck)
@@ -227,10 +208,6 @@
 (unless (package-installed-p 'neotree)
   (package-install 'neotree))
 (use-package neotree)
-(evil-define-key 'normal 'global (kbd "<SPC> e") 'neotree-toggle)
-
-(eval-after-load 'neotree
-  '(evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter))
 
 ;; download and enable editorconfig
 (unless (package-installed-p 'editorconfig)
@@ -286,23 +263,16 @@
 ;; enable libvterm
 (use-package vterm
   :ensure t)
-(evil-define-key 'normal 'global (kbd "<SPC> o t") 'vterm)
-
-;; and diffs with vdiff
-(unless (package-installed-p 'vdiff)
-  (package-install 'vdiff))
-(require 'vdiff)
-(evil-define-key 'normal vdiff-mode-map "," vdiff-mode-prefix-map)
 
 ;; enable multicursor support
 (unless (package-installed-p 'multiple-cursor)
   (package-install 'multiple-cursors))
 (require 'multiple-cursors)
 ;; and setup some keybinds for em
-(evil-define-key 'visual 'global (kbd "C-c c") 'mc/edit-lines)
-(evil-define-key 'normal 'global (kbd "C-c n") 'mc/mark-next-like-this)
-(evil-define-key 'normal 'global (kbd "C-c p") 'mc/mark-previous-like-this)
-(evil-define-key 'normal 'global (kbd "C-c a") 'mc/mark-all-like-this)
+(define-key global-map (kbd "C-c c c") 'mc/edit-lines)
+(define-key global-map (kbd "C-c c n") 'mc/mark-next-like-this)
+(define-key global-map (kbd "C-c c p") 'mc/mark-previous-like-this)
+(define-key global-map (kbd "C-c c a") 'mc/mark-all-like-this)
 
 
 (provide 'init)
