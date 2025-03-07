@@ -77,7 +77,22 @@
                             (display-line-numbers-mode 0)
                             (message "Activating mail-mode hooks.")))
 
+
 ;; custom functions
+;; remove last character from a given line
+(defun remove-last-character-from-line (line)
+  "Remove the final character from a given line."
+  (substring line 0 (- (string-width line) 1)))
+
+;; get contents of a given line from a given buffer
+(defun get-line-at-point-from-given-buffer (buffer line)
+  "Given a buffer and line position, return a preview of the line."
+  (let (oldpos line_preview))
+  (setq oldpos (point))
+  (setq line_preview (with-current-buffer buffer (goto-line line) (thing-at-point 'line)))
+  (goto-char oldpos)
+  (remove-last-character-from-line line_preview))
+
 ;; toggle lsp
 (defun connect-or-disconnect-lsp ()
   "Enable or disable lsp-mode in the current buffer."
@@ -86,6 +101,7 @@
       (lsp-disconnect)
       (lsp))
 )
+
 ;; backspace to previous tabstop and replace backspace with it ...
 (defvar my-offset 4 "My indentation offset.")
 (defun backspace-whitespace-to-tab-stop ()
@@ -108,6 +124,7 @@
           (call-interactively 'backward-delete-char))))))
 ;; rebind backspace to this func
 (global-set-key (kbd "<DEL>") 'backspace-whitespace-to-tab-stop)
+
 
 ;; remap major modes for treesitter
 (setq major-mode-remap-alist
@@ -194,7 +211,58 @@
   (package-install 'evil-collection))
 (evil-collection-init 'magit)
 (evil-collection-init 'ediff)
+;; custom evil keybinds
+;; rewrite of evil-show-marks but with line preview
+(evil-define-command evil-show-marks-with-preview (mrks)
+  "Show all marks with line previews.
+If MRKS is non-nil it should be a string and only registers
+corresponding to the characters of this string are shown."
+  :repeat nil
+  (interactive "<a>")
+  (let ((all-markers
+        (append (cl-remove-if (lambda (m)
+                                (or (evil-global-marker-p (car m))
+                                    (not (markerp (cdr m)))))
+                                evil-markers-alist)
+                (cl-remove-if (lambda (m)
+                                (or (not (evil-global-marker-p (car m)))
+                                    (not (markerp (cdr m)))))
+                                (default-value 'evil-markers-alist)))))
+    (when mrks
+        (setq mrks (string-to-list mrks))
+        (setq all-markers (cl-delete-if (lambda (m)
+                                        (not (member (car m) mrks)))
+                                        all-markers)))
+    ;; map marks to list of 4-tuples (char row col file)
+    (setq all-markers
+            (mapcar (lambda (m)
+                    (with-current-buffer (marker-buffer (cdr m))
+                        (save-excursion
+                        (goto-char (cdr m))
+                        (list (car m)
+                                (line-number-at-pos (point))
+                                (current-column)
+                                (buffer-name)))))
+                    all-markers))
+    (evil-with-view-list
+        :name "evil-marks"
+        :mode-name "Evil Marks"
+        :format [("Mark" 6 nil)
+                ("Line Number" 12 nil)
+                ("Column" 8 nil)
+                ("Buffer" 18 nil)
+                ("Line Preview" 1000 nil)]
+        :entries (cl-loop for m in (sort all-markers (lambda (a b) (< (car a) (car b))))
+                        collect `(nil [,(char-to-string (nth 0 m))
+                                        ,(number-to-string (nth 1 m))
+                                        ,(number-to-string (nth 2 m))
+                                        (,(nth 3 m))
+                                        ,(get-line-at-point-from-given-buffer
+                                        (nth 3 m) (nth 1 m))]))
+        :select-action #'evil--show-marks-select-action)))
 
+
+;; other custom keymaps
 ;; toggle lsp and flycheck
 (evil-define-key 'normal 'global (kbd "<SPC> A") 'connect-or-disconnect-lsp)
 (evil-define-key 'normal 'global (kbd "<SPC> a") 'flycheck-mode)
@@ -206,7 +274,7 @@
 (evil-define-key 'normal 'global (kbd "<SPC> ,") 'switch-to-buffer)
 (evil-define-key 'normal 'global (kbd "<SPC> g") 'rgrep)
 (evil-define-key 'normal 'global (kbd "<SPC> l g") 'lgrep)
-(evil-define-key 'normal 'global (kbd "<SPC> m") 'evil-show-marks)
+(evil-define-key 'normal 'global (kbd "<SPC> m") 'evil-show-marks-with-preview)
 (evil-define-key 'normal 'global (kbd "<SPC> t") 'tags-search)
 (evil-define-key 'normal 'global (kbd "gtd") 'lsp-goto-type-definition)
 (evil-define-key 'normal 'global (kbd "gk") 'lsp-describe-thing-at-point)
@@ -264,6 +332,10 @@
 ;; let's also install and setup magit
 (unless (package-installed-p 'magit)
   (package-install 'magit))
+;; and git-gutter
+(unless (package-installed-p 'git-gutter)
+  (package-install 'git-gutter))
+(global-git-gutter-mode +1)
 
 ;; and which-key for ez completions and reminders
 (unless (package-installed-p 'which-key)
@@ -287,12 +359,6 @@
 (use-package vterm
   :ensure t)
 (evil-define-key 'normal 'global (kbd "<SPC> o t") 'vterm)
-
-;; and diffs with vdiff
-(unless (package-installed-p 'vdiff)
-  (package-install 'vdiff))
-(require 'vdiff)
-(evil-define-key 'normal vdiff-mode-map "," vdiff-mode-prefix-map)
 
 ;; enable multicursor support
 (unless (package-installed-p 'multiple-cursor)
