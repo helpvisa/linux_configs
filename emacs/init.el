@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(global-display-line-numbers-mode t)
  '(package-selected-packages
-   '(evil-collection vdiff vterm writeroom-mode flycheck which-key magit highlight-indent-guides editorconfig popwin neotree company evil))
+   '(git-gutter magit multiple-cursors evil-collection vdiff vterm writeroom-mode flycheck which-key highlight-indent-guides editorconfig popwin neotree company evil))
  '(tool-bar-mode nil)
  '(treesit-font-lock-level 4))
 
@@ -20,10 +20,11 @@
 (setq default-frame-alist '((width . 90)
                             (height . 36)))
 
-;; disable toolbars
+;; disable toolbars, enable tabs
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+(tab-bar-mode 1)
 
 ;; enable recent files
 (recentf-mode 1)
@@ -31,13 +32,18 @@
 
 ;; make emacs create all backup files in a very particular directory,
 ;; and make sure that backups are created as copies of the original file
-(setq backup-directory-alist `(("." . "~/.emacs-backups")))
+(setq backup-directory-alist `(("." . "~/.emacs-backups/")))
 (setq backup-by-copying t)
 ;; change the number of held backups
 (setq delete-old-versions t
       kept-new-version 6
-      kept-old-versions 2
+      kept-old-versions 3
       version-control t)
+;; also change autosave directory
+(setq auto-save-file-name-transforms `((".*" "~/.emacs-autosaves/\1" t)))
+;; make the directories too in case they don't exist
+(make-directory "~/.emacs-backups/" t)
+(make-directory "~/.emacs-autosaves/" t)
 
 ;; define func that creates emacs ctags files in a specified directory
 (setq path-to-ctags "/usr/bin/ctags")
@@ -66,6 +72,12 @@
 ;; enable fido mode with vertical completions
 (fido-mode t)
 (icomplete-vertical-mode t)
+
+;; ediff in vertical mode by default while we're at it
+(custom-set-variables
+ '(ediff-window-setup-function 'ediff-setup-windows-plain)
+ '(ediff-diff-options "-w")
+ '(ediff-split-window-function 'split-window-horizontally))
 
 ;; enable flyspell, auto-fill, and writeroom if being used as email writer
 (add-to-list 'auto-mode-alist '("/tmp/mutt*" . mail-mode))
@@ -195,6 +207,19 @@
 (unless (package-installed-p 'company)
   (package-install 'company))
 (company-mode 1)
+;; do not automatically complete to suggestion on pressing RET
+(dolist (key '("<return>" "RET"))
+  (define-key company-active-map (kbd key)
+              `(menu-item nil company-complete
+                          :filter ,(lambda (cmd)
+                                     (when (company-explicit-action-p)
+                                       cmd)))))
+;; TAB not working correctly, is it evil's fault? Complete can be done with M-1
+(define-key company-active-map (kbd "TAB") #'company-complete-selection)
+(define-key company-active-map (kbd "SPC") nil)
+;; company sometimes ovverrides keymaps based on company-auto-complete-chars
+;; turn this off to prevent that behaviour
+(setq company-auto-complete-chars nil)
 
 ;; download and enable evil
 (unless (package-installed-p 'evil)
@@ -286,7 +311,7 @@ corresponding to the characters of this string are shown."
 (evil-define-key 'normal 'global (kbd "gbh") 'flymake-show-buffer-diagnostics)
 (evil-define-key 'normal 'global (kbd "gBh") 'flymake-show-project-diagnostics)
 
-;; download and enable pycheck for diagnostics under cursor
+;; download and enable flycheck for diagnostics under cursor
 (unless (package-installed-p 'flycheck)
   (package-install 'flycheck))
 (global-flycheck-mode +1)
