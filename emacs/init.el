@@ -114,16 +114,17 @@
 ;; remove last character from a given line
 (defun remove-last-character-from-line (line)
   "Remove the final character from a given line."
-  (substring line 0 (- (string-width line) 1)))
+  (substring line 0 (string-width line)))
 
 ;; get contents of a given line from a given buffer
 (defun get-line-at-point-from-given-buffer (buffer line)
   "Given a buffer and line position, return a preview of the line."
-  (let (oldpos line_preview))
-  (setq oldpos (point))
-  (setq line_preview (with-current-buffer buffer (goto-line line) (thing-at-point 'line)))
-  (goto-char oldpos)
-  (remove-last-character-from-line line_preview))
+  (let (preview))
+  (save-excursion
+    (set-buffer buffer)
+    (goto-line line)
+    (setq preview (thing-at-point 'line)))
+  (remove-last-character-from-line preview))
 
 ;; toggle lsp
 (defun connect-or-disconnect-lsp ()
@@ -293,10 +294,10 @@ corresponding to the characters of this string are shown."
         :name "evil-marks"
         :mode-name "Evil Marks"
         :format [("Mark" 6 nil)
-                ("Line Number" 12 nil)
-                ("Column" 8 nil)
-                ("Buffer" 18 nil)
-                ("Line Preview" 1000 nil)]
+                ("Line" 6 nil)
+                ("Col" 6 nil)
+                ("Buffer" 24 nil)
+                ("Preview" 1000 nil)]
         :entries (cl-loop for m in (sort all-markers (lambda (a b) (< (car a) (car b))))
                         collect `(nil [,(char-to-string (nth 0 m))
                                         ,(number-to-string (nth 1 m))
