@@ -3,9 +3,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ediff-diff-options "-w")
+ '(ediff-split-window-function 'split-window-horizontally)
+ '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(global-display-line-numbers-mode t)
  '(package-selected-packages
-   '(git-gutter magit multiple-cursors evil-collection vdiff vterm writeroom-mode flycheck which-key highlight-indent-guides editorconfig popwin neotree company evil))
+   '(git-gutter magit multiple-cursors evil-collection vdiff vterm writeroom-mode
+                flycheck which-key highlight-indent-guides editorconfig popwin
+                neotree company evil))
+ '(tab-bar-mode t)
  '(tool-bar-mode nil)
  '(treesit-font-lock-level 4))
 
@@ -72,12 +78,26 @@
 ;; enable fido mode with vertical completions
 (fido-mode t)
 (icomplete-vertical-mode t)
-
-;; ediff in vertical mode by default while we're at it
-(custom-set-variables
- '(ediff-window-setup-function 'ediff-setup-windows-plain)
- '(ediff-diff-options "-w")
- '(ediff-split-window-function 'split-window-horizontally))
+;; also add completion-preview-mode into most buffers
+;; code buffers
+(add-hook 'prog-mode-hook #'completion-preview-mode)
+;; text buffers
+(add-hook 'text-mode-hook #'completion-preview-mode)
+;; and in shell
+(with-eval-after-load 'comint
+  (add-hook 'comint-mode-hook #'completion-preview-mode))
+;; change some settings for completion-preview-mode
+(with-eval-after-load 'completion-preview
+  ;; show after two chars
+  (setq completion-preview-minimum-symbol-length 2)
+  ;; non-standard commands that should show preview
+  (push 'org-self-insert-command completion-preview-commands)
+  (push 'paredit-backward-delete completion-preview-commands)
+  ;; some custom bindings
+  (keymap-set completion-preview-active-mode-map "M-n" #'completion-preview-next-candidate)
+  (keymap-set completion-preview-active-mode-map "M-p" #'completion-preview-prev-candidate)
+  ;; and select after cycling
+  (keymap-set completion-preview-active-mode-map "M-i" #'completion-preview-insert))
 
 ;; enable flyspell, auto-fill, and writeroom if being used as email writer
 (add-to-list 'auto-mode-alist '("/tmp/mutt*" . mail-mode))
