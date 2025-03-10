@@ -258,13 +258,12 @@
 (evil-collection-init 'magit)
 (evil-collection-init 'ediff)
 ;; custom evil keybinds
-;; rewrite of evil-show-marks but with line preview
-(evil-define-command evil-show-marks-with-preview (mrks)
-  "Show all marks with line previews.
+;; split evil-show-marks into components
+(evil-define-command evil-gather-marks (mrks)
+  "Gather marks from evil-markers-alist. Call in other funcs.
 If MRKS is non-nil it should be a string and only registers
 corresponding to the characters of this string are shown."
   :repeat nil
-  (interactive "<a>")
   (let ((all-markers
         (append (cl-remove-if (lambda (m)
                                 (or (evil-global-marker-p (car m))
@@ -289,7 +288,14 @@ corresponding to the characters of this string are shown."
                                 (line-number-at-pos (point))
                                 (current-column)
                                 (buffer-name)))))
-                    all-markers))
+                    all-markers))))
+
+(evil-define-command evil-show-marks-with-preview (mrks)
+  "Show all marks with line previews."
+  :repeat nil
+  (interactive "<a>")
+  (let (all-markers))
+  (setq all-markers (evil-gather-marks mrks))
     (evil-with-view-list
         :name "evil-marks"
         :mode-name "Evil Marks"
@@ -305,49 +311,27 @@ corresponding to the characters of this string are shown."
                                         (,(nth 3 m))
                                         ,(get-line-at-point-from-given-buffer
                                         (nth 3 m) (nth 1 m))]))
-        :select-action #'evil--show-marks-select-action)))
-;; another rewrite that returns all marks as a list
-(evil-define-command evil-get-and-return-marks (mrks)
-  "Return list of all marks with line previews.
-If MRKS is non-nil it should be a string and only registers
-corresponding to the characters of this string are shown."
-  :repeat nil
-  (let ((all-markers
-        (append (cl-remove-if (lambda (m)
-                                (or (evil-global-marker-p (car m))
-                                    (not (markerp (cdr m)))))
-                                evil-markers-alist)
-                (cl-remove-if (lambda (m)
-                                (or (not (evil-global-marker-p (car m)))
-                                    (not (markerp (cdr m)))))
-                                (default-value 'evil-markers-alist)))))
-    (when mrks
-        (setq mrks (string-to-list mrks))
-        (setq all-markers (cl-delete-if (lambda (m)
-                                        (not (member (car m) mrks)))
-                                        all-markers)))
-    ;; map marks to list of 4-tuples (char row col file)
-    (setq all-markers
-            (mapcar (lambda (m)
-                    (with-current-buffer (marker-buffer (cdr m))
-                        (save-excursion
-                        (goto-char (cdr m))
-                        (list (car m)
-                                (line-number-at-pos (point))
-                                (current-column)
-                                (buffer-name)))))
-                    all-markers))
-    (let (final-list))
+    :select-action #'evil--show-marks-select-action))
+
+(evil-define-command evil-format-marks (mrks)
+  "Format the marks into a string that can be used in other prompts / displays."
+  (let (all-markers))
+  (setq all-markers (evil-gather-marks mrks))
     (setq final-list (cl-loop for m in (sort all-markers (lambda (a b) (< (car a) (car b))))
                               collect (concat
                                        (byte-to-string (nth 0 m))
+                                     " in "
+                                     (nth 3 m)
+                                     " -> "
+                                     (string-clean-whitespace
                                        (get-line-at-point-from-given-buffer
                                         (nth 3 m) (nth 1 m)))))))
-;; regular function def that acts on returned marks to jump with minibuffer
-(defun evil-select-mark-from-list ()
-  (interactive)
+
+(evil-define-command evil-select-mark-from-list (mrks)
+  "Show all marks in a minibuffer and select from them."
+  (interactive "<a>")
   (let (selection))
-  (setq selection (completing-read "Select mark: " (evil-get-and-return-marks nil)))
+  (setq selection (completing-read "Select mark: " (evil-format-marks nil)))
   (evil-goto-mark (string-to-char (substring selection 0 1))))
 
 ;; other custom keymaps
