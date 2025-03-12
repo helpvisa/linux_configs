@@ -223,6 +223,12 @@
 (add-hook 'sh-mode-hook #'lsp)
 ;; enable in most programming modes anyway
 ;; (add-hook 'prog-mode-hook #'lsp)
+;; also download lsp-mode for java
+(unless (package-installed-p 'lsp-java)
+  (package-install 'lsp-java))
+(require 'lsp-java)
+(add-hook 'java-mode-hook #'lsp)
+(add-hook 'java-ts-mode-hook #'lsp)
 
 ;; download and enable company
 (unless (package-installed-p 'company)
@@ -257,6 +263,7 @@
   (package-install 'evil-collection))
 (evil-collection-init 'magit)
 (evil-collection-init 'ediff)
+(evil-collection-init 'dired)
 ;; custom evil keybinds
 ;; split evil-show-marks into components
 (evil-define-command evil-gather-marks (mrks)
@@ -442,6 +449,15 @@ corresponding to the characters of this string are shown."
 (evil-define-key 'normal 'global (kbd "C-c n") 'mc/mark-next-like-this)
 (evil-define-key 'normal 'global (kbd "C-c p") 'mc/mark-previous-like-this)
 (evil-define-key 'normal 'global (kbd "C-c a") 'mc/mark-all-like-this)
+
+;; download and enable slime
+(unless (package-installed-p 'slime)
+  (package-install 'slime))
+(require 'slime)
+(slime-setup '(slime-fancy slime-quicklisp slime-asdf slime-mrepl))
+;; make sure inferior-lisp-program is correct
+;; emacs looks for "lisp" for some reason
+(setq inferior-lisp-program "/usr/bin/sbcl")
 
 
 (provide 'init)
