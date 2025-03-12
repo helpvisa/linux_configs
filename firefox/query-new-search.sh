@@ -1,16 +1,32 @@
 #!/bin/sh
 # requires activate-window-by-title and window-calls extensions
 
+# SELECTION=$(printf "%s" "" \
+#     | fzf --bind=enter:replace-query+print-query \
+#     --style=minimal \
+#     --layout=reverse --margin 3% --prompt='search the web: ')
 SELECTION=$(printf "%s" "" \
-    | fzf --bind=enter:replace-query+print-query \
-    --style=minimal \
-    --layout=reverse --margin 3% --prompt='search the web: ')
-# SELECTION=$(BEMENU_BACKEND=curses bemenu -i -p 'raise window:')
+    | BEMENU_BACKEND=curses bemenu -i -l 30 \
+    -H 25 \
+    --counter=always \
+    -p 'search the web <>' \
+    --tb='#222222' \
+    --fb='#222222' \
+    --cb='#222222' \
+    --nb='#222222' \
+    --hb='#333333' \
+    --fbb='#222222' \
+    --sb='#222222' \
+    --ab='#222222' \
+    --scb='#222222' \
+    --tf='#222222' \
+    --tb='#ed5b00' \
+    --hf='#ed5b00')
 
 if [ -z "$SELECTION" ]; then
     printf "%s\n" "no selection made!"
 else
-    if printf "%s" "$SELECTION" | grep -q "\."; then
+    if printf "%s" "$SELECTION" | grep -q "\.ca\|\.com\|\.org\|\.net\|.io"; then
         URL="${SELECTION}"
         SELECTION=$(printf "%s" "$SELECTION" | cut -d'.' -f1)
     else
