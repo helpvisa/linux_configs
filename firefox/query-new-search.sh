@@ -26,7 +26,7 @@ SELECTION=$(printf "%s" "" \
 if [ -z "$SELECTION" ]; then
     printf "%s\n" "no selection made!"
 else
-    if printf "%s" "$SELECTION" | grep -q "\.ca\|\.com\|\.org\|\.net\|.io"; then
+    if printf "%s" "$SELECTION" | grep -q "\.ca\|\.com\|\.org\|\.net\|\.io"; then
         URL="${SELECTION}"
         SELECTION=$(printf "%s" "$SELECTION" | cut -d'.' -f1)
     else

@@ -37,7 +37,7 @@ else
 
     brotab activate "$TAB_ID" 2>/dev/null
     if [ $? -ne 0 ] || [ -z "$(brotab clients)" ]; then
-        if printf "%s" "$SELECTION" | grep -q "\.ca\|\.com\|\.org\|\.net\|.io"; then
+        if printf "%s" "$SELECTION" | grep -q "\.ca\|\.com\|\.org\|\.net\|\.io"; then
             URL="${SELECTION}"
             SELECTION="$(printf "%s" "$SELECTION" | cut -d'.' -f1)"
         else
