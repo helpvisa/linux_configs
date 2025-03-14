@@ -1,12 +1,12 @@
 #!/bin/sh
 # for wlroots compositors
-
-SELECTION=$(ls -1 "$HOME/.password-store" | sed 's/.gpg//' \
-    | BEMENU_BACKEND=wayland bemenu -i -l 59 -f \
+SELECTION=$(find "$HOME/.password-store" -not -name '.*' -type f | \
+    sed 's/.*\.password-store\///' | sed 's/.gpg//' | \
+    BEMENU_BACKEND=wayland bemenu -i -l 59 -f \
     -H 25 \
     --counter=always \
     -p 'copy pass <>' \
-    --fn 'Input Mono 12' \
+    --fn 'IosevkaTerm Nerd Font Medium 12' \
     --tb='#222222' \
     --fb='#222222' \
     --cb='#222222' \
