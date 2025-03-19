@@ -4,7 +4,7 @@
 # SELECTION=$(ls -1 "$HOME/.password-store" | sed 's/.gpg//' \
 #     | fzf --style=minimal --layout=reverse --margin 3% --prompt='copy pass: ')
 SELECTION=$(find "$HOME/.password-store" -not -name '.*' -type f | \
-    sed 's/.*\.password-store\///' | sed 's/.gpg//' | \
+    sed 's/.*\.password-store\///' | sed 's/\.gpg//' | \
     BEMENU_BACKEND=curses bemenu -i -l 30 \
     -H 25 \
     --counter=always \
