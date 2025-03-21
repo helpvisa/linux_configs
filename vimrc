@@ -84,8 +84,8 @@ colorscheme PaperColor
 " autocmd! CursorHold,CursorHoldI * call HighlightWordUnderCursor()
 
 " disable weird syntax highlighting and numbering when composing email in mutt
-autocmd BufNewFile,BufRead /tmp/neomutt* set noautoindent filetype=mail wm=0 tw=75 nonumber
-autocmd BufNewFile,BufRead /tmp/mutt* set noautoindent filetype=mail wm=0 tw=75 nonumber
+autocmd BufNewFile,BufRead /tmp/neomutt* set noautoindent filetype=mail linebreak wrap columns=80 tw=0 wm=0
+autocmd BufNewFile,BufRead /tmp/mutt* set noautoindent filetype=mail linebreak wrap columns=80 tw=0 wm=0
 
 " remap keys
 let mapleader = " "
