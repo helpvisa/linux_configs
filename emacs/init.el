@@ -30,7 +30,6 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
-(tab-bar-mode 1)
 
 ;; enable recent files
 (recentf-mode 1)
@@ -458,6 +457,11 @@ corresponding to the characters of this string are shown."
 ;; make sure inferior-lisp-program is correct
 ;; emacs looks for "lisp" for some reason
 (setq inferior-lisp-program "/usr/bin/sbcl")
+
+;; download and enable simple-httpd
+(unless (package-installed-p 'simple-httpd)
+  (package-install 'simple-httpd))
+(require 'simple-httpd)
 
 
 (provide 'init)
