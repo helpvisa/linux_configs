@@ -25,6 +25,8 @@
 ;; set default size for new frames
 (setq default-frame-alist '((width . 90)
                             (height . 36)))
+;; and set a default PGTK delay
+(setq-default pgtk-wait-for-event-timeout 0)
 
 ;; disable toolbars, enable tabs
 (scroll-bar-mode -1)
@@ -195,10 +197,13 @@
   (setq-local completion-styles '(orderless)))
 (add-hook 'icomplete-minibuffer-setup-hook 'my-icomplete-styles)
 
-;; enable our theme of choice
+;; enable our themes of choice
 (unless (package-installed-p 'catppuccin-theme)
   (package-install 'catppuccin-theme))
-(load-theme 'catppuccin t)
+;; (load-theme 'catppuccin t)
+(unless (package-installed-p 'kuronami-theme)
+  (package-install 'kuronami-theme))
+(load-theme 'kuronami t)
 
 ;; download and enable lsp-mode
 (unless (package-installed-p 'lsp-mode)
@@ -209,6 +214,8 @@
   (setq lsp-keymap-prefix "C-c l")) ;; or 'C-l', 's-l'
   ;; :config
   ;; (lsp-enable-which-key-integration t))
+;; do NOT warn me when lsp-mode does not exist for a given mode
+(setq lsp-warn-no-matched-clients nil)
 ;; setup mode hooks
 (add-hook 'c-mode-hook #'lsp)
 (add-hook 'c-ts-mode-hook #'lsp)
