@@ -183,7 +183,7 @@
 
 ;; enable orderless for fido
 (unless (package-installed-p 'orderless)
-  (package-install 'catppuccin-theme))
+  (package-install 'orderless))
 (use-package orderless
   :ensure t
   :config
