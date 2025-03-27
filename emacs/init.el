@@ -240,6 +240,8 @@
 (unless (package-installed-p 'company)
   (package-install 'company))
 (company-mode 1)
+(add-hook 'after-init-hook 'global-company-mode)
+(add-hook 'after-init-hook 'company-tng-mode)
 ;; do not automatically complete to suggestion on pressing RET
 (dolist (key '("<return>" "RET"))
   (define-key company-active-map (kbd key)
@@ -248,7 +250,7 @@
                                      (when (company-explicit-action-p)
                                        cmd)))))
 ;; TAB not working correctly, is it evil's fault? Complete can be done with M-1
-(define-key company-active-map (kbd "TAB") #'company-complete-selection)
+;; (define-key company-active-map (kbd "tab") 'company-complete-selection)
 (define-key company-active-map (kbd "SPC") nil)
 ;; company sometimes ovverrides keymaps based on company-auto-complete-chars
 ;; turn this off to prevent that behaviour
