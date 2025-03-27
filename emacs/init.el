@@ -158,19 +158,19 @@
           (call-interactively 'backward-delete-char))))))
 ;; rebind backspace to this func
 (global-set-key (kbd "<DEL>") 'backspace-whitespace-to-tab-stop)
+(eval-after-load 'c
+  '(define-key c-mode-map (kbd "<DEL>") 'backspace-whitespace-to-tab-stop))
 
 
 ;; remap major modes for treesitter
-(setq major-mode-remap-alist
- '((bash-mode . bash-ts-mode)
-   (js-mode . js-ts-mode)
-   (typescript-mode . typescript-ts-mode)
-   (json-mode . json-ts-mode)
-   (css-mode . css-ts-mode)
-   (c-mode . c-ts-mode)
-   (cpp-mode . cpp-ts-mode)
-   (java-mode . java-ts-mode)
-   (python-mode . python-ts-mode)))
+; (setq major-mode-remap-alist
+;  '((bash-mode . bash-ts-mode)
+;    (js-mode . js-ts-mode)
+;    (typescript-mode . typescript-ts-mode)
+;    (json-mode . json-ts-mode)
+;    (css-mode . css-ts-mode)
+;    (java-mode . java-ts-mode)
+;    (python-mode . python-ts-mode)))
 
 ;; set up melpa packages
 (require 'package)
@@ -399,21 +399,21 @@ corresponding to the characters of this string are shown."
   (package-install 'highlight-indent-guides))
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 
-;; setup tree-sitter grammar alist
-(setq treesit-language-source-alist
-   '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-     (c "https://github.com/tree-sitter/tree-sitter-c")
-     (html "https://github.com/tree-sitter/tree-sitter-html")
-     (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
-     (css "https://github.com/tree-sitter/tree-sitter-css")
-     (json "https://github.com/tree-sitter/tree-sitter-json")
-     (python "https://github.com/tree-sitter/tree-sitter-python")
-     (bash "https://github.com/tree-sitter/tree-sitter-bash")
-     (java "https://github.com/tree-sitter/tree-sitter-java")))
-;; and install the grammars
-(dolist (lang treesit-language-source-alist)
-  (unless (treesit-language-available-p (car lang))
-    (treesit-install-language-grammar (car lang))))
+;; ;; setup tree-sitter grammar alist
+;; (setq treesit-language-source-alist
+;;    '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+;;      (c "https://github.com/tree-sitter/tree-sitter-c")
+;;      (html "https://github.com/tree-sitter/tree-sitter-html")
+;;      (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+;;      (css "https://github.com/tree-sitter/tree-sitter-css")
+;;      (json "https://github.com/tree-sitter/tree-sitter-json")
+;;      (python "https://github.com/tree-sitter/tree-sitter-python")
+;;      (bash "https://github.com/tree-sitter/tree-sitter-bash")
+;;      (java "https://github.com/tree-sitter/tree-sitter-java")))
+;; ;; and install the grammars
+;; (dolist (lang treesit-language-source-alist)
+;;   (unless (treesit-language-available-p (car lang))
+;;     (treesit-install-language-grammar (car lang))))
 
 ;; let's also install and setup magit
 (unless (package-installed-p 'magit)
