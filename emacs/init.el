@@ -19,6 +19,10 @@
 ;; custom
 ;; update load path
 (add-to-list 'load-path "~/.config/emacs/custom-elisp")
+;; require custom elisp here
+(require 'simpc-mode)
+;; (setq major-mode-remap-alist
+;;  '((c-mode . simpc-mode)))
 ;; uncomment if you want emacs GTK windows to have no titlebar
 ;; (setq default-frame-alist '((undecorated . t)))
 
@@ -216,7 +220,10 @@
   ;; (lsp-enable-which-key-integration t))
 ;; do NOT warn me when lsp-mode does not exist for a given mode
 (setq lsp-warn-no-matched-clients nil)
+;; add modes to language list
+(add-to-list 'lsp-language-id-configuration '(simpc-mode . "c"))
 ;; setup mode hooks
+(add-hook 'simpc-mode-hook #'lsp)
 (add-hook 'c-mode-hook #'lsp)
 (add-hook 'c-ts-mode-hook #'lsp)
 (add-hook 'c++-mode-hook #'lsp)
@@ -252,6 +259,7 @@
 ;; TAB not working correctly, is it evil's fault? Complete can be done with M-1
 ;; (define-key company-active-map (kbd "tab") 'company-complete-selection)
 (define-key company-active-map (kbd "SPC") nil)
+(define-key company-active-map (kbd "t") nil)
 ;; company sometimes ovverrides keymaps based on company-auto-complete-chars
 ;; turn this off to prevent that behaviour
 (setq company-auto-complete-chars nil)
