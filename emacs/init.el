@@ -345,6 +345,8 @@ corresponding to the characters of this string are shown."
                                        (byte-to-string (nth 0 m))
                                      " in "
                                      (nth 3 m)
+                                     ":"
+                                     (number-to-string (nth 1 m))
                                      " -> "
                                      (string-clean-whitespace
                                        (get-line-at-point-from-given-buffer
