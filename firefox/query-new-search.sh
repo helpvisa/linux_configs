@@ -1,12 +1,12 @@
 #!/bin/sh
-# requires activate-window-by-title and window-calls extensions
+# requires my fork of window-calls extension (https://github.com/helpvisa/window-calls)
 
 # SELECTION=$(printf "%s" "" \
 #     | fzf --bind=enter:replace-query+print-query \
 #     --style=minimal \
 #     --layout=reverse --margin 3% --prompt='search the web: ')
-SELECTION=$(printf "%s" "" \
-    | BEMENU_BACKEND=curses bemenu -i -l 30 \
+SELECTION=$( \
+    BEMENU_BACKEND=curses bemenu -i -l 30 \
     -H 25 \
     --counter=always \
     -p 'search the web <>' \
@@ -20,8 +20,8 @@ SELECTION=$(printf "%s" "" \
     --ab='#222222' \
     --scb='#222222' \
     --tf='#222222' \
-    --tb='#ed5b00' \
-    --hf='#ed5b00')
+    --tb='#d97f2b' \
+    --hf='#d97f2b')
 
 if [ -z "$SELECTION" ]; then
     printf "%s\n" "no selection made!"
@@ -67,8 +67,8 @@ else
         # finally raise the acquired window ID
         gdbus call --session \
             --dest org.gnome.Shell \
-            --object-path /de/lucaswerkmeister/ActivateWindowByTitle \
-            --method de.lucaswerkmeister.ActivateWindowByTitle.activateById \
+            --object-path /org/gnome/Shell/Extensions/Windows \
+            --method org.gnome.Shell.Extensions.Windows.Activate \
             "$(printf "%s" "$WINDOW")"
     fi
 fi

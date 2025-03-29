@@ -1,6 +1,6 @@
 #!/bin/sh
 # requires brotab (pipx install brotab)
-# requires activate-window-by-title and window-calls extensions
+# requires my fork of window-calls extension (https://github.com/helpvisa/window-calls)
 
 LIST=$(brotab list)
 # SELECTION=$(printf "%s" "$LIST" \
@@ -22,8 +22,8 @@ SELECTION=$(printf "%s" "$LIST" \
     --ab='#222222' \
     --scb='#222222' \
     --tf='#222222' \
-    --tb='#ed5b00' \
-    --hf='#ed5b00')
+    --tb='#d97f2b' \
+    --hf='#d97f2b')
 
 if [ -z "$SELECTION" ]; then
     printf "%s\n" "no selection made!"
@@ -78,9 +78,9 @@ else
     WINDOW=$(printf "%s" "$WINDOW" | head -n1)
 
     # finally raise the acquired window ID
-    gdbus call --session \
-        --dest org.gnome.Shell \
-        --object-path /de/lucaswerkmeister/ActivateWindowByTitle \
-        --method de.lucaswerkmeister.ActivateWindowByTitle.activateById \
+        gdbus call --session \
+            --dest org.gnome.Shell \
+            --object-path /org/gnome/Shell/Extensions/Windows \
+            --method org.gnome.Shell.Extensions.Windows.Activate \
         "$(printf "%s" "$WINDOW")"
 fi
