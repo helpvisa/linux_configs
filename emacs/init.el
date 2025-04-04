@@ -65,6 +65,47 @@
    (format "%s -f TAGS -e -R %s" path-to-ctags (directory-file-name dir-name)))
 )
 
+;; parameters functions to save and restore window splits
+(defvar th-frame-config-register ?°
+  "The register which is used for storing and restoring frame
+configurations by `th-save-frame-configuration' and
+`th-jump-to-register'.")
+
+(defun th-save-frame-configuration (arg)
+  "Stores the current frame configuration in register
+`th-frame-config-register'. If a prefix argument is given, you
+can choose which register to use."
+  (interactive "P")
+  (let ((register (if arg
+                      (read-char "Which register? ")
+                    th-frame-config-register)))
+    (frame-configuration-to-register register)
+    (message "Frame configuration saved in register '%c'."
+             register)))
+
+(defun th-jump-to-register (arg)
+  "Jumps to register `th-frame-config-register'. If a prefix
+argument is given, you can choose which register to jump to."
+  (interactive "P")
+  (let ((register (if arg
+                      (read-char "Which register? ")
+                    th-frame-config-register)))
+    (jump-to-register register)
+    (message "Jumped to register '%c'."
+             register)))
+
+(global-set-key (kbd "<f5>")
+                'th-save-frame-configuration)
+(global-set-key (kbd "<f9>")
+                'th-jump-to-register)
+;; now use desktop-save-mode to persist across restarts
+;; but disable for terminal...
+(when (display-graphic-p)
+  (desktop-save-mode 1)
+  ;; add register to desktop-save-mode globals
+  (add-to-list 'desktop-globals-to-save 'register-alist)
+  ())
+
 ;; change default indentation options
 (setq-default indent-tabs-mode nil) ;; indent with spaces
 (setq-default tab-width 4) ;; and set a default indentation width
@@ -221,7 +262,7 @@
 ;; do NOT warn me when lsp-mode does not exist for a given mode
 (setq lsp-warn-no-matched-clients nil)
 ;; add modes to language list
-(add-to-list 'lsp-language-id-configuration '(simpc-mode . "c"))
+;; (add-to-list 'lsp-language-id-configuration '(simpc-mode . "c"))
 ;; setup mode hooks
 (add-hook 'simpc-mode-hook #'lsp)
 (add-hook 'c-mode-hook #'lsp)
