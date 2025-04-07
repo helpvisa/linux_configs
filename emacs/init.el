@@ -203,7 +203,8 @@ argument is given, you can choose which register to jump to."
           (call-interactively 'backward-delete-char))))))
 ;; rebind backspace to this func
 (global-set-key (kbd "<DEL>") 'backspace-whitespace-to-tab-stop)
-(eval-after-load 'c
+(require 'cc-mode)
+(eval-after-load 'cc-mode
   '(define-key c-mode-map (kbd "<DEL>") 'backspace-whitespace-to-tab-stop))
 
 
