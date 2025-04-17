@@ -83,16 +83,30 @@ colorscheme PaperColor
 " endfunction
 " autocmd! CursorHold,CursorHoldI * call HighlightWordUnderCursor()
 
+" define a function to toggle word wrapping
+let s:wrapenabled = 0
+function! ToggleWrap()
+    if s:wrapenabled
+        set nolinebreak
+        set nowrap
+        let s:wrapenabled = 0
+    else
+        set linebreak
+        set wrap
+        let s:wrapenabled = 1
+    endif
+endfunction
+
 " disable weird syntax highlighting and numbering when composing email in mutt
 autocmd BufNewFile,BufRead /tmp/neomutt* set noautoindent filetype=mail linebreak wrap columns=80 tw=0 wm=0
 autocmd BufNewFile,BufRead /tmp/mutt* set noautoindent filetype=mail linebreak wrap columns=80 tw=0 wm=0
 
 " remap keys
 let mapleader = " "
+" toggle word wrap
+map <leader>w :call ToggleWrap()<CR>
 " quickly compile project
 nnoremap <leader>b :make<CR>
-" window navigation
-nnoremap <leader>w <c-w>
 " nerdtree
 nnoremap <leader>e :NERDTreeToggle<CR>
 nnoremap <leader>Ef :NerdTreeFind<CR>
