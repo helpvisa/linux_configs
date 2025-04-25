@@ -6,6 +6,7 @@
  '(ediff-diff-options "-w")
  '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
+ '(display-line-numbers-type 'relative)
  '(global-display-line-numbers-mode t)
  '(package-selected-packages
    '(git-gutter magit multiple-cursors evil-collection vdiff vterm writeroom-mode
@@ -484,12 +485,12 @@ corresponding to the characters of this string are shown."
 (which-key-mode)
 
 ;; use popwin to free us of annoying splits for *help* and such
-(unless (package-installed-p 'popwin)
-  (package-install 'popwin))
-(require 'popwin)
-(popwin-mode 1)
+;; (unless (package-installed-p 'popwin)
+;;   (package-install 'popwin))
+;; (require 'popwin)
+;; (popwin-mode 1)
 ;; and setup some custom modes for our annoying *lsp-help* buffers
-(push "*lsp-help*" popwin:special-display-config)
+;; (push "*lsp-help*" popwin:special-display-config)
 
 ;; writeroom for distraction-free writing
 (unless (package-installed-p 'writeroom-mode)
@@ -523,6 +524,41 @@ corresponding to the characters of this string are shown."
 (unless (package-installed-p 'simple-httpd)
   (package-install 'simple-httpd))
 (require 'simple-httpd)
+
+;; allow changing the cursor appearance in the terminal
+(unless (package-installed-p 'evil-terminal-cursor-changer)
+  (package-install 'evil-terminal-cursor-changer))
+(require 'evil-terminal-cursor-changer)
+(etcc-on)
+
+;; download and enable evil-rsi-mode
+(define-minor-mode evil-rsi-mode
+  "Rsi mode."
+  :lighter " rsi"
+  :global t
+  :keymap (let ((map (make-sparse-keymap)))
+            (evil-define-key 'insert map "\C-o" #'evil-execute-in-normal-state)
+            (evil-define-key 'insert map "\C-r" #'evil-paste-from-register)
+            (evil-define-key 'insert map "\C-v" #'quoted-insert)
+            (evil-define-key 'insert map (kbd "C-S-k") #'evil-insert-digraph)
+            (evil-define-key 'insert map "\C-e" #'end-of-line)
+            (when evil-want-C-w-delete
+              (evil-define-key 'insert map "\C-w" #'evil-delete-backward-word))
+            map)
+  (if evil-rsi-mode
+      (progn
+        (evil-update-insert-state-bindings nil t)
+        (when evil-want-C-w-delete
+          (define-key minibuffer-local-map [remap kill-region] #'evil-delete-backward-word))
+        (define-key evil-ex-completion-map [remap evil-insert-digraph] #'kill-line)
+        (define-key evil-ex-completion-map "\C-S-k" #'evil-insert-digraph)
+        (define-key evil-ex-completion-map "\C-a" #'beginning-of-line))
+    (evil-update-insert-state-bindings)
+    (define-key minibuffer-local-map [remap kill-region] nil)
+    (define-key evil-ex-completion-map [remap evil-insert-digraph] nil)
+    (define-key evil-ex-completion-map "\C-a" #'evil-ex-completion)))
+;; now enable the minor mode
+(evil-rsi-mode)
 
 
 (provide 'init)
