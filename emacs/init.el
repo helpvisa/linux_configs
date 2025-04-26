@@ -8,11 +8,6 @@
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(display-line-numbers-type 'relative)
  '(global-display-line-numbers-mode t)
- '(package-selected-packages
-   '(git-gutter magit multiple-cursors evil-collection vdiff vterm writeroom-mode
-                flycheck which-key highlight-indent-guides editorconfig popwin
-                neotree company evil))
- '(tab-bar-mode t)
  '(tool-bar-mode nil)
  '(treesit-font-lock-level 4))
 
@@ -252,6 +247,10 @@ argument is given, you can choose which register to jump to."
   (package-install 'kuronami-theme))
 (load-theme 'kuronami t)
 
+;; acquire lua-mode
+(unless (package-installed-p 'lua-mode)
+  (package-install 'lua-mode))
+
 ;; download and enable lsp-mode
 (unless (package-installed-p 'lsp-mode)
   (package-install 'lsp-mode))
@@ -277,6 +276,7 @@ argument is given, you can choose which register to jump to."
 (add-hook 'js2-mode-hook #'lsp)
 (add-hook 'js-ts-mode-hook #'lsp)
 (add-hook 'sh-mode-hook #'lsp)
+(add-hook 'lua-mode-hook #'lsp)
 ;; enable in most programming modes anyway
 ;; (add-hook 'prog-mode-hook #'lsp)
 ;; also download lsp-mode for java
