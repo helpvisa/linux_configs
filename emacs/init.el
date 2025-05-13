@@ -52,6 +52,11 @@
 (make-directory "~/.emacs-backups/" t)
 (make-directory "~/.emacs-autosaves/" t)
 
+;; change the default view up / view down keys to be half-view
+(require 'view)
+(define-key global-map (kbd "C-v") 'View-scroll-half-page-forward)
+(define-key global-map (kbd "M-v") 'View-scroll-half-page-backward)
+
 ;; define func that creates emacs ctags files in a specified directory
 (setq path-to-ctags "/usr/bin/ctags")
 (defun create-tags (dir-name)
@@ -120,26 +125,26 @@ argument is given, you can choose which register to jump to."
 ;; enable fido mode with vertical completions
 (fido-mode t)
 (icomplete-vertical-mode t)
-;; also add completion-preview-mode into most buffers
-;; code buffers
-(add-hook 'prog-mode-hook #'completion-preview-mode)
-;; text buffers
-(add-hook 'text-mode-hook #'completion-preview-mode)
-;; and in shell
-(with-eval-after-load 'comint
-  (add-hook 'comint-mode-hook #'completion-preview-mode))
-;; change some settings for completion-preview-mode
-(with-eval-after-load 'completion-preview
-  ;; show after two chars
-  (setq completion-preview-minimum-symbol-length 2)
-  ;; non-standard commands that should show preview
-  (push 'org-self-insert-command completion-preview-commands)
-  (push 'paredit-backward-delete completion-preview-commands)
-  ;; some custom bindings
-  (keymap-set completion-preview-active-mode-map "M-n" #'completion-preview-next-candidate)
-  (keymap-set completion-preview-active-mode-map "M-p" #'completion-preview-prev-candidate)
-  ;; and select after cycling
-  (keymap-set completion-preview-active-mode-map "M-i" #'completion-preview-insert))
+;; ;; also add completion-preview-mode into most buffers
+;; ;; code buffers
+;; (add-hook 'prog-mode-hook #'completion-preview-mode)
+;; ;; text buffers
+;; (add-hook 'text-mode-hook #'completion-preview-mode)
+;; ;; and in shell
+;; (with-eval-after-load 'comint
+;;   (add-hook 'comint-mode-hook #'completion-preview-mode))
+;; ;; change some settings for completion-preview-mode
+;; (with-eval-after-load 'completion-preview
+;;   ;; show after two chars
+;;   (setq completion-preview-minimum-symbol-length 2)
+;;   ;; non-standard commands that should show preview
+;;   (push 'org-self-insert-command completion-preview-commands)
+;;   (push 'paredit-backward-delete completion-preview-commands)
+;;   ;; some custom bindings
+;;   (keymap-set completion-preview-active-mode-map "M-n" #'completion-preview-next-candidate)
+;;   (keymap-set completion-preview-active-mode-map "M-p" #'completion-preview-prev-candidate)
+;;   ;; and select after cycling
+;;   (keymap-set completion-preview-active-mode-map "M-i" #'completion-preview-insert))
 
 ;; enable flyspell, auto-fill, and writeroom if being used as email writer
 (add-to-list 'auto-mode-alist '("/tmp/mutt*" . mail-mode))
