@@ -28,10 +28,14 @@
 ;; and set a default PGTK delay
 (setq-default pgtk-wait-for-event-timeout 0)
 
-;; disable toolbars, enable tabs
+;; disable toolbars
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+;; and enable xterm-mouse-mode for terminal mouse interaction
+(xterm-mouse-mode 1)
+;; enable global line wrapping too
+(global-visual-line-mode 1)
 
 ;; enable recent files
 (recentf-mode 1)
@@ -54,8 +58,10 @@
 
 ;; change the default view up / view down keys to be half-view
 (require 'view)
-(define-key global-map (kbd "C-v") 'View-scroll-half-page-forward)
-(define-key global-map (kbd "M-v") 'View-scroll-half-page-backward)
+(global-set-key "\C-v" 'View-scroll-half-page-forward)
+(global-set-key "\M-v" 'View-scroll-half-page-backward)
+(global-set-key [?\C-\S-v] 'View-scroll-line-forward)
+(global-set-key "\M-\S-v" 'View-scroll-line-backward)
 
 ;; define func that creates emacs ctags files in a specified directory
 (setq path-to-ctags "/usr/bin/ctags")
@@ -108,8 +114,9 @@ argument is given, you can choose which register to jump to."
   ())
 
 ;; change default indentation options
+(setq-default tab-width 8) ;; and set a default indentation width
 (setq-default indent-tabs-mode nil) ;; indent with spaces
-(setq-default tab-width 4) ;; and set a default indentation width
+(setq-default standard-indent 4)
 (setq-default c-basic-offset 4)
 (setq-default c-ts-mode-indent-offset 4)
 (setq-default c-indent-level 4)
@@ -155,9 +162,31 @@ argument is given, you can choose which register to jump to."
                             (flyspell-mode)
                             (display-line-numbers-mode 0)
                             (message "Activating mail-mode hooks.")))
-
+;; do the same for markdown mode
+(add-hook 'markdown-mode-hook (lambda ()
+                                (setq indent-tabs-mode nil)
+                                (setq tab-width 4)
+                                (setq indent-line-function (quote insert-tab))
+                                (flyspell-mode)))
+(add-hook 'markdown-ts-mode-hook (lambda ()
+                                   (setq indent-tabs-mode nil)
+                                   (setq tab-width 4)
+                                   (setq indent-line-function (quote insert-tab))
+                                   (flyspell-mode)))
+;; enable adaptive line wrapping in *all* modes
+(add-hook 'prog-mode-hook #'adaptive-wrap-prefix-mode)
+(add-hook 'text-mode-hook #'adaptive-wrap-prefix-mode)
+(with-eval-after-load 'comint
+  (add-hook 'comint-mode-hook #'adaptive-wrap-prefix-mode))
 
 ;; custom functions
+;; call a shell command on the current file
+(defun shell-command-on-current-file (command)
+  "run a command using the current file as input"
+  (interactive "sUse file in command: ")
+  (let ((new-command (concat command " " (file-name-nondirectory buffer-file-name))))
+    (shell-command new-command)))
+
 ;; remove last character from a given line
 (defun remove-last-character-from-line (line)
   "Remove the final character from a given line."
@@ -250,7 +279,6 @@ argument is given, you can choose which register to jump to."
 ;; (load-theme 'catppuccin t)
 (unless (package-installed-p 'kuronami-theme)
   (package-install 'kuronami-theme))
-(load-theme 'kuronami t)
 
 ;; acquire lua-mode
 (unless (package-installed-p 'lua-mode)
@@ -319,15 +347,15 @@ argument is given, you can choose which register to jump to."
 (setq evil-want-fine-undo 'fine) ;; enable undo like vim
 (setq evil-want-keybinding 'nil)
 (require 'evil)
-(evil-mode 1)
+;; (evil-mode 1)
 ;; setup undo system
 (evil-set-undo-system 'undo-redo)
 ;; load from evil-collection (mode-by-mode)
 (unless (package-installed-p 'evil-collection)
   (package-install 'evil-collection))
-(evil-collection-init 'magit)
-(evil-collection-init 'ediff)
-(evil-collection-init 'dired)
+;; (evil-collection-init 'magit)
+;; (evil-collection-init 'ediff)
+;; (evil-collection-init 'dired)
 ;; custom evil keybinds
 ;; split evil-show-marks into components
 (evil-define-command evil-gather-marks (mrks)
@@ -408,29 +436,60 @@ corresponding to the characters of this string are shown."
   (evil-goto-mark (string-to-char (substring selection 0 1))))
 
 ;; other custom keymaps
+;; use a minor-mode to prevent stupid major-modes from rebinding C-c commands
+;; add to `emulation-mode-map-alists` so it also takes precedence over other
+;; miscreant minor-modes
+(defvar my/keys-keymap (make-keymap)
+  "Keymap for my/keys-mode.")
+(define-minor-mode my/keys-mode
+  "Minor mode to prevent major-modes from overwriting custom keybinds."
+  :init-value t
+  :global t
+  :keymap my/keys-keymap)
+(add-to-list 'emulation-mode-map-alists
+             `((my/keys-mode . ,my/keys-keymap)))
+(my/keys-mode)
+;; pane travels for standard emacs bindings
+(define-key my/keys-keymap (kbd "C-c C-w h") 'evil-window-left)
+(define-key my/keys-keymap (kbd "C-c C-w l") 'evil-window-right)
+(define-key my/keys-keymap (kbd "C-c C-w k") 'evil-window-up)
+(define-key my/keys-keymap (kbd "C-c C-w j") 'evil-window-down)
 ;; toggle lsp and flycheck
+(define-key my/keys-keymap (kbd "C-c C-a a") 'flycheck-mode)
+(define-key my/keys-keymap (kbd "C-c C-a A") 'connect-or-disconnect-lsp)
 (evil-define-key 'normal 'global (kbd "<SPC> A") 'connect-or-disconnect-lsp)
 (evil-define-key 'normal 'global (kbd "<SPC> a") 'flycheck-mode)
 ;; setup extra evil keybinds 
 (evil-define-key 'normal 'global "gcc" 'comment-line)
 (evil-define-key 'visual 'global "gc" 'comment-or-uncomment-region)
+(define-key my/keys-keymap (kbd "C-c C-r") 'recentf)
 (evil-define-key 'normal 'global (kbd "<SPC> r f") 'recentf)
 (evil-define-key 'normal 'global (kbd "<SPC> o f") 'find-file)
 (evil-define-key 'normal 'global (kbd "<SPC> ,") 'switch-to-buffer)
+(define-key my/keys-keymap (kbd "C-c C-s") 'lgrep)
 (evil-define-key 'normal 'global (kbd "<SPC> g") 'rgrep)
 (evil-define-key 'normal 'global (kbd "<SPC> l g") 'lgrep)
 (evil-define-key 'normal 'global (kbd "<SPC> m") 'evil-select-mark-from-list)
 (evil-define-key 'normal 'global (kbd "<SPC> M") 'evil-show-marks-with-preview)
 (evil-define-key 'normal 'global (kbd "<SPC> t") 'tags-search)
+(define-key my/keys-keymap (kbd "C-c C-a d") 'lsp-goto-type-definition)
 (evil-define-key 'normal 'global (kbd "gtd") 'lsp-goto-type-definition)
+(define-key my/keys-keymap (kbd "C-c C-a K") 'lsp-describe-thing-at-point)
 (evil-define-key 'normal 'global (kbd "gk") 'lsp-describe-thing-at-point)
+(define-key my/keys-keymap (kbd "C-c C-a D") 'lsp-find-definition)
 (evil-define-key 'normal 'global (kbd "gd") 'lsp-find-definition)
+(define-key my/keys-keymap (kbd "C-c C-a r") 'lsp-find-references)
 (evil-define-key 'normal 'global (kbd "gr") 'lsp-find-references)
+(define-key my/keys-keymap (kbd "C-c C-a i") 'lsp-find-implementation)
 (evil-define-key 'normal 'global (kbd "gi") 'lsp-find-implementation)
+(define-key my/keys-keymap (kbd "C-c C-a n") 'lsp-rename)
 (evil-define-key 'normal 'global (kbd "<SPC> r n") 'lsp-rename)
+(define-key my/keys-keymap (kbd "C-c C-a h") 'display-local-help)
 (evil-define-key 'normal 'global (kbd "gh") 'display-local-help)
 (evil-define-key 'normal 'global (kbd "gbh") 'flymake-show-buffer-diagnostics)
 (evil-define-key 'normal 'global (kbd "gBh") 'flymake-show-project-diagnostics)
+(define-key my/keys-keymap (kbd "M-C-1") 'shell-command-on-current-file)
+(evil-define-key 'normal 'global (kbd "M-C-1") 'shell-command-on-current-file)
 
 ;; download and enable flycheck for diagnostics under cursor
 (unless (package-installed-p 'flycheck)
@@ -459,21 +518,26 @@ corresponding to the characters of this string are shown."
   (package-install 'highlight-indent-guides))
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 
-;; ;; setup tree-sitter grammar alist
-;; (setq treesit-language-source-alist
-;;    '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-;;      (c "https://github.com/tree-sitter/tree-sitter-c")
-;;      (html "https://github.com/tree-sitter/tree-sitter-html")
-;;      (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
-;;      (css "https://github.com/tree-sitter/tree-sitter-css")
-;;      (json "https://github.com/tree-sitter/tree-sitter-json")
-;;      (python "https://github.com/tree-sitter/tree-sitter-python")
-;;      (bash "https://github.com/tree-sitter/tree-sitter-bash")
-;;      (java "https://github.com/tree-sitter/tree-sitter-java")))
-;; ;; and install the grammars
-;; (dolist (lang treesit-language-source-alist)
-;;   (unless (treesit-language-available-p (car lang))
-;;     (treesit-install-language-grammar (car lang))))
+;; setup tree-sitter grammar alist
+(setq treesit-language-source-alist
+   '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+     (c "https://github.com/tree-sitter/tree-sitter-c")
+     (html "https://github.com/tree-sitter/tree-sitter-html")
+     (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+     (css "https://github.com/tree-sitter/tree-sitter-css")
+     (json "https://github.com/tree-sitter/tree-sitter-json")
+     (python "https://github.com/tree-sitter/tree-sitter-python")
+     (bash "https://github.com/tree-sitter/tree-sitter-bash")
+     (java "https://github.com/tree-sitter/tree-sitter-java")))
+;; add markdown-ts-mode
+(use-package markdown-ts-mode
+  ;; :mode ("\\.md\\'" . markdown-ts-mode)
+  :mode ("\\.mtsd\\'" . markdown-ts-mode)
+  :defer 't)
+;; and install the grammars
+(dolist (lang treesit-language-source-alist)
+  (unless (treesit-language-available-p (car lang))
+    (treesit-install-language-grammar (car lang))))
 
 ;; let's also install and setup magit
 (unless (package-installed-p 'magit)
@@ -511,6 +575,11 @@ corresponding to the characters of this string are shown."
   (package-install 'multiple-cursors))
 (require 'multiple-cursors)
 ;; and setup some keybinds for em
+(define-key my/keys-keymap (kbd "C-c C-c c") 'mc/edit-lines)
+(define-key my/keys-keymap (kbd "C-c C-c n") 'mc/mark-next-like-this)
+(define-key my/keys-keymap (kbd "C-c C-c p") 'mc/mark-previous-like-this)
+(define-key my/keys-keymap (kbd "C-c C-c a") 'mc/mark-all-like-this)
+;; evil
 (evil-define-key 'visual 'global (kbd "C-c c") 'mc/edit-lines)
 (evil-define-key 'normal 'global (kbd "C-c n") 'mc/mark-next-like-this)
 (evil-define-key 'normal 'global (kbd "C-c p") 'mc/mark-previous-like-this)
