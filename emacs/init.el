@@ -572,10 +572,10 @@ corresponding to the characters of this string are shown."
   (package-install 'multiple-cursors))
 (require 'multiple-cursors)
 ;; and setup some keybinds for em
-(define-key my/keys-keymap (kbd "C-c C-c c") 'mc/edit-lines)
-(define-key my/keys-keymap (kbd "C-c C-c n") 'mc/mark-next-like-this)
-(define-key my/keys-keymap (kbd "C-c C-c p") 'mc/mark-previous-like-this)
-(define-key my/keys-keymap (kbd "C-c C-c a") 'mc/mark-all-like-this)
+(define-key my/keys-keymap (kbd "C-c c c") 'mc/edit-lines)
+(define-key my/keys-keymap (kbd "C-c c n") 'mc/mark-next-like-this)
+(define-key my/keys-keymap (kbd "C-c c p") 'mc/mark-previous-like-this)
+(define-key my/keys-keymap (kbd "C-c c a") 'mc/mark-all-like-this)
 ;; evil
 (evil-define-key 'visual 'global (kbd "C-c c") 'mc/edit-lines)
 (evil-define-key 'normal 'global (kbd "C-c n") 'mc/mark-next-like-this)
