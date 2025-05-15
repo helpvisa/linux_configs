@@ -102,13 +102,6 @@ argument is given, you can choose which register to jump to."
                 'th-save-frame-configuration)
 (global-set-key (kbd "<f9>")
                 'th-jump-to-register)
-;; now use desktop-save-mode to persist across restarts
-;; but disable for terminal...
-(when (display-graphic-p)
-  (desktop-save-mode 1)
-  ;; add register to desktop-save-mode globals
-  (add-to-list 'desktop-globals-to-save 'register-alist)
-  ())
 
 ;; change default indentation options
 (setq-default tab-width 8) ;; and set a default indentation width
@@ -170,7 +163,10 @@ argument is given, you can choose which register to jump to."
                                    (setq tab-width 4)
                                    (setq indent-line-function (quote insert-tab))
                                    (flyspell-mode)))
-;; enable adaptive line wrapping in *all* modes
+;; install adaptive wrapping
+(unless (package-installed-p 'adaptive-wrap)
+  (package-install 'adaptive-wrap))
+;; and enable adaptive line wrapping in *all* modes
 (add-hook 'prog-mode-hook #'adaptive-wrap-prefix-mode)
 (add-hook 'text-mode-hook #'adaptive-wrap-prefix-mode)
 (with-eval-after-load 'comint
