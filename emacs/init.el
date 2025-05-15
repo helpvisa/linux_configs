@@ -4,11 +4,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ediff-diff-options "-w")
- '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
- '(display-line-numbers-type 'relative)
  '(global-display-line-numbers-mode t)
- '(tool-bar-mode nil)
  '(treesit-font-lock-level 4))
 
 
