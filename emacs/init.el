@@ -510,7 +510,7 @@ corresponding to the characters of this string are shown."
 (evil-define-key 'normal 'global (kbd "gBh") 'flymake-show-project-diagnostics)
 (define-key my/keys-keymap (kbd "M-C-1") 'shell-command-on-current-file)
 (evil-define-key 'normal 'global (kbd "M-C-1") 'shell-command-on-current-file)
-(define-key my/keys-keymap (kbd "C-c C-c C-c") 'term-interrupt-subjob)
+(define-key my/keys-keymap (kbd "C-c C-c") 'term-interrupt-subjob)
 
 ;; download and enable flycheck for diagnostics under cursor
 (unless (package-installed-p 'flycheck)
@@ -596,11 +596,11 @@ corresponding to the characters of this string are shown."
   (package-install 'multiple-cursors))
 (require 'multiple-cursors)
 ;; and setup some keybinds for em
-(define-key my/keys-keymap (kbd "C-c C-c c") 'mc/edit-lines)
-(define-key my/keys-keymap (kbd "C-c C-c n") 'mc/mark-next-like-this)
-(define-key my/keys-keymap (kbd "C-c C-c p") 'mc/mark-previous-like-this)
-(define-key my/keys-keymap (kbd "C-c C-c a") 'mc/mark-all-like-this)
-(define-key my/keys-keymap (kbd "C-c C-c m") 'mc/mark-pop)
+(define-key my/keys-keymap (kbd "C-c c c") 'mc/edit-lines)
+(define-key my/keys-keymap (kbd "C-c c n") 'mc/mark-next-like-this)
+(define-key my/keys-keymap (kbd "C-c c p") 'mc/mark-previous-like-this)
+(define-key my/keys-keymap (kbd "C-c c a") 'mc/mark-all-like-this)
+(define-key my/keys-keymap (kbd "C-c c m") 'mc/mark-pop)
 ;; evil
 (evil-define-key 'visual 'global (kbd "C-c c") 'mc/edit-lines)
 (evil-define-key 'normal 'global (kbd "C-c n") 'mc/mark-next-like-this)
