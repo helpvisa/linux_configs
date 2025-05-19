@@ -510,6 +510,7 @@ corresponding to the characters of this string are shown."
 (evil-define-key 'normal 'global (kbd "gBh") 'flymake-show-project-diagnostics)
 (define-key my/keys-keymap (kbd "M-C-1") 'shell-command-on-current-file)
 (evil-define-key 'normal 'global (kbd "M-C-1") 'shell-command-on-current-file)
+(define-key my/keys-keymap (kbd "C-c C-c C-c") 'term-interrupt-subjob)
 
 ;; download and enable flycheck for diagnostics under cursor
 (unless (package-installed-p 'flycheck)
