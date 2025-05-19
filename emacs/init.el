@@ -13,7 +13,7 @@
 ;; update load path
 (add-to-list 'load-path "~/.config/emacs/custom-elisp")
 ;; require custom elisp here
-(require 'simpc-mode)
+;; (require 'simpc-mode)
 ;; (setq major-mode-remap-alist
 ;;  '((c-mode . simpc-mode)))
 ;; uncomment if you want emacs GTK windows to have no titlebar
@@ -37,6 +37,11 @@
 ;; enable recent files
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
+
+;; enable repeatable mark hopping, and decrease # of marks for more usability
+(setq-default set-mark-command-repeat-pop t)
+(setq mark-ring-max 6)
+(setq global-mark-ring-max 8)
 
 ;; make emacs create all backup files in a very particular directory,
 ;; and make sure that backups are created as copies of the original file
@@ -195,15 +200,6 @@ argument is given, you can choose which register to jump to."
     (setq preview (thing-at-point 'line)))
   (remove-last-character-from-line preview))
 
-;; toggle lsp
-(defun connect-or-disconnect-lsp ()
-  "Enable or disable lsp-mode in the current buffer."
-  (interactive)
-  (if lsp-mode
-      (lsp-disconnect)
-      (lsp))
-)
-
 ;; backspace to previous tabstop and replace backspace with it ...
 (defvar my-offset 4 "My indentation offset.")
 (defun backspace-whitespace-to-tab-stop ()
@@ -278,45 +274,53 @@ argument is given, you can choose which register to jump to."
   (package-install 'lua-mode))
 
 ;; download and enable lsp-mode
-(unless (package-installed-p 'lsp-mode)
-  (package-install 'lsp-mode))
-(use-package lsp-mode
-  :commands (lsp lsp-deferred)
-  :init
-  (setq lsp-keymap-prefix "C-c l")) ;; or 'C-l', 's-l'
-  ;; :config
-  ;; (lsp-enable-which-key-integration t))
-;; do NOT warn me when lsp-mode does not exist for a given mode
-(setq lsp-warn-no-matched-clients nil)
-;; add modes to language list
-;; (add-to-list 'lsp-language-id-configuration '(simpc-mode . "c"))
-;; setup mode hooks
-(add-hook 'simpc-mode-hook #'lsp)
-(add-hook 'c-mode-hook #'lsp)
-(add-hook 'c-ts-mode-hook #'lsp)
-(add-hook 'c++-mode-hook #'lsp)
-(add-hook 'c++-ts-mode-hook #'lsp)
-(add-hook 'python-mode-hook #'lsp)
-(add-hook 'python-ts-mode-hook #'lsp)
-(add-hook 'js-mode-hook #'lsp)
-(add-hook 'js2-mode-hook #'lsp)
-(add-hook 'js-ts-mode-hook #'lsp)
-(add-hook 'sh-mode-hook #'lsp)
-(add-hook 'lua-mode-hook #'lsp)
-;; enable in most programming modes anyway
-;; (add-hook 'prog-mode-hook #'lsp)
-;; also download lsp-mode for java
-(unless (package-installed-p 'lsp-java)
-  (package-install 'lsp-java))
-(require 'lsp-java)
-(add-hook 'java-mode-hook #'lsp)
-(add-hook 'java-ts-mode-hook #'lsp)
+;; (unless (package-installed-p 'lsp-mode)
+;;   (package-install 'lsp-mode))
+;; (use-package lsp-mode
+;;   :commands (lsp lsp-deferred)
+;;   :init
+;;   (setq lsp-keymap-prefix "C-c l")) ;; or 'C-l', 's-l'
+;;   ;; :config
+;;   ;; (lsp-enable-which-key-integration t))
+;; ;; do NOT warn me when lsp-mode does not exist for a given mode
+;; (setq lsp-warn-no-matched-clients nil)
+;; ;; add modes to language list
+;; ;; (add-to-list 'lsp-language-id-configuration '(simpc-mode . "c"))
+;; ;; setup mode hooks
+;; (add-hook 'simpc-mode-hook #'lsp)
+;; (add-hook 'c-mode-hook #'lsp)
+;; (add-hook 'c-ts-mode-hook #'lsp)
+;; (add-hook 'c++-mode-hook #'lsp)
+;; (add-hook 'c++-ts-mode-hook #'lsp)
+;; (add-hook 'python-mode-hook #'lsp)
+;; (add-hook 'python-ts-mode-hook #'lsp)
+;; (add-hook 'js-mode-hook #'lsp)
+;; (add-hook 'js2-mode-hook #'lsp)
+;; (add-hook 'js-ts-mode-hook #'lsp)
+;; (add-hook 'sh-mode-hook #'lsp)
+;; (add-hook 'lua-mode-hook #'lsp)
+;; ;; enable in most programming modes anyway
+;; ;; (add-hook 'prog-mode-hook #'lsp)
+;; ;; also download lsp-mode for java
+;; (unless (package-installed-p 'lsp-java)
+;;   (package-install 'lsp-java))
+;; (require 'lsp-java)
+;; (add-hook 'java-mode-hook #'lsp)
+;; (add-hook 'java-ts-mode-hook #'lsp)
+;; ;; write a function to toggle lsp-mode
+;; (defun connect-or-disconnect-lsp ()
+;;   "Enable or disable lsp-mode in the current buffer."
+;;   (interactive)
+;;   (if lsp-mode
+;;       (lsp-disconnect)
+;;       (lsp))
+;; )
 
 ;; download and enable company
 (unless (package-installed-p 'company)
   (package-install 'company))
-(company-mode 1)
-(add-hook 'after-init-hook 'global-company-mode)
+(require 'company)
+;; make company use tab-n-go mode
 (add-hook 'after-init-hook 'company-tng-mode)
 ;; do not automatically complete to suggestion on pressing RET
 (dolist (key '("<return>" "RET"))
@@ -325,13 +329,30 @@ argument is given, you can choose which register to jump to."
                           :filter ,(lambda (cmd)
                                      (when (company-explicit-action-p)
                                        cmd)))))
-;; TAB not working correctly, is it evil's fault? Complete can be done with M-1
-;; (define-key company-active-map (kbd "tab") 'company-complete-selection)
+;; use tab to finish autocomplete
+;; (define-key company-active-map (kbd "TAB") #'company-complete-selection)
+;; (define-key company-active-map (kbd "<tab>") #'company-complete-selection)
+;; prevent space and other keys from doing anything unpredicatble in company
 (define-key company-active-map (kbd "SPC") nil)
 (define-key company-active-map (kbd "t") nil)
-;; company sometimes ovverrides keymaps based on company-auto-complete-chars
+(define-key company-active-map (kbd "C-n") nil)
+(define-key company-active-map (kbd "C-p") nil)
+(define-key company-active-map (kbd "C-f") nil)
+(define-key company-active-map (kbd "C-b") nil)
+(define-key company-active-map (kbd "C-v") nil)
+(define-key company-active-map (kbd "M-v") nil)
+;; company can overrides above keymaps based on company-auto-complete-chars
 ;; turn this off to prevent that behaviour
 (setq company-auto-complete-chars nil)
+;; disable delay for showing suggestions
+(setq company-idle-delay 0)
+;; show suggestions after entering only 1 character
+(setq company-minimum-prefix-length 1)
+;; let suggestions list wrap back around to top
+(setq company-selection-wrap-around 1)
+;; enable company globally
+(company-mode 1)
+(add-hook 'after-init-hook 'global-company-mode)
 
 ;; download and enable evil
 (unless (package-installed-p 'evil)
@@ -454,8 +475,8 @@ corresponding to the characters of this string are shown."
 (define-key my/keys-keymap (kbd "C-c C-w j") 'evil-window-down)
 ;; toggle lsp and flycheck
 (define-key my/keys-keymap (kbd "C-c C-a a") 'flycheck-mode)
-(define-key my/keys-keymap (kbd "C-c C-a A") 'connect-or-disconnect-lsp)
-(evil-define-key 'normal 'global (kbd "<SPC> A") 'connect-or-disconnect-lsp)
+;; (define-key my/keys-keymap (kbd "C-c C-a A") 'connect-or-disconnect-lsp)
+;; (evil-define-key 'normal 'global (kbd "<SPC> A") 'connect-or-disconnect-lsp)
 (evil-define-key 'normal 'global (kbd "<SPC> a") 'flycheck-mode)
 ;; setup extra evil keybinds 
 (define-key my/keys-keymap (kbd "C-c C-g") 'comment-line)
@@ -471,18 +492,18 @@ corresponding to the characters of this string are shown."
 (evil-define-key 'normal 'global (kbd "<SPC> m") 'evil-select-mark-from-list)
 (evil-define-key 'normal 'global (kbd "<SPC> M") 'evil-show-marks-with-preview)
 (evil-define-key 'normal 'global (kbd "<SPC> t") 'tags-search)
-(define-key my/keys-keymap (kbd "C-c C-a d") 'lsp-goto-type-definition)
-(evil-define-key 'normal 'global (kbd "gtd") 'lsp-goto-type-definition)
-(define-key my/keys-keymap (kbd "C-c C-a K") 'lsp-describe-thing-at-point)
-(evil-define-key 'normal 'global (kbd "gk") 'lsp-describe-thing-at-point)
-(define-key my/keys-keymap (kbd "C-c C-a D") 'lsp-find-definition)
-(evil-define-key 'normal 'global (kbd "gd") 'lsp-find-definition)
-(define-key my/keys-keymap (kbd "C-c C-a r") 'lsp-find-references)
-(evil-define-key 'normal 'global (kbd "gr") 'lsp-find-references)
-(define-key my/keys-keymap (kbd "C-c C-a i") 'lsp-find-implementation)
-(evil-define-key 'normal 'global (kbd "gi") 'lsp-find-implementation)
-(define-key my/keys-keymap (kbd "C-c C-a n") 'lsp-rename)
-(evil-define-key 'normal 'global (kbd "<SPC> r n") 'lsp-rename)
+(define-key my/keys-keymap (kbd "C-c C-a d") 'eglot-find-typeDefinition)
+(evil-define-key 'normal 'global (kbd "gtd") 'eglot-find-typeDefinition)
+;; (define-key my/keys-keymap (kbd "C-c C-a K") 'lsp-describe-thing-at-point)
+;; (evil-define-key 'normal 'global (kbd "gk") 'lsp-describe-thing-at-point)
+(define-key my/keys-keymap (kbd "C-c C-a D") 'eglot-find-definition)
+(evil-define-key 'normal 'global (kbd "gd") 'eglot-find-definition)
+;; (define-key my/keys-keymap (kbd "C-c C-a r") 'lsp-find-references)
+;; (evil-define-key 'normal 'global (kbd "gr") 'lsp-find-references)
+(define-key my/keys-keymap (kbd "C-c C-a i") 'eglot-find-implementation)
+(evil-define-key 'normal 'global (kbd "gi") 'eglot-find-implementation)
+(define-key my/keys-keymap (kbd "C-c C-a n") 'eglot-rename)
+(evil-define-key 'normal 'global (kbd "<SPC> r n") 'eglot-rename)
 (define-key my/keys-keymap (kbd "C-c C-a h") 'display-local-help)
 (evil-define-key 'normal 'global (kbd "gh") 'display-local-help)
 (evil-define-key 'normal 'global (kbd "gbh") 'flymake-show-buffer-diagnostics)
@@ -570,7 +591,7 @@ corresponding to the characters of this string are shown."
 (evil-define-key 'normal 'global (kbd "<SPC> o t") 'vterm)
 
 ;; enable multicursor support
-(unless (package-installed-p 'multiple-cursor)
+(unless (package-installed-p 'multiple-cursors)
   (package-install 'multiple-cursors))
 (require 'multiple-cursors)
 ;; and setup some keybinds for em
