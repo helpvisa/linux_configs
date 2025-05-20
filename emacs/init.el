@@ -43,6 +43,9 @@
 (setq mark-ring-max 6)
 (setq global-mark-ring-max 8)
 
+;; delete the currently selected text when typing
+(delete-selection-mode 1)
+
 ;; make emacs create all backup files in a very particular directory,
 ;; and make sure that backups are created as copies of the original file
 (setq backup-directory-alist `(("." . "~/.emacs-backups/")))
