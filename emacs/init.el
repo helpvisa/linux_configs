@@ -247,6 +247,19 @@ argument is given, you can choose which register to jump to."
 (package-initialize)
 (package-refresh-contents)
 
+;; install and enable bar-cursor-mode
+(unless (package-installed-p 'bar-cursor)
+  (package-install 'bar-cursor))
+(require 'bar-cursor)
+(bar-cursor-mode 1)
+;; but still use block cursors in dired, magit, etc.
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (setq cursor-stype 'box)))
+(add-hook 'magit-mode-hook
+          (lambda ()
+            (setq cursor-stype 'box)))
+
 ;; make sure use-package is installed
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
