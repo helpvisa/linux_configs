@@ -259,6 +259,9 @@ argument is given, you can choose which register to jump to."
 (add-hook 'magit-mode-hook
           (lambda ()
             (setq cursor-type 'box)))
+(add-hook 'term-mode-hook
+          (lambda ()
+            (setq cursor-type 'box)))
 
 ;; make sure use-package is installed
 (unless (package-installed-p 'use-package)
