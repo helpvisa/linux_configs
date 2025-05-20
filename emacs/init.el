@@ -247,6 +247,12 @@ argument is given, you can choose which register to jump to."
 (package-initialize)
 (package-refresh-contents)
 
+;; install whole-line-or-region
+(unless (package-installed-p 'whole-line-or-region)
+  (package-install 'whole-line-or-region))
+(require 'whole-line-or-region)
+(whole-line-or-region-global-mode 1)
+
 ;; install and enable bar-cursor-mode
 (unless (package-installed-p 'bar-cursor)
   (package-install 'bar-cursor))
