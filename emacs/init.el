@@ -255,10 +255,10 @@ argument is given, you can choose which register to jump to."
 ;; but still use block cursors in dired, magit, etc.
 (add-hook 'dired-mode-hook
           (lambda ()
-            (setq cursor-stype 'box)))
+            (setq cursor-type 'box)))
 (add-hook 'magit-mode-hook
           (lambda ()
-            (setq cursor-stype 'box)))
+            (setq cursor-type 'box)))
 
 ;; make sure use-package is installed
 (unless (package-installed-p 'use-package)
