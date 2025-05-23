@@ -46,6 +46,9 @@
 ;; delete the currently selected text when typing
 (delete-selection-mode 1)
 
+;; disable audible bell, because it is very annoying
+(setq visible-bell 1)
+
 ;; make emacs create all backup files in a very particular directory,
 ;; and make sure that backups are created as copies of the original file
 (setq backup-directory-alist `(("." . "~/.emacs-backups/")))
@@ -181,6 +184,12 @@ argument is given, you can choose which register to jump to."
   (add-hook 'comint-mode-hook #'adaptive-wrap-prefix-mode))
 
 ;; custom functions
+;; restore cursor type based on mode
+(defun restore-cursor-type ()
+  (if overwrite-mode
+      (setq cursor-type 'hollow)
+    (setq cursor-type 'box)))
+
 ;; call a shell command on the current file
 (defun shell-command-on-current-file (command)
   "run a command using the current file as input"
@@ -229,16 +238,24 @@ argument is given, you can choose which register to jump to."
 (eval-after-load 'cc-mode
   '(define-key c-mode-map (kbd "<DEL>") 'backspace-whitespace-to-tab-stop))
 
-
-;; remap major modes for treesitter
-; (setq major-mode-remap-alist
-;  '((bash-mode . bash-ts-mode)
-;    (js-mode . js-ts-mode)
-;    (typescript-mode . typescript-ts-mode)
-;    (json-mode . json-ts-mode)
-;    (css-mode . css-ts-mode)
-;    (java-mode . java-ts-mode)
-;    (python-mode . python-ts-mode)))
+;; setup cursor changes based on mode
+(add-hook 'overwrite-mode-hook
+          (lambda ()
+            (if overwrite-mode
+                (setq cursor-type 'hollow)
+              (setq cursor-type 'box))))
+(add-hook 'activate-mark-hook
+          (lambda ()
+            (setq cursor-type 'bar)))
+(add-hook 'deactivate-mark-hook
+          (lambda ()
+            (restore-cursor-type)))
+(add-hook 'isearch-mode-hook
+          (lambda ()
+            (setq cursor-type 'bar)))
+(add-hook 'isearch-mode-end-hook
+          (lambda ()
+            (restore-cursor-type)))
 
 ;; set up melpa packages
 (require 'package)
@@ -247,31 +264,15 @@ argument is given, you can choose which register to jump to."
 (package-initialize)
 (package-refresh-contents)
 
+;; make sure use-package is installed
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
 ;; install whole-line-or-region
 (unless (package-installed-p 'whole-line-or-region)
   (package-install 'whole-line-or-region))
 (require 'whole-line-or-region)
 (whole-line-or-region-global-mode 1)
-
-;; install and enable bar-cursor-mode
-(unless (package-installed-p 'bar-cursor)
-  (package-install 'bar-cursor))
-(require 'bar-cursor)
-(bar-cursor-mode 1)
-;; but still use block cursors in dired, magit, etc.
-(add-hook 'dired-mode-hook
-          (lambda ()
-            (setq cursor-type 'box)))
-(add-hook 'magit-mode-hook
-          (lambda ()
-            (setq cursor-type 'box)))
-(add-hook 'term-mode-hook
-          (lambda ()
-            (setq cursor-type 'box)))
-
-;; make sure use-package is installed
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
 
 ;; enable orderless for fido
 (unless (package-installed-p 'orderless)
@@ -536,6 +537,8 @@ corresponding to the characters of this string are shown."
 (define-key my/keys-keymap (kbd "M-C-1") 'shell-command-on-current-file)
 (evil-define-key 'normal 'global (kbd "M-C-1") 'shell-command-on-current-file)
 (define-key my/keys-keymap (kbd "C-c C-c") 'term-interrupt-subjob)
+(define-key my/keys-keymap (kbd "C-c $") 'highlight-symbol-at-point)
+(define-key my/keys-keymap (kbd "C-c %") 'unhighlight-regexp)
 
 ;; download and enable flycheck for diagnostics under cursor
 (unless (package-installed-p 'flycheck)
