@@ -33,7 +33,11 @@ bind 'set completion-ignore-case on'
 export PS1="\[\e[1;34m\]\u@$(distrobox_name) \[\e[0;3;2;34m\]in \[\e[0;1;2;33m\]\w\n\[\e[0;2;3;35m\]\$(parse_git_branch)\[\e[0;35m\]\$\[\e[0m\] "
 #title
 # export PROMPT_COMMAND='printf "\033]0;%s@%s in %s [%s]\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}" "${BASHPID}"'
-export PROMPT_COMMAND='printf "\033]0;%s%s in %s [%s]\007" "${USER}" "$(distrobox_name_prompt)" "${PWD/#$HOME/\~}" "${BASHPID}"'
+if [ "$TERM" = "eterm-color" ]; then
+    export PROMPT_COMMAND=''
+else
+    export PROMPT_COMMAND='printf "\033]0;%s%s in %s [%s]\007" "${USER}" "$(distrobox_name_prompt)" "${PWD/#$HOME/\~}" "${BASHPID}"'
+fi
 
 #aliases
 alias ls='ls -F --color=auto'

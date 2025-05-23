@@ -45,6 +45,7 @@ call plug#begin("~/.vim/plugged")
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     Plug 'itchyny/vim-cursorword'
+    Plug 'tpope/vim-rsi'
     " Plug 'ludovicchabant/vim-gutentags'
     if has('patch-8.0.902')
       Plug 'mhinz/vim-signify'
