@@ -25,6 +25,10 @@
 ;; and set a default PGTK delay
 (setq-default pgtk-wait-for-event-timeout 0)
 
+;; disable splash
+(setq inhibit-splash-screen t)
+(setq inhibit-startup-message t)
+
 ;; disable toolbars
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -246,7 +250,8 @@ argument is given, you can choose which register to jump to."
               (setq cursor-type 'box))))
 (add-hook 'activate-mark-hook
           (lambda ()
-            (setq cursor-type 'bar)))
+            (if (not evil-mode)
+                (setq cursor-type 'bar))))
 (add-hook 'deactivate-mark-hook
           (lambda ()
             (restore-cursor-type)))
