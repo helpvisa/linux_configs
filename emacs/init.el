@@ -67,6 +67,8 @@
 ;; make the directories too in case they don't exist
 (make-directory "~/.emacs-backups/" t)
 (make-directory "~/.emacs-autosaves/" t)
+;; and make lockfiles go somewhere nice
+(setq lock-file-name-transforms '((".*" "~/.emacs-locks/", t)))
 
 ;; change the default view up / view down keys to be half-view
 (require 'view)
