@@ -6,6 +6,7 @@ filetype plugin indent on " set some indentation plugins for certain filetypes
 syntax on " enable syntax highlighting
 set hidden " prevent buffer unloading when invisible
 set number " show line numbers
+set relativenumber " and make them relative
 set nowrap " do not wrap lines
 set ignorecase " no case sensitivity in search patterns by default
 set mouse=a " enable the mouse in all modes
@@ -27,6 +28,7 @@ set omnifunc=ale#completion#OmniFunc
 
 " block cursor in normal mode, line cursor in insert mode
 let &t_SI = "\e[6 q"
+let &t_SR = "\e[4 q"
 let &t_EI = "\e[2 q"
 
 " automatically acquire vimplug
