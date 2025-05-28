@@ -26,6 +26,8 @@ set noequalalways " do not mess with split sizes when a preview window closes
 " insert-mode omnicompletion setup; trigger with C-x C-o when inserting
 set omnifunc=ale#completion#OmniFunc
 
+" set permanent tree list style
+let g:netrw_liststyle = 3
 " block cursor in normal mode, line cursor in insert mode
 let &t_SI = "\e[6 q"
 let &t_SR = "\e[4 q"
@@ -41,7 +43,6 @@ endif
 call plug#begin("~/.vim/plugged")
     Plug 'junegunn/goyo.vim'
     Plug 'dense-analysis/ale'
-    Plug 'preservim/nerdtree'
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'tpope/vim-commentary'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -110,10 +111,6 @@ let mapleader = " "
 map <leader>w :call ToggleWrap()<CR>
 " quickly compile project
 nnoremap <leader>b :make<CR>
-" nerdtree
-nnoremap <leader>e :NERDTreeToggle<CR>
-nnoremap <leader>Ef :NerdTreeFind<CR>
-nnoremap <leader>EE :NerdTreeFocus<CR>
 " indent guides
 nnoremap <leader>ig :IndentGuidesToggle<CR>
 " ale
