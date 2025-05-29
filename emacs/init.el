@@ -275,6 +275,11 @@ argument is given, you can choose which register to jump to."
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
+;; preview regular expressions for search-and-replace
+(unless (package-installed-p 'visual-regexp)
+  (package-install 'visual-regexp))
+(require 'visual-regexp)
+
 ;; install whole-line-or-region
 (unless (package-installed-p 'whole-line-or-region)
   (package-install 'whole-line-or-region))
@@ -546,6 +551,9 @@ corresponding to the characters of this string are shown."
 (define-key my/keys-keymap (kbd "C-c C-c") 'term-interrupt-subjob)
 (define-key my/keys-keymap (kbd "C-c $") 'highlight-symbol-at-point)
 (define-key my/keys-keymap (kbd "C-c %") 'unhighlight-regexp)
+;; visual regexp binds
+(define-key global-map (kbd "C-c r") 'vr/replace)
+(define-key global-map (kbd "C-c q") 'vr/query-replace)
 
 ;; download and enable flycheck for diagnostics under cursor
 (unless (package-installed-p 'flycheck)
