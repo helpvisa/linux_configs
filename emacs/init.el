@@ -193,7 +193,7 @@ argument is given, you can choose which register to jump to."
 ;; restore cursor type based on mode
 (defun restore-cursor-type ()
   (if overwrite-mode
-      (setq cursor-type 'hollow)
+      (setq cursor-type 'hbar)
     (setq cursor-type 'box)))
 
 ;; call a shell command on the current file
@@ -248,7 +248,7 @@ argument is given, you can choose which register to jump to."
 (add-hook 'overwrite-mode-hook
           (lambda ()
             (if overwrite-mode
-                (setq cursor-type 'hollow)
+                (setq cursor-type 'hbar)
               (setq cursor-type 'box))))
 (add-hook 'activate-mark-hook
           (lambda ()
