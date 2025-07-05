@@ -24,6 +24,8 @@
                             (height . 36)))
 ;; and set a default PGTK delay
 (setq-default pgtk-wait-for-event-timeout 0)
+;; and enable hover-focus
+(setq mouse-autoselect-window t)
 
 ;; disable splash
 (setq inhibit-splash-screen t)
