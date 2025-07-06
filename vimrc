@@ -61,6 +61,8 @@ call plug#begin("~/.vim/plugged")
     Plug 'NLKNguyen/papercolor-theme'
     Plug 'zefei/cake16'
     Plug 'Alligator/accent.vim'
+    " live substitution previews
+    Plug 'markonm/traces.vim'
 call plug#end()
 let g:ale_completion_enabled = 1
 let g:ale_hover_to_floating_preview = 1
