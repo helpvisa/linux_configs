@@ -191,6 +191,9 @@ argument is given, you can choose which register to jump to."
 (with-eval-after-load 'comint
   (add-hook 'comint-mode-hook #'adaptive-wrap-prefix-mode))
 
+;; also enable eglot in all programming modes while we're here
+(add-hook 'prog-mode-hook 'eglot-ensure)
+
 ;; custom functions
 ;; restore cursor type based on mode
 (defun restore-cursor-type ()
