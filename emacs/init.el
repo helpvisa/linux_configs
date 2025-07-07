@@ -302,12 +302,14 @@ argument is given, you can choose which register to jump to."
   (setq-local completion-styles '(orderless)))
 (add-hook 'icomplete-minibuffer-setup-hook 'my-icomplete-styles)
 
-;; enable our themes of choice
-(unless (package-installed-p 'catppuccin-theme)
-  (package-install 'catppuccin-theme))
-;; (load-theme 'catppuccin t)
-(unless (package-installed-p 'kuronami-theme)
-  (package-install 'kuronami-theme))
+;; install whichever theme set most intrigues you
+;; (unless (package-installed-p 'ef-themes)
+;;   (package-install 'ef-themes))
+;; (unless (package-installed-p 'stimmung-themes)
+;;   (package-install 'stimmung-themes))
+;; (unless (package-installed-p 'kuronami-theme)
+;;   (package-install 'kuronami-theme))
+;; (load-theme 'your-theme-of-choice t)
 
 ;; acquire lua-mode
 (unless (package-installed-p 'lua-mode)
