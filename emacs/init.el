@@ -5,7 +5,6 @@
  ;; If there is more than one, they won't work right.
  '(ediff-diff-options "-w")
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
- '(global-display-line-numbers-mode t)
  '(treesit-font-lock-level 4))
 
 
@@ -13,11 +12,6 @@
 ;; update load path
 (add-to-list 'load-path "~/.config/emacs/custom-elisp")
 ;; require custom elisp here
-;; (require 'simpc-mode)
-;; (setq major-mode-remap-alist
-;;  '((c-mode . simpc-mode)))
-;; uncomment if you want emacs GTK windows to have no titlebar
-;; (setq default-frame-alist '((undecorated . t)))
 
 ;; set default size for new frames
 (setq default-frame-alist '((width . 90)
@@ -37,8 +31,8 @@
 (menu-bar-mode -1)
 ;; and enable xterm-mouse-mode for terminal mouse interaction
 (xterm-mouse-mode 1)
-;; enable global line wrapping too
-(global-visual-line-mode 1)
+;; enable global word wrapping too
+(setq-default word-wrap t)
 
 ;; enable recent files
 (recentf-mode 1)
@@ -79,49 +73,6 @@
 (global-set-key [?\C-\S-v] 'View-scroll-line-forward)
 (global-set-key "\M-\S-v" 'View-scroll-line-backward)
 
-;; define func that creates emacs ctags files in a specified directory
-(setq path-to-ctags "/usr/bin/ctags")
-(defun create-tags (dir-name)
-  "Create tags file."
-  (interactive "DDirectory: ")
-  (shell-command
-   (format "%s -f TAGS -e -R %s" path-to-ctags (directory-file-name dir-name)))
-)
-
-;; parameters functions to save and restore window splits
-(defvar th-frame-config-register ?°
-  "The register which is used for storing and restoring frame
-configurations by `th-save-frame-configuration' and
-`th-jump-to-register'.")
-
-(defun th-save-frame-configuration (arg)
-  "Stores the current frame configuration in register
-`th-frame-config-register'. If a prefix argument is given, you
-can choose which register to use."
-  (interactive "P")
-  (let ((register (if arg
-                      (read-char "Which register? ")
-                    th-frame-config-register)))
-    (frame-configuration-to-register register)
-    (message "Frame configuration saved in register '%c'."
-             register)))
-
-(defun th-jump-to-register (arg)
-  "Jumps to register `th-frame-config-register'. If a prefix
-argument is given, you can choose which register to jump to."
-  (interactive "P")
-  (let ((register (if arg
-                      (read-char "Which register? ")
-                    th-frame-config-register)))
-    (jump-to-register register)
-    (message "Jumped to register '%c'."
-             register)))
-
-(global-set-key (kbd "<f5>")
-                'th-save-frame-configuration)
-(global-set-key (kbd "<f9>")
-                'th-jump-to-register)
-
 ;; change default indentation options
 (setq-default tab-width 8) ;; and set a default indentation width
 (setq-default indent-tabs-mode nil) ;; indent with spaces
@@ -130,9 +81,8 @@ argument is given, you can choose which register to jump to."
 (setq-default c-ts-mode-indent-offset 4)
 (setq-default c-indent-level 4)
 
-;; display line numbers by default and disable line wrapping
-(global-display-line-numbers-mode)
-(setq-default truncate-lines t)
+;; display line numbers by default
+(setq-default display-line-numbers 'visual)
 ;; and enable a line ruler by default
 (setq-default fill-column 79)
 (setq-default display-fill-column-indicator-column 80)
@@ -141,26 +91,6 @@ argument is given, you can choose which register to jump to."
 ;; enable fido mode with vertical completions
 (fido-mode t)
 (icomplete-vertical-mode t)
-;; ;; also add completion-preview-mode into most buffers
-;; ;; code buffers
-;; (add-hook 'prog-mode-hook #'completion-preview-mode)
-;; ;; text buffers
-;; (add-hook 'text-mode-hook #'completion-preview-mode)
-;; ;; and in shell
-;; (with-eval-after-load 'comint
-;;   (add-hook 'comint-mode-hook #'completion-preview-mode))
-;; ;; change some settings for completion-preview-mode
-;; (with-eval-after-load 'completion-preview
-;;   ;; show after two chars
-;;   (setq completion-preview-minimum-symbol-length 2)
-;;   ;; non-standard commands that should show preview
-;;   (push 'org-self-insert-command completion-preview-commands)
-;;   (push 'paredit-backward-delete completion-preview-commands)
-;;   ;; some custom bindings
-;;   (keymap-set completion-preview-active-mode-map "M-n" #'completion-preview-next-candidate)
-;;   (keymap-set completion-preview-active-mode-map "M-p" #'completion-preview-prev-candidate)
-;;   ;; and select after cycling
-;;   (keymap-set completion-preview-active-mode-map "M-i" #'completion-preview-insert))
 
 ;; enable flyspell, auto-fill, and writeroom if being used as email writer
 (add-to-list 'auto-mode-alist '("/tmp/mutt*" . mail-mode))
@@ -274,7 +204,7 @@ argument is given, you can choose which register to jump to."
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
-(package-refresh-contents)
+;; (package-refresh-contents)
 
 ;; make sure use-package is installed
 (unless (package-installed-p 'use-package)
@@ -306,60 +236,19 @@ argument is given, you can choose which register to jump to."
 (add-hook 'icomplete-minibuffer-setup-hook 'my-icomplete-styles)
 
 ;; install whichever theme set most intrigues you
-;; (unless (package-installed-p 'ef-themes)
-;;   (package-install 'ef-themes))
-;; (unless (package-installed-p 'stimmung-themes)
-;;   (package-install 'stimmung-themes))
-;; (unless (package-installed-p 'kuronami-theme)
-;;   (package-install 'kuronami-theme))
-;; (load-theme 'your-theme-of-choice t)
+; (unless (package-installed-p 'ef-themes)
+;   (package-install 'ef-themes))
+; (unless (package-installed-p 'stimmung-themes)
+;   (package-install 'stimmung-themes))
+; (unless (package-installed-p 'kuronami-theme)
+;   (package-install 'kuronami-theme))
+; (load-theme 'your-theme-of-choice t)
+;; we'll just load a built-in default that's less ugly in the meantime
+(load-theme 'tango-dark)
 
 ;; acquire lua-mode
 (unless (package-installed-p 'lua-mode)
   (package-install 'lua-mode))
-
-;; download and enable lsp-mode
-;; (unless (package-installed-p 'lsp-mode)
-;;   (package-install 'lsp-mode))
-;; (use-package lsp-mode
-;;   :commands (lsp lsp-deferred)
-;;   :init
-;;   (setq lsp-keymap-prefix "C-c l")) ;; or 'C-l', 's-l'
-;;   ;; :config
-;;   ;; (lsp-enable-which-key-integration t))
-;; ;; do NOT warn me when lsp-mode does not exist for a given mode
-;; (setq lsp-warn-no-matched-clients nil)
-;; ;; add modes to language list
-;; ;; (add-to-list 'lsp-language-id-configuration '(simpc-mode . "c"))
-;; ;; setup mode hooks
-;; (add-hook 'simpc-mode-hook #'lsp)
-;; (add-hook 'c-mode-hook #'lsp)
-;; (add-hook 'c-ts-mode-hook #'lsp)
-;; (add-hook 'c++-mode-hook #'lsp)
-;; (add-hook 'c++-ts-mode-hook #'lsp)
-;; (add-hook 'python-mode-hook #'lsp)
-;; (add-hook 'python-ts-mode-hook #'lsp)
-;; (add-hook 'js-mode-hook #'lsp)
-;; (add-hook 'js2-mode-hook #'lsp)
-;; (add-hook 'js-ts-mode-hook #'lsp)
-;; (add-hook 'sh-mode-hook #'lsp)
-;; (add-hook 'lua-mode-hook #'lsp)
-;; ;; enable in most programming modes anyway
-;; ;; (add-hook 'prog-mode-hook #'lsp)
-;; ;; also download lsp-mode for java
-;; (unless (package-installed-p 'lsp-java)
-;;   (package-install 'lsp-java))
-;; (require 'lsp-java)
-;; (add-hook 'java-mode-hook #'lsp)
-;; (add-hook 'java-ts-mode-hook #'lsp)
-;; ;; write a function to toggle lsp-mode
-;; (defun connect-or-disconnect-lsp ()
-;;   "Enable or disable lsp-mode in the current buffer."
-;;   (interactive)
-;;   (if lsp-mode
-;;       (lsp-disconnect)
-;;       (lsp))
-;; )
 
 ;; download and enable company
 (unless (package-installed-p 'company)
@@ -399,22 +288,18 @@ argument is given, you can choose which register to jump to."
 (company-mode 1)
 (add-hook 'after-init-hook 'global-company-mode)
 
-;; download and enable evil
+;; download evil, as a toggleable option
 (unless (package-installed-p 'evil)
   (package-install 'evil))
 (setq evil-want-C-u-scroll t) ;; enable C-u to scroll instead of repeat
 (setq evil-want-fine-undo 'fine) ;; enable undo like vim
 (setq evil-want-keybinding 'nil)
 (require 'evil)
-;; (evil-mode 1)
 ;; setup undo system
 (evil-set-undo-system 'undo-redo)
 ;; load from evil-collection (mode-by-mode)
 (unless (package-installed-p 'evil-collection)
   (package-install 'evil-collection))
-;; (evil-collection-init 'magit)
-;; (evil-collection-init 'ediff)
-;; (evil-collection-init 'dired)
 ;; activate any evil-collection keymap interactively
 (defun evil-collection-init-custom (keymap)
   "Initialize any evil-collection keymap from the interactive minibuffer."
@@ -520,8 +405,6 @@ corresponding to the characters of this string are shown."
 (define-key my/keys-keymap (kbd "C-c C-w j") 'evil-window-down)
 ;; toggle lsp and flycheck
 (define-key my/keys-keymap (kbd "C-c C-a a") 'flycheck-mode)
-;; (define-key my/keys-keymap (kbd "C-c C-a A") 'connect-or-disconnect-lsp)
-;; (evil-define-key 'normal 'global (kbd "<SPC> A") 'connect-or-disconnect-lsp)
 (evil-define-key 'normal 'global (kbd "<SPC> a") 'flycheck-mode)
 ;; setup extra evil keybinds 
 (define-key my/keys-keymap (kbd "C-c C-g") 'comment-line)
@@ -539,12 +422,8 @@ corresponding to the characters of this string are shown."
 (evil-define-key 'normal 'global (kbd "<SPC> t") 'tags-search)
 (define-key my/keys-keymap (kbd "C-c C-a d") 'eglot-find-typeDefinition)
 (evil-define-key 'normal 'global (kbd "gtd") 'eglot-find-typeDefinition)
-;; (define-key my/keys-keymap (kbd "C-c C-a K") 'lsp-describe-thing-at-point)
-;; (evil-define-key 'normal 'global (kbd "gk") 'lsp-describe-thing-at-point)
 (define-key my/keys-keymap (kbd "C-c C-a D") 'eglot-find-definition)
 (evil-define-key 'normal 'global (kbd "gd") 'eglot-find-definition)
-;; (define-key my/keys-keymap (kbd "C-c C-a r") 'lsp-find-references)
-;; (evil-define-key 'normal 'global (kbd "gr") 'lsp-find-references)
 (define-key my/keys-keymap (kbd "C-c C-a i") 'eglot-find-implementation)
 (evil-define-key 'normal 'global (kbd "gi") 'eglot-find-implementation)
 (define-key my/keys-keymap (kbd "C-c C-a n") 'eglot-rename)
@@ -624,22 +503,9 @@ corresponding to the characters of this string are shown."
 (require 'which-key)
 (which-key-mode)
 
-;; use popwin to free us of annoying splits for *help* and such
-;; (unless (package-installed-p 'popwin)
-;;   (package-install 'popwin))
-;; (require 'popwin)
-;; (popwin-mode 1)
-;; and setup some custom modes for our annoying *lsp-help* buffers
-;; (push "*lsp-help*" popwin:special-display-config)
-
 ;; writeroom for distraction-free writing
 (unless (package-installed-p 'writeroom-mode)
   (package-install 'writeroom-mode))
-
-;; enable libvterm
-(use-package vterm
-  :ensure t)
-(evil-define-key 'normal 'global (kbd "<SPC> o t") 'vterm)
 
 ;; enable multicursor support
 (unless (package-installed-p 'multiple-cursors)
