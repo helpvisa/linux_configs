@@ -17,7 +17,7 @@ set softtabstop=4 " set space-expanded tab width (4 spaces)
 set expandtab " expand tabs with space characters instead
 set shiftwidth=4 " default indentation width
 set autoindent " indent automagically
-set wildmode=longest,list " make tab-complete behaviour similar to bash
+set wildmode=longest:full,full " make tab-complete behaviour similar to bash
 set cc=80 " set line length guide to 80 (colour column)
 set clipboard+=unnamedplus " expand clipboard to include system clipboard
 set cursorline " highlight the line currently occupied by the cursor
