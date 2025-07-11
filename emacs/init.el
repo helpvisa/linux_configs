@@ -203,8 +203,9 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
-(package-initialize)
-;; (package-refresh-contents)
+;; (package-initialize)  ;; not needed in Emacs >= 27
+(when (not package-archive-contents)
+  (package-refresh-contents))
 
 ;; make sure use-package is installed
 (unless (package-installed-p 'use-package)
