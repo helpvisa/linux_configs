@@ -54,7 +54,7 @@ call plug#begin("~/.vim/plugged")
 call plug#end()
 
 " set colorscheme
-" set termguicolors
+set termguicolors
 " colorscheme default
 
 "" CUSTOM FUNCTIONS
