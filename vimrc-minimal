@@ -21,7 +21,7 @@ set autoindent " indent automagically
 set wildmode=longest:full,full " make tab-complete behaviour similar to bash
 set cc=80 " set line length guide to 80 (colour column)
 set clipboard+=unnamedplus " expand clipboard to include system clipboard
-set cursorline " highlight the line currently occupied by the cursor
+" set cursorline " highlight the line currently occupied by the cursor
 set updatetime=500 " default timeout before updates; lowered for some plugins
 set noequalalways " do not mess with split sizes when a preview window closes
 set undodir=~/.vim/undo_dir " set an undodir for persistent undo
@@ -54,9 +54,8 @@ call plug#begin("~/.vim/plugged")
 call plug#end()
 
 " set colorscheme
-set termguicolors
-set background=dark
-colorscheme slate
+" set termguicolors
+" colorscheme default
 
 "" CUSTOM FUNCTIONS
 " toggle word wrapping
@@ -84,8 +83,9 @@ function! ShellToBuffer(newtab)
         elseif a:newtab == 3
             exe "noswapfile vnew"
         else
-            exe "noswapfile tabnew"
+            exe "noswapfile $tabnew"
         endif
+        exe "file '" . l:cmd . "'"
         exe "set buftype=nofile"
         exe "set bufhidden=wipe"
         exe "0r!" . l:cmd
@@ -104,8 +104,9 @@ function! VimCmdToBuffer(newtab)
         elseif a:newtab == 3
             exe "noswapfile vnew"
         else
-            exe "noswapfile tabnew"
+            exe "noswapfile $tabnew"
         endif
+        exe "file '" . l:cmd . "'"
         exe "set buftype=nofile"
         exe "set bufhidden=wipe"
         exe '0put"'
