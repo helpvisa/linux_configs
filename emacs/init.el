@@ -4,11 +4,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ediff-diff-options "-w")
- '(ediff-window-setup-function 'ediff-setup-windows-plain)
- '(treesit-font-lock-level 4))
+ '(ediff-window-setup-function 'ediff-setup-windows-plain))
+(custom-set-faces
+ '(default ((t (:family "IosevkaTerm Nerd Font" :foundry "UKWN" :slant normal :weight regular :height 120 :width normal)))))
 
-
-;; custom
 ;; update load path
 (add-to-list 'load-path "~/.config/emacs/custom-elisp")
 ;; require custom elisp here
@@ -51,6 +50,10 @@
 
 ;; make emacs create all backup files in a very particular directory,
 ;; and make sure that backups are created as copies of the original file
+;; first, make the directories in case they don't exist
+(make-directory "~/.emacs-backups/" t)
+(make-directory "~/.emacs-autosaves/" t)
+(make-directory "~/.emacs-locks/" t)
 (setq backup-directory-alist `(("." . "~/.emacs-backups/")))
 (setq backup-by-copying t)
 ;; change the number of held backups
@@ -60,9 +63,6 @@
       version-control t)
 ;; also change autosave directory
 (setq auto-save-file-name-transforms `((".*" "~/.emacs-autosaves/\1" t)))
-;; make the directories too in case they don't exist
-(make-directory "~/.emacs-backups/" t)
-(make-directory "~/.emacs-autosaves/" t)
 ;; and make lockfiles go somewhere nice
 (setq lock-file-name-transforms '((".*" "~/.emacs-locks/", t)))
 
@@ -107,11 +107,19 @@
                                 (setq tab-width 4)
                                 (setq indent-line-function (quote insert-tab))
                                 (flyspell-mode)))
-(add-hook 'markdown-ts-mode-hook (lambda ()
-                                   (setq indent-tabs-mode nil)
-                                   (setq tab-width 4)
-                                   (setq indent-line-function (quote insert-tab))
-                                   (flyspell-mode)))
+
+;; set up melpa packages
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+;; (package-initialize)  ;; not needed in Emacs >= 27
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+;; make sure use-package is installed
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
 ;; install adaptive wrapping
 (unless (package-installed-p 'adaptive-wrap)
   (package-install 'adaptive-wrap))
@@ -198,18 +206,6 @@
 (add-hook 'isearch-mode-end-hook
           (lambda ()
             (restore-cursor-type)))
-
-;; set up melpa packages
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-;; (package-initialize)  ;; not needed in Emacs >= 27
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
-;; make sure use-package is installed
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
 
 ;; preview regular expressions for search-and-replace
 (unless (package-installed-p 'visual-regexp)
@@ -447,15 +443,6 @@ corresponding to the characters of this string are shown."
   (package-install 'flycheck))
 (global-flycheck-mode +1)
 
-;; download and enable emacs-neotree
-(unless (package-installed-p 'neotree)
-  (package-install 'neotree))
-(use-package neotree)
-(evil-define-key 'normal 'global (kbd "<SPC> e") 'neotree-toggle)
-
-(eval-after-load 'neotree
-  '(evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter))
-
 ;; download and enable editorconfig
 (unless (package-installed-p 'editorconfig)
   (package-install 'editorconfig))
@@ -463,32 +450,6 @@ corresponding to the characters of this string are shown."
   :ensure t
   :config
   (editorconfig-mode 1))
-
-;; download and enable hightlight-indent-guides
-(unless (package-installed-p 'highlight-indent-guides)
-  (package-install 'highlight-indent-guides))
-(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-
-;; setup tree-sitter grammar alist
-(setq treesit-language-source-alist
-   '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-     (c "https://github.com/tree-sitter/tree-sitter-c")
-     (html "https://github.com/tree-sitter/tree-sitter-html")
-     (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
-     (css "https://github.com/tree-sitter/tree-sitter-css")
-     (json "https://github.com/tree-sitter/tree-sitter-json")
-     (python "https://github.com/tree-sitter/tree-sitter-python")
-     (bash "https://github.com/tree-sitter/tree-sitter-bash")
-     (java "https://github.com/tree-sitter/tree-sitter-java")))
-;; add markdown-ts-mode
-(use-package markdown-ts-mode
-  ;; :mode ("\\.md\\'" . markdown-ts-mode)
-  :mode ("\\.mtsd\\'" . markdown-ts-mode)
-  :defer 't)
-;; and install the grammars
-(dolist (lang treesit-language-source-alist)
-  (unless (treesit-language-available-p (car lang))
-    (treesit-install-language-grammar (car lang))))
 
 ;; let's also install and setup magit
 (unless (package-installed-p 'magit)
@@ -503,10 +464,6 @@ corresponding to the characters of this string are shown."
   (package-install 'which-key))
 (require 'which-key)
 (which-key-mode)
-
-;; writeroom for distraction-free writing
-(unless (package-installed-p 'writeroom-mode)
-  (package-install 'writeroom-mode))
 
 ;; enable multicursor support
 (unless (package-installed-p 'multiple-cursors)
@@ -524,15 +481,6 @@ corresponding to the characters of this string are shown."
 (evil-define-key 'normal 'global (kbd "C-c p") 'mc/mark-previous-like-this)
 (evil-define-key 'normal 'global (kbd "C-c a") 'mc/mark-all-like-this)
 (evil-define-key 'normal 'global (kbd "C-c m") 'mc/mark-pop)
-
-;; download and enable slime
-(unless (package-installed-p 'slime)
-  (package-install 'slime))
-(require 'slime)
-(slime-setup '(slime-fancy slime-quicklisp slime-asdf slime-mrepl))
-;; make sure inferior-lisp-program is correct
-;; emacs looks for "lisp" for some reason
-(setq inferior-lisp-program "/usr/bin/sbcl")
 
 ;; download and enable simple-httpd
 (unless (package-installed-p 'simple-httpd)
