@@ -1,5 +1,0 @@
-option('examples', type: 'boolean', value: true, description: 'Build demos')
-option('gir', type: 'boolean', value: true, description: 'Build gir data')
-option('docs', type: 'boolean', value: true, description: 'Build docs (gir required)')
-option('vala', type: 'boolean', value: true, description: 'Build vapi data (gir required)')
-option('pkgconf_static', type: 'boolean', value: false, description: 'Generate pkgconfig when default-library=static, too')

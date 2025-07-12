@@ -1,9 +1,0 @@
-[wrap-file]
-directory = gi-docgen-2024.1
-
-source_url = https://gitlab.gnome.org/GNOME/gi-docgen/-/archive/2024.1/gi-docgen-2024.1.tar.gz
-source_filename = gi-docgen-2024.1.tar.gz
-source_hash = c2f49f0bdea0366d04b6ab6f34071f324ef70016bc3650371cc08d3c6f2764da
-
-[provide]
-program_names = gi-docgen

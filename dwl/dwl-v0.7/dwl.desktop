@@ -1,5 +1,0 @@
-[Desktop Entry]
-Name=dwl
-Comment=dwm for Wayland
-Exec=/home/helpvisa/Compiles/dwl/launch-dwl.sh
-Type=Application

@@ -1,5 +1,0 @@
-*.supp
-.cache
-.clangd
-build
-valgrind*
