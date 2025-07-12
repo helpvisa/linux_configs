@@ -21,11 +21,9 @@ set autoindent " indent automagically
 set wildmode=longest:full,full " make tab-complete behaviour similar to bash
 set cc=80 " set line length guide to 80 (colour column)
 set clipboard+=unnamedplus " expand clipboard to include system clipboard
-" set cursorline " highlight the line currently occupied by the cursor
-set updatetime=500 " default timeout before updates; lowered for some plugins
+set updatetime=300 " default timeout before cursor updates
 set noequalalways " do not mess with split sizes when a preview window closes
-set undodir=~/.vim/undo_dir " set an undodir for persistent undo
-set undofile                " enable the persistent undo
+set path+=** " recursively searc subdrectories of current dir for find
 
 " block cursor in normal mode, line cursor in insert mode
 let &t_SI = "\e[6 q"
@@ -52,6 +50,14 @@ call plug#begin("~/.vim/plugged")
     " live substitution previews
     Plug 'markonm/traces.vim'
 call plug#end()
+
+" create an undo directory if it does not already exist
+" we do this after .vim is created by vimplug
+if !isdirectory($HOME . "/.vim/undo_dir")
+    call mkdir($HOME . "/.vim/undo_dir", "p")
+endif
+set undodir=~/.vim/undo_dir " set an undodir for persistent undo
+set undofile                " enable the persistent undo
 
 " set colorscheme
 set termguicolors
