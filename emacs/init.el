@@ -281,6 +281,9 @@
 (setq company-minimum-prefix-length 1)
 ;; let suggestions list wrap back around to top
 (setq company-selection-wrap-around 1)
+;; optionally enable below for less intrusive behaviour
+; (setq company-frontends '(company-tng-frontend
+;                           company-echo-strip-common-frontend))
 ;; enable company globally
 (company-mode 1)
 (add-hook 'after-init-hook 'global-company-mode)
