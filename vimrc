@@ -129,6 +129,8 @@ autocmd BufNewFile,BufRead /tmp/mutt* set noautoindent filetype=mail linebreak w
 let mapleader = " "
 " toggle word wrap
 nnoremap <leader>w :call ToggleWrap()<CR>
+" set up a quick vimgrep mapping
+nnoremap <leader>g :vimgrep 
 " run shell or vim cmd and save output in scratch buffer
 nnoremap <leader>ce :call ShellToBuffer(0)<CR>
 nnoremap <leader>Ce :call VimCmdToBuffer(0)<CR>
@@ -144,7 +146,7 @@ nnoremap <leader>qc :cclose<CR>
 nnoremap <leader>qn :cn<CR>
 nnoremap <leader>qp :cp<CR>
 nnoremap <leader>qr :call PopulateCexprFromShell()<CR>
-nnoremap <leader>g :call PopulateCexprFromShell()<CR>grep -nHR 
+nnoremap <leader>qg :call PopulateCexprFromShell()<CR>grep -nHR 
 " buffer jumps
 nnoremap <leader>, :buffers<CR>:b<space>
 " terminal
