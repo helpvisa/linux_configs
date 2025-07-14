@@ -80,7 +80,7 @@ endfunction
 
 " pipe shell command output into new buffer
 function! ShellToBuffer(newtab)
-    let l:cmd = input("Shell Command: ")
+    let l:cmd = input("Shell Command: ", "", "shellcmd")
     if len(l:cmd > 0)
         if a:newtab < 1
             exe "noswapfile enew"
@@ -100,7 +100,7 @@ endfunction
 
 " pipe internal VIM command output into new buffer
 function! VimCmdToBuffer(newtab)
-    let l:cmd = input("Vim Command: ")
+    let l:cmd = input("Vim Command: ", "", "command")
     if len(l:cmd > 0)
         let @" = execute(l:cmd)
         if a:newtab < 1
@@ -121,7 +121,7 @@ endfunction
 
 " execute a system command and populate cexpr with it
 function! PopulateCexprFromShell()
-    let l:cmd = input("Shell command for cexpr: ")
+    let l:cmd = input("Shell command for cexpr: ", "", "shellcmd")
     if len(l:cmd > 0)
         exe "cexpr system('" . l:cmd . "')"
     endif
