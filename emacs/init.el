@@ -98,7 +98,7 @@
 (add-hook 'mail-mode-hook (lambda ()
                             (auto-fill-mode)
                             (setq fill-column 72)
-                            (flyspell-mode)
+                            (flyspell-mode 1)
                             (display-line-numbers-mode 0)
                             (message "Activating mail-mode hooks.")))
 ;; do the same for markdown mode
@@ -106,7 +106,8 @@
                                 (setq indent-tabs-mode nil)
                                 (setq tab-width 4)
                                 (setq indent-line-function (quote insert-tab))
-                                (flyspell-mode)))
+                                (adaptive-wrap-prefix-mode 1)
+                                (flyspell-mode 1)))
 
 ;; set up melpa packages
 (require 'package)
@@ -260,9 +261,6 @@
                           :filter ,(lambda (cmd)
                                      (when (company-explicit-action-p)
                                        cmd)))))
-;; use tab to finish autocomplete
-;; (define-key company-active-map (kbd "TAB") #'company-complete-selection)
-;; (define-key company-active-map (kbd "<tab>") #'company-complete-selection)
 ;; prevent space and other keys from doing anything unpredicatble in company
 (define-key company-active-map (kbd "SPC") nil)
 (define-key company-active-map (kbd "t") nil)
@@ -406,7 +404,7 @@ corresponding to the characters of this string are shown."
 ;; toggle lsp and flycheck
 (define-key my/keys-keymap (kbd "C-c C-a a") 'flycheck-mode)
 (evil-define-key 'normal 'global (kbd "<SPC> a") 'flycheck-mode)
-;; setup extra evil keybinds 
+;; setup extra keybinds 
 (define-key my/keys-keymap (kbd "C-c C-g") 'comment-line)
 (evil-define-key 'normal 'global "gcc" 'comment-line)
 (evil-define-key 'visual 'global "gc" 'comment-or-uncomment-region)
@@ -414,9 +412,8 @@ corresponding to the characters of this string are shown."
 (evil-define-key 'normal 'global (kbd "<SPC> r f") 'recentf)
 (evil-define-key 'normal 'global (kbd "<SPC> o f") 'find-file)
 (evil-define-key 'normal 'global (kbd "<SPC> ,") 'switch-to-buffer)
-(define-key my/keys-keymap (kbd "C-c C-s") 'lgrep)
+(define-key my/keys-keymap (kbd "C-c C-s") 'rgrep)
 (evil-define-key 'normal 'global (kbd "<SPC> g") 'rgrep)
-(evil-define-key 'normal 'global (kbd "<SPC> l g") 'lgrep)
 (evil-define-key 'normal 'global (kbd "<SPC> m") 'evil-select-mark-from-list)
 (evil-define-key 'normal 'global (kbd "<SPC> M") 'evil-show-marks-with-preview)
 (evil-define-key 'normal 'global (kbd "<SPC> t") 'tags-search)
@@ -435,11 +432,16 @@ corresponding to the characters of this string are shown."
 (define-key my/keys-keymap (kbd "M-C-1") 'shell-command-on-current-file)
 (evil-define-key 'normal 'global (kbd "M-C-1") 'shell-command-on-current-file)
 (define-key my/keys-keymap (kbd "C-c C-c") 'term-interrupt-subjob)
-(define-key my/keys-keymap (kbd "C-c $") 'highlight-symbol-at-point)
-(define-key my/keys-keymap (kbd "C-c %") 'unhighlight-regexp)
-;; visual regexp binds
-(define-key global-map (kbd "C-c r") 'vr/replace)
-(define-key global-map (kbd "C-c q") 'vr/query-replace)
+(define-key my/keys-keymap (kbd "C-c *") 'highlight-symbol-at-point)
+(define-key my/keys-keymap (kbd "C-c &") 'unhighlight-regexp)
+;; visual-regexp binds
+(define-key my/keys-keymap (kbd "C-c r") 'vr/replace)
+(define-key my/keys-keymap (kbd "C-c q") 'vr/query-replace)
+;; increase text scale
+(define-key my/keys-keymap (kbd "C-=") 'text-scale-increase)
+(define-key my/keys-keymap (kbd "C--") 'text-scale-decrease)
+;; search for files with dired
+(define-key my/keys-keymap (kbd "C-c f") 'find-dired)
 
 ;; download and enable flycheck for diagnostics under cursor
 (unless (package-installed-p 'flycheck)
