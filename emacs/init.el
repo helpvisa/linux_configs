@@ -405,7 +405,7 @@ corresponding to the characters of this string are shown."
 (define-key my/keys-keymap (kbd "C-c C-a a") 'flycheck-mode)
 (evil-define-key 'normal 'global (kbd "<SPC> a") 'flycheck-mode)
 ;; setup extra keybinds 
-(define-key my/keys-keymap (kbd "C-c C-g") 'comment-line)
+(define-key my/keys-keymap (kbd "C-c C-l") 'comment-line)
 (evil-define-key 'normal 'global "gcc" 'comment-line)
 (evil-define-key 'visual 'global "gc" 'comment-or-uncomment-region)
 (define-key my/keys-keymap (kbd "C-c C-r") 'recentf)
