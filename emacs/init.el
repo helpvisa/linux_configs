@@ -51,20 +51,20 @@
 ;; make emacs create all backup files in a very particular directory,
 ;; and make sure that backups are created as copies of the original file
 ;; first, make the directories in case they don't exist
-(make-directory "~/.emacs-backups/" t)
-(make-directory "~/.emacs-autosaves/" t)
-(make-directory "~/.emacs-locks/" t)
-(setq backup-directory-alist `(("." . "~/.emacs-backups/")))
+(make-directory "~/.config/emacs/backups/" t)
+(make-directory "~/.config/emacs/autosaves/" t)
+(make-directory "~/.config/emacs/locks/" t)
+(setq backup-directory-alist `(("." . "~/.config/emacs/backups/")))
 (setq backup-by-copying t)
 ;; change the number of held backups
 (setq delete-old-versions t
-      kept-new-version 6
+      kept-new-versions 6
       kept-old-versions 3
       version-control t)
 ;; also change autosave directory
-(setq auto-save-file-name-transforms `((".*" "~/.emacs-autosaves/\1" t)))
+(setq auto-save-file-name-transforms `((".*" "~/.config/emacs/autosaves/\1" t)))
 ;; and make lockfiles go somewhere nice
-(setq lock-file-name-transforms '((".*" "~/.emacs-locks/", t)))
+(setq lock-file-name-transforms '((".*" "~/.config/emacs/locks/", t)))
 
 ;; change the default view up / view down keys to be half-view
 (require 'view)
