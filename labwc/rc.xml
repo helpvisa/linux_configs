@@ -18,7 +18,8 @@
     <windowSwitcher show="yes" preview="yes" outlines="yes" allWorkspaces="no">
         <fields>
             <field content="type" width="15%" />
-            <field content="desktop_entry_name" width="20%" />
+            <field content="icon" width="5%" />
+            <field content="desktop_entry_name" width="15%" />
             <field content="title" width="50%" />
             <field content="output" width="15%" />
         </fields>
@@ -79,14 +80,14 @@
         <dropShadows>yes</dropShadows>
         <font>
             <name>Input Mono</name>
-            <size>9</size>
+            <size>10</size>
             <slant>normal</slant>
             <weight>bold</weight>
         </font>
     </theme>
 
     <resize>
-        <popupShow>Always</popupShow>
+        <popupShow>Nonpixel</popupShow>
         <drawContents>yes</drawContents>
     </resize>
 
@@ -102,7 +103,12 @@
         </keybind>
                 <!-- application menu -->
         <keybind key="A-Space">
-            <action name="Execute" command="fuzzel" />
+            <!-- <action name="Execute" command="fuzzel" /> -->
+            <action name="Execute" command="~/Scripts/sway/bemenu_desktop.sh" />
+        </keybind>
+                <!-- launch an emacsclient instance -->
+        <keybind key="W-e">
+            <action name="Execute" command="emacsclient -c" />
         </keybind>
                 <!-- firefox -->
         <keybind key="W-w">
@@ -117,16 +123,20 @@
             <action name="Execute" command="gnome-calculator" />
         </keybind>
                 <!-- toggle clipboard -->
-        <keybind key="W-z">
+        <keybind key="W-v">
             <action name="Execute" command="copyq toggle" />
         </keybind>
                 <!-- disable clipboard -->
-        <keybind key="W-S-a">
+        <keybind key="W-S-v">
             <action name="Execute" command="copyq disable" />
         </keybind>
                 <!-- enable clipboard -->
-        <keybind key="W-S-z">
+        <keybind key="W-C-v">
             <action name="Execute" command="copyq enable" />
+        </keybind>
+                <!-- copy password to clipboard -->
+        <keybind key="W-a">
+            <action name="Execute" command="~/Scripts/menus/wlr-copy-pass.sh" />
         </keybind>
             <!-- actions -->
                 <!-- show window menu -->
@@ -153,9 +163,15 @@
         <keybind key="W-S-Period">
             <action name="MoveToOutput" direction="right" wrap="no" />
         </keybind>
-                <!-- move window to prev monitor -->
+                <!-- move windows between monitors -->
         <keybind key="W-S-Comma">
             <action name="MoveToOutput" direction="left" wrap="no" />
+        </keybind>
+        <keybind key="W-S-j">
+            <action name="MoveToOutput" direction="down" wrap="no" />
+        </keybind>
+        <keybind key="W-S-k">
+            <action name="MoveToOutput" direction="up" wrap="no" />
         </keybind>
                 <!-- next workspace -->
         <keybind key="W-Page_Down">
@@ -273,8 +289,12 @@
             <action name="Execute" command="~/Scripts/sway/screenshot.sh" />
         </keybind>
                 <!-- take screenshot of monitor -->
-        <keybind key="W-C-Print">
+        <keybind key="W-Print">
             <action name="Execute" command="~/Scripts/sway/screenshot-monitor.sh" />
+        </keybind>
+                <!-- record screencast -->
+        <keybind key="S-Print">
+            <action name="Execute" command="~/Scripts/sway/screencast.sh" />
         </keybind>
                 <!-- set power profiles -->
         <keybind key="W-S-p">
@@ -306,6 +326,10 @@
                 <!-- make window fullscren -->
         <keybind key="W-f">
             <action name="ToggleFullscreen" />
+        </keybind>
+                <!-- vertically maximize window -->
+        <keybind key="W-A-Page_Up">
+            <action name="ToggleMaximize" direction="vertical" />
         </keybind>
                 <!-- maximize window -->
         <keybind key="W-Up">
@@ -367,6 +391,14 @@
         <keybind key="W-d">
             <action name="Execute" command="~/Scripts/sway/switch-window.sh" />
         </keybind>
+                <!-- select browser tab with fuzzel -->
+        <keybind key="W-S-d">
+            <action name="Execute" command="~/Scripts/firefox/wlr-switch-tabs-and-raise.sh" />
+        </keybind>
+                <!-- new query with fuzzel -->
+        <keybind key="W-C-d">
+            <action name="Execute" command="~/Scripts/firefox/wlr-query-new-search.sh" />
+        </keybind>
     </keyboard>
 
     <mouse>
@@ -400,6 +432,13 @@
             <mousebind button="A-Right" action="Scroll" />
         </context>
         <context name="All">
+            <!-- scrollwheel emulation -->
+            <mousebind button="W-Middle" action="Press">
+                <action name="ToggleScrollWheelEmulation" />
+            </mousebind>
+            <!-- <mousebind button="Side" action="Release"> -->
+            <!--     <action name="DisableScrollWheelEmulation" /> -->
+            <!-- </mousebind> -->
             <!-- switch workspaces with scrollwheel + Mod4 -->
             <mousebind direction="W-Up" action="Scroll">
                 <action name="GoToDesktop" to="left" wrap="yes" />
@@ -443,7 +482,37 @@
         <device category="non-touch">
             <naturalScroll>no</naturalScroll>
             <leftHanded>no</leftHanded>
-            <pointerSpeed>-0.516447</pointerSpeed>
+            <pointerSpeed>-0.52</pointerSpeed>
+            <accelProfile>flat</accelProfile>
+            <middleEmulation>no</middleEmulation>
+            <disableWhileTyping>no</disableWhileTyping>
+            <sendEventsMode>yes</sendEventsMode>
+            <scrollFactor>1.0</scrollFactor>
+        </device>
+        <device category="Kensington SlimBlade Pro Trackball(Wired) Kensington SlimBlade Pro Trackball(Wired)">
+            <naturalScroll>yes</naturalScroll>
+            <leftHanded>yes</leftHanded>
+            <pointerSpeed>-0.52</pointerSpeed>
+            <accelProfile>adaptive</accelProfile>
+            <middleEmulation>yes</middleEmulation>
+            <disableWhileTyping>no</disableWhileTyping>
+            <sendEventsMode>yes</sendEventsMode>
+            <scrollFactor>1.0</scrollFactor>
+        </device>
+        <device category="Kensington SlimBlade Pro(2.4GHz Receiver) Kensington SlimBlade Pro Trackball(2.4GHz Receiver)">
+            <naturalScroll>yes</naturalScroll>
+            <leftHanded>yes</leftHanded>
+            <pointerSpeed>-0.52</pointerSpeed>
+            <accelProfile>adaptive</accelProfile>
+            <middleEmulation>yes</middleEmulation>
+            <disableWhileTyping>no</disableWhileTyping>
+            <sendEventsMode>yes</sendEventsMode>
+            <scrollFactor>1.0</scrollFactor>
+        </device>
+        <device category="CX 2.4G Receiver Mouse">
+            <naturalScroll>no</naturalScroll>
+            <leftHanded>no</leftHanded>
+            <pointerSpeed>0</pointerSpeed>
             <accelProfile>flat</accelProfile>
             <middleEmulation>no</middleEmulation>
             <disableWhileTyping>no</disableWhileTyping>
@@ -465,6 +534,6 @@
         <height>-1</height>
         <initScale>2</initScale>
         <increment>0.5</increment>
-        <useFilter>true</useFilter>
+        <useFilter>false</useFilter>
     </magnifier>
 </labwc_config>
