@@ -121,6 +121,10 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
+;; old versions of emacs (Debian 12) may not include eglot
+(unless (package-installed-p 'eglot)
+  (package-install 'eglot))
+
 ;; install adaptive wrapping
 (unless (package-installed-p 'adaptive-wrap)
   (package-install 'adaptive-wrap))
