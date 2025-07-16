@@ -337,7 +337,7 @@
         </keybind>
                 <!-- unmaximize window -->
         <keybind key="W-Down">
-            <action name="UnSnap" direction="both" />
+            <action name="UnSnap" />
         </keybind>
                 <!-- move window to left edge -->
         <keybind key="W-Left">
@@ -423,7 +423,7 @@
             <mousebind button="A-Left" action="Press" />
             <mousebind button="A-Right" action="Press" />
             <mousebind button="A-Left" action="Release" />
-            <mousebind button="A-Right" action="Relase" />
+            <mousebind button="A-Right" action="Release" />
             <mousebind button="A-Left" action="Click" />
             <mousebind button="A-Right" action="Click" />
             <mousebind button="A-Left" action="DoubleClick" />
