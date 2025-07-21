@@ -111,19 +111,19 @@
             </action>
         </keybind>
                 <!-- toggle clipboard -->
-        <keybind key="W-z">
+        <keybind key="W-v">
             <action name="Execute">
                 <command>copyq toggle</command>
             </action>
         </keybind>
                 <!-- disable clipboard -->
-        <keybind key="W-S-a">
+        <keybind key="W-S-v">
             <action name="Execute">
                 <command>copyq disable</command>
             </action>
         </keybind>
                 <!-- enable clipboard -->
-        <keybind key="W-S-z">
+        <keybind key="W-C-v">
             <action name="Execute">
                 <command>copyq enable</command>
             </action>
