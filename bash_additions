@@ -3,27 +3,27 @@
 export HISTCONTROL=ignoreboth:erasedups
 
 # git funcs
-function parse_git_dirty {
+parse_git_dirty() {
   [[ $(git status --porcelain 2> /dev/null) ]] && echo "*"
 }
-function parse_git_branch {
+parse_git_branch() {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/(\1$(parse_git_dirty)) /"
 }
 
 # distrobox funcs
-function distrobox_name {
+distrobox_name() {
 	if [ -n "$CONTAINER_ID" ]; then
                 printf "%s" "\[\e[1;37m\]$CONTAINER_ID"
 	else
 		echo '\h'
 	fi
 }
-function distrobox_name_prompt {
+distrobox_name_prompt() {
         if [ -n "$CONTAINER_ID" ]; then
                 printf "%s" "@$CONTAINER_ID "
         fi
 }
-function distrobox_name_minimal {
+distrobox_name_minimal() {
     if [ -n "$CONTAINER_ID" ]; then
         printf "(%s) " "$CONTAINER_ID"
     fi
@@ -35,12 +35,8 @@ bind '"\e[5~": menu-complete-backward'
 bind 'set completion-ignore-case on'
 
 # prompt
-# complicated
-#export PS1="\[\e[1;34m\]\u@$(distrobox_name) \[\e[0;3;2;34m\]in \[\e[0;1;2;33m\]\w\n\[\e[0;2;3;31m\]\$(parse_git_branch)\[\e[0;35m\]\\\$\[\e[0m\] "
-# simple
-export PS1="\[\e[1;3;31m\]\$(distrobox_name_minimal)\[\e[0;33m\][\w]\n\[\e[0;2;3;36m\]\$(parse_git_branch)\[\e[0;35m\]\\\$\[\e[0;0m\] "
+export PS1="\[\e[1;3;30m\]\$(distrobox_name_minimal)\[\e[0;31m\][\w]\n\[\e[0;2;3;36m\]\$(parse_git_branch)\[\e[0;0m\]\\\$ "
 # title
-# export PROMPT_COMMAND='printf "\033]0;%s@%s in %s [%s]\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}" "${BASHPID}"'
 if [ "$TERM" = "eterm-color" ]; then
     export PROMPT_COMMAND=''
 else
@@ -48,16 +44,18 @@ else
 fi
 
 # aliases
-alias ls='ls -F --color=auto'
-alias las='ls -Fa --color=auto'
 alias lsa='ls -Fa --color=auto'
 alias la='ls -Fa --color=auto'
 alias l='ls -hF --color=auto'
 alias ll='ls -lhF --color=auto'
 alias lla='ls -lahF --color=auto'
+alias e='TERM=xterm-direct emacsclient -nw'
 
-# alias for creating mini temp directories for futzing around with 't'
+# disable terminal pausing
+stty -ixon
+
+# function for creating mini temp directories for futzing around with 't'
 # format is "t {tempfoldername}"; futz away!
-function t {
+t() {
     pushd $(mktemp -d /tmp/$1.XXXX)
 }
