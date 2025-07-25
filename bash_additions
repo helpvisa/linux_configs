@@ -1,4 +1,7 @@
 # .bashrc additional commands
+# less heinous LS colours bc of NTFS drives mounted with all persmissions
+export LS_COLORS=$LS_COLORS:'tw=00;33:ow=01;33:'
+
 # history
 export HISTCONTROL=ignoreboth:erasedups
 
