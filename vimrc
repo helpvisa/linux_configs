@@ -30,8 +30,9 @@ let &t_SI = "\e[6 q"
 let &t_SR = "\e[4 q"
 let &t_EI = "\e[2 q"
 
-" set default file browser layout
+" set default file browser layout, open files in previous split / window
 let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
 
 " automatically acquire vimplug
 if empty(glob('~/.vim/autoload/plug.vim'))
