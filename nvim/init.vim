@@ -21,7 +21,7 @@ set cc=80 " set line length guide to 80 (colour column)
 set clipboard+=unnamedplus " expand clipboard to include system clipboard
 set updatetime=300 " default timeout before cursor updates
 set noequalalways " do not mess with split sizes when a preview window closes
-set path+=** " recursively searc subdrectories of current dir for find
+set path+=** " recursively search subdrectories of current dir for find
 
 " set default file browser layout, open files in previous split / window
 let g:netrw_liststyle = 3
@@ -30,7 +30,7 @@ let g:netrw_browse_split = 4
 " automatically acquire vimplug
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  autocmd VimEnter * PlugInstall --sync | source "~/.config/nvim/init.vim"
 endif
 
 " enable plugins
@@ -46,11 +46,12 @@ call plug#end()
 if !isdirectory($HOME . "/.config/nvim/undo_dir")
     call mkdir($HOME . "/.config/nvim/undo_dir", "p")
 endif
-set undodir=~/.vim/undo_dir " set an undodir for persistent undo
-set undofile                " enable the persistent undo
+set undodir=~/.config/nvim/undo_dir " set an undodir for persistent undo
+set undofile                        " enable the persistent undo
 
 " set colorscheme
 " set termguicolors
+colorscheme shine
 
 "" CUSTOM FUNCTIONS
 " toggle word wrapping
@@ -126,22 +127,22 @@ let mapleader = " "
 nnoremap <leader>w :call ToggleWrap()<CR>
 " set up a quick vimgrep mapping
 nnoremap <leader>g :vimgrep 
-" run shell or vim cmd and save output in scratch buffer
-nnoremap <leader>ce :call ShellToBuffer(0)<CR>
-nnoremap <leader>Ce :call VimCmdToBuffer(0)<CR>
-nnoremap <leader>ct :call ShellToBuffer(1)<CR>
-nnoremap <leader>Ct :call VimCmdToBuffer(1)<CR>
-nnoremap <leader>cs :call ShellToBuffer(2)<CR>
-nnoremap <leader>Cs :call VimCmdToBuffer(2)<CR>
-nnoremap <leader>cv :call ShellToBuffer(3)<CR>
-nnoremap <leader>Cv :call VimCmdToBuffer(3)<CR>
+"sus shell or vim cmd and save output in scratch buffer
+nnoremap <leader>se :call ShellToBuffer(0)<CR>
+nnoremap <leader>ve :call VimCmdToBuffer(0)<CR>
+nnoremap <leader>st :call ShellToBuffer(1)<CR>
+nnoremap <leader>vt :call VimCmdToBuffer(1)<CR>
+nnoremap <leader>ss :call ShellToBuffer(2)<CR>
+nnoremap <leader>vs :call VimCmdToBuffer(2)<CR>
+nnoremap <leader>sv :call ShellToBuffer(3)<CR>
+nnoremap <leader>vv :call VimCmdToBuffer(3)<CR>
 " work with the quickfix list
-nnoremap <leader>qo :copen<CR>
-nnoremap <leader>qc :cclose<CR>
-nnoremap <leader>qn :cn<CR>
-nnoremap <leader>qp :cp<CR>
-nnoremap <leader>qr :call PopulateCexprFromShell()<CR>
-nnoremap <leader>qg :call PopulateCexprFromShell()<CR>grep -nHR 
+nnoremap <leader>co :copen<CR>
+nnoremap <leader>cc :cclose<CR>
+nnoremap <leader>cn :cn<CR>
+nnoremap <leader>cp :cp<CR>
+nnoremap <leader>cr :call PopulateCexprFromShell()<CR>
+nnoremap <leader>cg :call PopulateCexprFromShell()<CR>grep -nHR 
 " buffer jumps
 nnoremap <leader>b :buffers<CR>:b<space>
 " terminal

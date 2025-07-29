@@ -11,7 +11,7 @@ set linebreak " break lines on word boundaries
 set wrap " wrap lines
 set ignorecase " no case sensitivity in search patterns by default
 set mouse=a " enable the mouse in all modes
-set hlsearch " highlight all search pattern matches
+" set hlsearch " highlight all search pattern matches
 set incsearch " incrementally search while typing a pattern
 set tabstop=8 " default expansion width for tab character
 set expandtab " expand tabs with space characters instead
@@ -61,8 +61,8 @@ set undodir=~/.vim/undo_dir " set an undodir for persistent undo
 set undofile                " enable the persistent undo
 
 " set colorscheme
-set termguicolors
-colorscheme industry
+" set termguicolors
+colorscheme shine
 
 "" CUSTOM FUNCTIONS
 " toggle word wrapping
@@ -139,23 +139,23 @@ nnoremap <leader>w :call ToggleWrap()<CR>
 " set up a quick vimgrep mapping
 nnoremap <leader>g :vimgrep 
 " run shell or vim cmd and save output in scratch buffer
-nnoremap <leader>ce :call ShellToBuffer(0)<CR>
-nnoremap <leader>Ce :call VimCmdToBuffer(0)<CR>
-nnoremap <leader>ct :call ShellToBuffer(1)<CR>
-nnoremap <leader>Ct :call VimCmdToBuffer(1)<CR>
-nnoremap <leader>cs :call ShellToBuffer(2)<CR>
-nnoremap <leader>Cs :call VimCmdToBuffer(2)<CR>
-nnoremap <leader>cv :call ShellToBuffer(3)<CR>
-nnoremap <leader>Cv :call VimCmdToBuffer(3)<CR>
+nnoremap <leader>se :call ShellToBuffer(0)<CR>
+nnoremap <leader>ve :call VimCmdToBuffer(0)<CR>
+nnoremap <leader>st :call ShellToBuffer(1)<CR>
+nnoremap <leader>vt :call VimCmdToBuffer(1)<CR>
+nnoremap <leader>ss :call ShellToBuffer(2)<CR>
+nnoremap <leader>vs :call VimCmdToBuffer(2)<CR>
+nnoremap <leader>sv :call ShellToBuffer(3)<CR>
+nnoremap <leader>vv :call VimCmdToBuffer(3)<CR>
 " work with the quickfix list
-nnoremap <leader>qo :copen<CR>
-nnoremap <leader>qc :cclose<CR>
-nnoremap <leader>qn :cn<CR>
-nnoremap <leader>qp :cp<CR>
-nnoremap <leader>qr :call PopulateCexprFromShell()<CR>
-nnoremap <leader>qg :call PopulateCexprFromShell()<CR>grep -nHR 
+nnoremap <leader>co :copen<CR>
+nnoremap <leader>cc :cclose<CR>
+nnoremap <leader>cn :cn<CR>
+nnoremap <leader>cp :cp<CR>
+nnoremap <leader>cr :call PopulateCexprFromShell()<CR>
+nnoremap <leader>cg :call PopulateCexprFromShell()<CR>grep -nHR 
 " buffer jumps
-nnoremap <leader>, :buffers<CR>:b<space>
+nnoremap <leader>b :buffers<CR>:b<space>
 " terminal
 nnoremap <leader>ot :term<CR>
 nnoremap <leader>ovt :vert term<CR>
