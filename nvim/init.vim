@@ -81,7 +81,6 @@ function! ShellToBuffer(newtab)
         else
             exe "noswapfile $tabnew"
         endif
-        exe "file '" . l:cmd . "'"
         exe "set buftype=nofile"
         exe "set bufhidden=wipe"
         exe "0r!" . l:cmd
@@ -102,7 +101,6 @@ function! VimCmdToBuffer(newtab)
         else
             exe "noswapfile $tabnew"
         endif
-        exe "file '" . l:cmd . "'"
         exe "set buftype=nofile"
         exe "set bufhidden=wipe"
         exe '0put"'
