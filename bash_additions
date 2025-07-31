@@ -38,7 +38,7 @@ bind '"\e[5~": menu-complete-backward'
 bind 'set completion-ignore-case on'
 
 # prompt
-export PS1="\[\e[1;3;30m\]\$(distrobox_name_minimal)\[\e[0;31m\]\w\n\[\e[0;2;3;36m\]\$(parse_git_branch)\[\e[0;0m\]\\\$ "
+export PS1="\[\e[1;3m\]\$(distrobox_name_minimal)\[\e[0;31m\]\w\n\[\e[0;2;3;36m\]\$(parse_git_branch)\[\e[0;0m\]\\\$ "
 # title
 if [ "$TERM" = "eterm-color" ]; then
     export PROMPT_COMMAND=''

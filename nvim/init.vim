@@ -51,7 +51,9 @@ set undofile                        " enable the persistent undo
 
 " set colorscheme
 " set termguicolors
-colorscheme shine
+colorscheme default
+" disable background colour
+highlight Normal guibg=NONE ctermbg=NONE
 
 "" CUSTOM FUNCTIONS
 " toggle word wrapping
@@ -146,3 +148,4 @@ nnoremap <leader>b :buffers<CR>:b<space>
 " terminal
 nnoremap <leader>ot :term<CR>
 nnoremap <leader>ovt :vert term<CR>
+tnoremap <Esc> <C-\><C-n>
