@@ -62,9 +62,9 @@ set undofile                " enable the persistent undo
 
 " set colorscheme
 " set termguicolors
-colorscheme default
+colorscheme peachpuff
 " disable background colour
-highlight Normal guibg=NONE ctermbg=NONE
+" highlight Normal guibg=NONE ctermbg=NONE
 
 "" CUSTOM FUNCTIONS
 " toggle word wrapping

@@ -53,7 +53,7 @@ set undofile                        " enable the persistent undo
 " set termguicolors
 colorscheme default
 " disable background colour
-highlight Normal guibg=NONE ctermbg=NONE
+" highlight Normal guibg=NONE ctermbg=NONE
 
 "" CUSTOM FUNCTIONS
 " toggle word wrapping
