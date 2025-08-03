@@ -6,7 +6,7 @@
  '(ediff-diff-options "-w")
  '(ediff-window-setup-function 'ediff-setup-windows-plain))
 (custom-set-faces
- '(default ((t (:family "IosevkaTerm Nerd Font" :foundry "UKWN" :slant normal :weight regular :height 120 :width normal)))))
+ '(default ((t (:family "Iosevka" :foundry "UKWN" :slant normal :weight regular :height 120 :width normal)))))
 
 ;; update load path
 (add-to-list 'load-path "~/.config/emacs/custom-elisp")
@@ -92,23 +92,6 @@
 (fido-mode t)
 (icomplete-vertical-mode t)
 
-;; enable flyspell, auto-fill, and writeroom if being used as email writer
-(add-to-list 'auto-mode-alist '("/tmp/mutt*" . mail-mode))
-(add-to-list 'auto-mode-alist '("/tmp/neomutt*" . mail-mode))
-(add-hook 'mail-mode-hook (lambda ()
-                            (auto-fill-mode)
-                            (setq fill-column 72)
-                            (flyspell-mode 1)
-                            (display-line-numbers-mode 0)
-                            (message "Activating mail-mode hooks.")))
-;; do the same for markdown mode
-(add-hook 'markdown-mode-hook (lambda ()
-                                (setq indent-tabs-mode nil)
-                                (setq tab-width 4)
-                                (setq indent-line-function (quote insert-tab))
-                                (adaptive-wrap-prefix-mode 1)
-                                (flyspell-mode 1)))
-
 ;; set up melpa packages
 (require 'package)
 (add-to-list 'package-archives
@@ -134,8 +117,30 @@
 (with-eval-after-load 'comint
   (add-hook 'comint-mode-hook #'adaptive-wrap-prefix-mode))
 
-;; also enable eglot in all programming modes while we're here
+;; include markdown-mode
+(unless (package-installed-p 'markdown-mode)
+  (package-install 'markdown-mode))
+;; enable flyspell, auto-fill, and writeroom if being used as email writer
+(add-to-list 'auto-mode-alist '("/tmp/mutt*" . mail-mode))
+(add-to-list 'auto-mode-alist '("/tmp/neomutt*" . mail-mode))
+(add-hook 'mail-mode-hook (lambda ()
+                            (auto-fill-mode)
+                            (setq fill-column 72)
+                            (flyspell-mode 1)
+                            (display-line-numbers-mode 0)
+                            (message "Activating mail-mode hooks.")))
+;; do the same for markdown mode
+(add-hook 'markdown-mode-hook (lambda ()
+                                (setq indent-tabs-mode nil)
+                                (setq tab-width 4)
+                                (setq indent-line-function (quote insert-tab))
+                                (adaptive-wrap-prefix-mode 1)
+                                (flyspell-mode 1)))
+
+;; enable eglot in all programming modes
 (add-hook 'prog-mode-hook 'eglot-ensure)
+;; and disable inlay hints
+(setq eglot-ignored-server-capabilities '(:inlayHintProvider))
 
 ;; custom functions
 ;; restore cursor type based on mode
@@ -246,49 +251,27 @@
 ;   (package-install 'kuronami-theme))
 ; (load-theme 'your-theme-of-choice t)
 ;; we'll just load a built-in default that's less ugly in the meantime
-(load-theme 'tango-dark)
+(load-theme 'adwaita)
 
 ;; acquire lua-mode
 (unless (package-installed-p 'lua-mode)
   (package-install 'lua-mode))
 
-;; download and enable company
-(unless (package-installed-p 'company)
-  (package-install 'company))
-(require 'company)
-;; make company use tab-n-go mode
-(add-hook 'after-init-hook 'company-tng-mode)
-;; do not automatically complete to suggestion on pressing RET
-(dolist (key '("<return>" "RET"))
-  (define-key company-active-map (kbd key)
-              `(menu-item nil company-complete
-                          :filter ,(lambda (cmd)
-                                     (when (company-explicit-action-p)
-                                       cmd)))))
-;; prevent space and other keys from doing anything unpredicatble in company
-(define-key company-active-map (kbd "SPC") nil)
-(define-key company-active-map (kbd "t") nil)
-(define-key company-active-map (kbd "C-n") nil)
-(define-key company-active-map (kbd "C-p") nil)
-(define-key company-active-map (kbd "C-f") nil)
-(define-key company-active-map (kbd "C-b") nil)
-(define-key company-active-map (kbd "C-v") nil)
-(define-key company-active-map (kbd "M-v") nil)
-;; company can overrides above keymaps based on company-auto-complete-chars
-;; turn this off to prevent that behaviour
-(setq company-auto-complete-chars nil)
-;; disable delay for showing suggestions
-(setq company-idle-delay 0)
-;; show suggestions after entering only 1 character
-(setq company-minimum-prefix-length 1)
-;; let suggestions list wrap back around to top
-(setq company-selection-wrap-around 1)
-;; optionally enable below for less intrusive behaviour
-; (setq company-frontends '(company-tng-frontend
-;                           company-echo-strip-common-frontend))
-;; enable company globally
-(company-mode 1)
-(add-hook 'after-init-hook 'global-company-mode)
+;; enable completion-preview-mode
+;; older emacs versions may not include it outright
+(unless (package-installed-p 'completion-preview)
+  (package-install 'completion-preview))
+(add-hook 'prog-mode-hook #'completion-preview-mode)
+(add-hook 'text-mode-hook #'completion-preview-mode)
+(with-eval-after-load 'comint
+  (add-hook 'comint-mode-hook #'completion-preview-mode))
+(with-eval-after-load 'completion-preview
+  (setq completion-preview-minimum-symbol-length 1)
+  (keymap-set completion-preview-active-mode-map "TAB"
+              #'completion-preview-next-candidate)
+  (keymap-set completion-preview-active-mode-map "S-TAB"
+              #'completion-preview-prev-candidate)
+  (keymap-set completion-preview-active-mode-map "M-i" #'completion-preview-insert))
 
 ;; download evil, as a toggleable option
 (unless (package-installed-p 'evil)
