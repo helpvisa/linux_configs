@@ -398,7 +398,7 @@ corresponding to the characters of this string are shown."
 (define-key my/keys-keymap (kbd "C-c C-r") 'recentf)
 (evil-define-key 'normal 'global (kbd "<SPC> r f") 'recentf)
 (evil-define-key 'normal 'global (kbd "<SPC> o f") 'find-file)
-(evil-define-key 'normal 'global (kbd "<SPC> ,") 'switch-to-buffer)
+(evil-define-key 'normal 'global (kbd "<SPC> b") 'switch-to-buffer)
 (define-key my/keys-keymap (kbd "C-c C-s") 'rgrep)
 (evil-define-key 'normal 'global (kbd "<SPC> g") 'rgrep)
 (evil-define-key 'normal 'global (kbd "<SPC> m") 'evil-select-mark-from-list)
