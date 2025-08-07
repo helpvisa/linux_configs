@@ -269,7 +269,7 @@
   (setq completion-preview-minimum-symbol-length 1)
   (keymap-set completion-preview-active-mode-map "TAB"
               #'completion-preview-next-candidate)
-  (keymap-set completion-preview-active-mode-map "S-TAB"
+  (keymap-set completion-preview-active-mode-map "<backtab>"
               #'completion-preview-prev-candidate)
   (keymap-set completion-preview-active-mode-map "M-i" #'completion-preview-insert))
 
