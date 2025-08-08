@@ -48,7 +48,10 @@
 ;; disable audible bell, because it is very annoying
 (setq visible-bell 1)
 
-;; make emacs create all backup files in a very particular directory,
+;; enable recursive dired copying by default
+(setq dired-recursive-copies 'always)
+
+;; MAKE emacs create all backup files in a very particular directory,
 ;; and make sure that backups are created as copies of the original file
 ;; first, make the directories in case they don't exist
 (make-directory "~/.config/emacs/backups/" t)
