@@ -18,7 +18,7 @@
 ;; and set a default PGTK delay
 (setq-default pgtk-wait-for-event-timeout 0)
 ;; and enable hover-focus
-(setq mouse-autoselect-window t)
+(setq mouse-autoselect-window nil)
 
 ;; disable splash
 (setq inhibit-splash-screen t)
@@ -201,24 +201,24 @@
   '(define-key c-mode-map (kbd "<DEL>") 'backspace-whitespace-to-tab-stop))
 
 ;; setup cursor changes based on mode
-(add-hook 'overwrite-mode-hook
-          (lambda ()
-            (if overwrite-mode
-                (setq cursor-type 'hbar)
-              (setq cursor-type 'box))))
-(add-hook 'activate-mark-hook
-          (lambda ()
-            (if (not evil-mode)
-                (setq cursor-type 'bar))))
-(add-hook 'deactivate-mark-hook
-          (lambda ()
-            (restore-cursor-type)))
-(add-hook 'isearch-mode-hook
-          (lambda ()
-            (setq cursor-type 'bar)))
-(add-hook 'isearch-mode-end-hook
-          (lambda ()
-            (restore-cursor-type)))
+;; (add-hook 'overwrite-mode-hook
+;;           (lambda ()
+;;             (if overwrite-mode
+;;                 (setq cursor-type 'hbar)
+;;               (setq cursor-type 'box))))
+;; (add-hook 'activate-mark-hook
+;;           (lambda ()
+;;             (if (not evil-mode)
+;;                 (setq cursor-type 'bar))))
+;; (add-hook 'deactivate-mark-hook
+;;           (lambda ()
+;;             (restore-cursor-type)))
+;; (add-hook 'isearch-mode-hook
+;;           (lambda ()
+;;             (setq cursor-type 'bar)))
+;; (add-hook 'isearch-mode-end-hook
+;;           (lambda ()
+;;             (restore-cursor-type)))
 
 ;; preview regular expressions for search-and-replace
 (unless (package-installed-p 'visual-regexp)
@@ -391,6 +391,10 @@ corresponding to the characters of this string are shown."
 (define-key my/keys-keymap (kbd "C-c C-w l") 'evil-window-right)
 (define-key my/keys-keymap (kbd "C-c C-w k") 'evil-window-up)
 (define-key my/keys-keymap (kbd "C-c C-w j") 'evil-window-down)
+(define-key my/keys-keymap (kbd "C-c C-w C-h") 'evil-window-left)
+(define-key my/keys-keymap (kbd "C-c C-w C-l") 'evil-window-right)
+(define-key my/keys-keymap (kbd "C-c C-w C-k") 'evil-window-up)
+(define-key my/keys-keymap (kbd "C-c C-w C-j") 'evil-window-down)
 ;; toggle lsp and flycheck
 (define-key my/keys-keymap (kbd "C-c C-a a") 'flycheck-mode)
 (evil-define-key 'normal 'global (kbd "<SPC> a") 'flycheck-mode)
@@ -415,6 +419,8 @@ corresponding to the characters of this string are shown."
 (evil-define-key 'normal 'global (kbd "gi") 'eglot-find-implementation)
 (define-key my/keys-keymap (kbd "C-c C-a n") 'eglot-rename)
 (evil-define-key 'normal 'global (kbd "<SPC> r n") 'eglot-rename)
+(define-key my/keys-keymap (kbd "C-c C-a r") 'eglot-reconnect)
+(evil-define-key 'normal 'global (kbd "<SPC> r r") 'eglot-reconnect)
 (define-key my/keys-keymap (kbd "C-c C-a h") 'display-local-help)
 (evil-define-key 'normal 'global (kbd "gh") 'display-local-help)
 (evil-define-key 'normal 'global (kbd "gbh") 'flymake-show-buffer-diagnostics)
