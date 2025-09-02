@@ -33,6 +33,9 @@
 ;; enable global word wrapping too
 (setq-default word-wrap t)
 
+;; enable repeat mode
+(repeat-mode t)
+
 ;; enable recent files
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
@@ -395,6 +398,16 @@ corresponding to the characters of this string are shown."
 (define-key my/keys-keymap (kbd "C-c C-w C-l") 'evil-window-right)
 (define-key my/keys-keymap (kbd "C-c C-w C-k") 'evil-window-up)
 (define-key my/keys-keymap (kbd "C-c C-w C-j") 'evil-window-down)
+;; and enable repeat-mode keymaps for these
+(defvar-keymap evil-window-move-repeat-map
+  :repeat (:enter (evil-window-left
+                   evil-window-right
+                   evil-window-up
+                   evil-window-down))
+  "C-h" #'evil-window-left
+  "C-l" #'evil-window-right
+  "C-k" #'evil-window-up
+  "C-j" #'evil-window-down)
 ;; toggle lsp and flycheck
 (define-key my/keys-keymap (kbd "C-c C-a a") 'flycheck-mode)
 (evil-define-key 'normal 'global (kbd "<SPC> a") 'flycheck-mode)
