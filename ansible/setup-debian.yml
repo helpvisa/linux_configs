@@ -25,3 +25,10 @@
       community.general.flatpak:
         name: "{{ flatpak_package_list }}"
         state: present
+
+    - name: Configure JACK with pipewire-jack
+      ansible.builtin.shell: |
+        cp /usr/share/doc/pipewire/examples/ld.so.conf.d/pipewire-jack-*.conf /etc/ld.so.conf.d/
+        ldconfig
+      become: true
+      become_user: root
