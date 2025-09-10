@@ -74,8 +74,8 @@
 
 ;; change the default view up / view down keys to be half-view
 (require 'view)
-(global-set-key "\C-v" 'View-scroll-half-page-forward)
-(global-set-key "\M-v" 'View-scroll-half-page-backward)
+;; (global-set-key "\C-v" 'View-scroll-half-page-forward)
+;; (global-set-key "\M-v" 'View-scroll-half-page-backward)
 (global-set-key [?\C-\S-v] 'View-scroll-line-forward)
 (global-set-key "\M-\S-v" 'View-scroll-line-backward)
 

@@ -1,0 +1,114 @@
+# set up and configure Debian via Ansible
+# run with --ask-become-pass
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Acquire Mozilla's apt repository signing key
+      ansible.builtin.get_url:
+        url: https://packages.mozilla.org/apt/repo-signing-key.gpg
+        dest: /etc/apt/keyrings/packages.mozilla.org.asc
+      become: true
+      become_user: root
+
+    - name: Get GPG Key fingerprint
+      ansible.builtin.set_fact:
+        moz_fingerprint: "{{ lookup('ansible.builtin.file', '/etc/apt/keyrings/packages.mozilla.org.asc') | community.crypto.gpg_fingerprint }}"
+
+    - name: Verify Mozilla gpg key's fingerprint
+      ansible.builtin.fail:
+        msg: "GPG key not valid, fingerprint does not match!"
+      when: moz_fingerprint != "35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3"
+
+    - name: Add mozilla repo
+      ansible.builtin.apt_repository:
+        repo: deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main
+        state: present
+        filename: mozilla
+      become: true
+      become_user: root
+
+    - name: Pin the mozilla repo so we always get the official non-ESR version
+      ansible.builtin.blockinfile:
+        path: /etc/apt/preferences.d/mozilla
+        block: |
+          Package: *
+          Pin: origin packages.mozilla.org
+          Pin-Priority: 1000
+        create: true
+      become: true
+      become_user: root
+
+    - name: Load required deb files as a list
+      ansible.builtin.set_fact:
+        apt_package_list: "{{ lookup('ansible.builtin.file', './apt-package-list').splitlines() }}"
+
+    - name: Update apt package cache
+      ansible.builtin.apt:
+        update_cache: true
+      become: true
+      become_user: root
+
+    - name: Install required packages with dpkg
+      ansible.builtin.apt:
+        name: "{{ apt_package_list }}"
+        state: present
+      become: true
+      become_user: root
+      register: apt_output
+
+    - name: Show apt output
+      ansible.builtin.debug: msg="{{ apt_output.stdout_lines }}"
+      when: apt_output.stdout_lines is defined
+
+    - name: Remove packages from apt that are no longer required
+      ansible.builtin.apt:
+        name:
+          - gnome-terminal
+          - firefox-esr
+        state: absent
+        autoremove: true
+      become: true
+      become_user: root
+
+    - name: Add flathub as a remote repository
+      community.general.flatpak_remote:
+        name: flathub
+        state: present
+        flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+
+    - name: Load required flatpaks as a list
+      ansible.builtin.set_fact:
+        flatpak_package_list: "{{ lookup('ansible.builtin.file', './flatpak-package-list').splitlines() }}"
+
+    - name: Install flatpaks
+      community.general.flatpak:
+        name: "{{ flatpak_package_list }}"
+        state: present
+
+    - name: Get nautilus-open-any-terminal from git
+      ansible.builtin.git:
+        repo: https://github.com/Stunkymonkey/nautilus-open-any-terminal.git
+        dest: /tmp/open-any-term
+
+    - name: Install nautilus-open-any-terminal
+      community.general.make:
+        chdir: /tmp/open-any-term
+        targets:
+          - build
+          - install
+          - schema
+
+    - name: Configure nautilus-open-any-terminal
+      ansible.builtin.shell: |
+        gsettings set com.github.stunkymonkey.nautilus-open-any-terminal custom-local-command 'ptyxis --new-window -d %s'
+        gsettings set com.github.stunkymonkey.nautilus-open-any-terminal custom-remote-command 'ptyxis --new-window -- %s'
+        gsettings set com.github.stunkymonkey.nautilus-open-any-terminal terminal 'custom'
+
+    - name: Configure JACK with pipewire-jack
+      ansible.builtin.shell: |
+        cp /usr/share/doc/pipewire/examples/ld.so.conf.d/pipewire-jack-*.conf /etc/ld.so.conf.d/
+        ldconfig
+      become: true
+      become_user: root

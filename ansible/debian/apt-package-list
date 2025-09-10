@@ -195,7 +195,6 @@ ed
 editorconfig
 efibootmgr
 eject
-elpa-nose
 emacs-bin-common
 emacs-common
 emacs-el
@@ -203,8 +202,6 @@ emacs-pgtk
 emacs
 emacsen-common
 enchant-2
-endless-sky-data
-endless-sky
 eslint
 espeak-ng-data
 evince-common
@@ -230,16 +227,6 @@ file-roller
 file
 findutils
 fio
-firefox
-firmware-ath9k-htc
-firmware-carl9170
-firmware-intel-graphics
-firmware-intel-misc
-firmware-iwlwifi
-firmware-linux-free
-firmware-mediatek
-firmware-misc-nonfree
-firmware-realtek
 flatpak
 fluid-soundfont-gm
 folks-common
@@ -654,7 +641,6 @@ mesa-vdpau-drivers
 mesa-vdpau-drivers
 mesa-vulkan-drivers
 mesa-vulkan-drivers
-mime-support
 minisign
 mobile-broadband-provider-info
 modemmanager
@@ -680,7 +666,8 @@ nautilus
 ncurses-base
 ncurses-bin
 ncurses-term
-neofetch
+fastfetch
+firefox
 netavark
 netbase
 netcat-openbsd
@@ -1085,8 +1072,6 @@ ocl-icd-opencl-dev
 open-iscsi
 opencl-c-headers
 opencl-clhpp-headers
-openjdk-17-jre-headless
-openjdk-17-jre
 openjdk-21-doc
 openjdk-21-jdk-headless
 openjdk-21-jdk
@@ -1237,7 +1222,6 @@ python3-minimal
 python3-more-itertools
 python3-nautilus
 python3-netaddr
-python3-nose
 python3-olefile
 python3-openssl
 python3-orderedmultidict
@@ -1385,7 +1369,6 @@ samba-libs
 sane-airscan
 sane-utils
 sbcl
-scarlett2-firmware
 scorched3d-data
 scorched3d
 seabios
@@ -1547,7 +1530,6 @@ wf-recorder
 wget
 whiptail
 wine-binfmt
-wine32
 wine64
 wine
 winetricks
@@ -1623,7 +1605,6 @@ yelp
 yudit-common
 zenity-common
 zenity
-zerotier-one
 zip
 zlib1g-dev
 zlib1g
