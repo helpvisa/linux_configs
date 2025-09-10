@@ -179,6 +179,7 @@ dosfstools
 dpkg-dev
 dpkg
 dracut-install
+dunst
 dvisvgm
 e2fsprogs
 ed
@@ -1463,6 +1464,7 @@ vlc-plugin-video-splitter
 vlc-plugin-visualization
 vlc
 vulkan-tools
+waybar
 w3m-img
 w3m
 wamerican
