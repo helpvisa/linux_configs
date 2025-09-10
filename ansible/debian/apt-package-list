@@ -79,9 +79,6 @@ ca-certificates
 cabextract
 caca-utils
 caps
-castle-model-viewer
-cataclysm-dda-data
-cataclysm-dda-sdl
 catatonit
 ccache
 chafa
@@ -96,7 +93,6 @@ cli-common
 cloc
 cmake-data
 cmake
-cmatrix
 coinor-libcbc3.1
 coinor-libcgl1
 coinor-libclp1
@@ -111,8 +107,6 @@ console-setup-linux
 console-setup
 containernetworking-plugins
 containers-storage
-copyq-plugins
-copyq
 coreutils
 cpio
 cpp-12
@@ -266,7 +260,6 @@ fonts-wine
 foot-themes
 foot
 fprintd
-freedoom
 freeglut3-dev
 freepats
 frei0r-plugins
@@ -671,8 +664,6 @@ netavark
 netbase
 netcat-openbsd
 netcat-traditional
-nethack-common
-nethack-x11
 netpbm
 nettle-dev
 network-manager-applet
@@ -1333,14 +1324,12 @@ qt6-qpa-plugins
 qt6-svg-plugins
 qt6-tools-dev-tools
 qt6-translations-l10n
-qtractor
 qttranslations5-l10n
 rake
 readline-common
 realmd
 reportbug
 ripgrep
-robocode
 rpcsvc-proto
 rsync
 rtkit
@@ -1368,8 +1357,6 @@ samba-libs
 sane-airscan
 sane-utils
 sbcl
-scorched3d-data
-scorched3d
 seabios
 seahorse
 sed
@@ -1477,9 +1464,6 @@ uno-libs-private
 unzip
 update-inetd
 upower
-uqm-content
-uqm-music
-uqm
 ure
 usb-modeswitch-data
 usb-modeswitch
@@ -1612,6 +1596,5 @@ zplug
 zsh-common
 zsh
 zstd
-zutty
 zynaddsubfx-data
 zynaddsubfx
