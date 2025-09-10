@@ -112,3 +112,14 @@
         ldconfig
       become: true
       become_user: root
+
+    - name: And now the cherry on top... fastfetch config (create config dir)
+      ansible.builtin.file:
+        path: ~/.config/fastfetch
+        state: directory
+
+    - name: And now the cherry on top... fastfetch config (copy config)
+      ansible.builtin.copy:
+        src: fastfetch_config.jsonc
+        dest: ~/.config/fastfetch/config.jsonc
+        follow: true
