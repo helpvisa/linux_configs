@@ -3,3 +3,4 @@
 set -e
 
 sudo apt install git pipx ansible ansible-core
+ansible-playbook ./setup-debian.yml --ask-become-pass
