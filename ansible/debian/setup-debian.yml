@@ -84,6 +84,8 @@
       community.general.flatpak:
         name: "{{ flatpak_package_list }}"
         state: present
+        remote: flathub
+        method: system
       become: true
       become_user: root
 
