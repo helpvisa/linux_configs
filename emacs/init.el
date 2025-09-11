@@ -54,6 +54,11 @@
 ;; enable recursive dired copying by default
 (setq dired-recursive-copies 'always)
 
+;; enable function header
+(require 'semantic)
+(semantic-mode 1)
+(global-semantic-stickyfunc-mode 1)
+
 ;; MAKE emacs create all backup files in a very particular directory,
 ;; and make sure that backups are created as copies of the original file
 ;; first, make the directories in case they don't exist
@@ -249,15 +254,15 @@
 (add-hook 'icomplete-minibuffer-setup-hook 'my-icomplete-styles)
 
 ;; install whichever theme set most intrigues you
-; (unless (package-installed-p 'ef-themes)
-;   (package-install 'ef-themes))
+(unless (package-installed-p 'ef-themes)
+  (package-install 'ef-themes))
 ; (unless (package-installed-p 'stimmung-themes)
 ;   (package-install 'stimmung-themes))
 ; (unless (package-installed-p 'kuronami-theme)
 ;   (package-install 'kuronami-theme))
 ; (load-theme 'your-theme-of-choice t)
-;; we'll just load a built-in default that's less ugly in the meantime
-(load-theme 'adwaita)
+;; we'll just load a nice default in the meantime
+(load-theme 'ef-day t)
 
 ;; acquire lua-mode
 (unless (package-installed-p 'lua-mode)
