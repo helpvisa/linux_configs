@@ -54,11 +54,6 @@
 ;; enable recursive dired copying by default
 (setq dired-recursive-copies 'always)
 
-;; enable function header
-(require 'semantic)
-(semantic-mode 1)
-(global-semantic-stickyfunc-mode 1)
-
 ;; MAKE emacs create all backup files in a very particular directory,
 ;; and make sure that backups are created as copies of the original file
 ;; first, make the directories in case they don't exist
