@@ -54,6 +54,27 @@
 ;; enable recursive dired copying by default
 (setq dired-recursive-copies 'always)
 
+;; enable which-function-mode
+(which-function-mode)
+;; set a custom modeline so we can actually see it
+(setq-default mode-line-format
+              '("%e" mode-line-front-space
+                (:propertize
+                 ("" mode-line-mule-info
+                  mode-line-client
+                  mode-line-modified
+                  mode-line-remote)
+                  display (min-width (5.0)))
+                mode-line-frame-identification
+                mode-line-buffer-identification
+                (vc-mode vc-mode)
+                "\t"
+                mode-name
+                mode-line-format-right-align
+                mode-line-position
+                mode-line-misc-info
+                mode-line-end-spaces))
+
 ;; MAKE emacs create all backup files in a very particular directory,
 ;; and make sure that backups are created as copies of the original file
 ;; first, make the directories in case they don't exist
