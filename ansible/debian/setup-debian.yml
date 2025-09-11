@@ -113,6 +113,21 @@
       become: true
       become_user: root
 
+    - name: Install ZeroTier using official script (GPG Version, ofc)
+      ansible.builtin.shell: |
+        curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/main/doc/contact%40zerotier.com.gpg' | gpg --import && \
+        if z=$(curl -s 'https://install.zerotier.com/' | gpg); then echo "$z" | sudo bash; fi
+      become: true
+      become_user: root
+
+    - name: Enable ZeroTier service
+      ansible.builtin.systemd_service:
+        enabled: true
+        state: started
+        name: zerotier-one
+      become: true
+      become_user: root
+
     - name: And now the cherry on top... fastfetch config (create config dir)
       ansible.builtin.file:
         path: ~/.config/fastfetch
