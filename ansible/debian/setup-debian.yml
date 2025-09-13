@@ -144,6 +144,7 @@
         src: files/zram-generator.conf
         dest: /etc/systemd/zram-generator.conf
         follow: true
+      register: zram_gen_config
       become: true
       become_user: root
 
@@ -152,6 +153,7 @@
         daemon_reload: true
         state: restarted
         name: systemd-zram-setup@zram0.service
+      when: zram_gen_config.changed
       become: true
       become_user: root
 
