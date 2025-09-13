@@ -138,6 +138,33 @@
         scope: user
       become: true
       become_user: helpvisa  # hey, that's me
+
+    - name: Copy zram-generator configuration (8192MB size)
+      ansible.builtin.copy:
+        src: files/zram-generator.conf
+        dest: /etc/systemd/zram-generator.conf
+        follow: true
+      become: true
+      become_user: root
+
+    - name: Restart zram service (if it hasn't already been started)
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+        state: restarted
+        name: systemd-zram-setup@zram0.service
+      become: true
+      become_user: root
+
+    - name: Make sure qt is configured to use GNOME theme (create config dir)
+      ansible.builtin.file:
+        path: ~/.config/environment.d
+        state: directory
+   
+    - name: Make sure qt is configured to use GNOME theme (copy config)
+      ansible.builtin.copy:
+        src: files/envvars.conf
+        dest: ~/.config/environment.d/envvars.conf
+        follow: true
    
     - name: And now the cherry on top... fastfetch config (create config dir)
       ansible.builtin.file:
