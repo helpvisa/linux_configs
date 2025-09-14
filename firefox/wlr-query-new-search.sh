@@ -2,11 +2,11 @@
 # Requires activate-window-by-title
 
 SELECTION=$(printf "%s" "" \
-    | BEMENU_BACKEND=wayland bemenu -i -l 30 \
+    | BEMENU_BACKEND=wayland bemenu -i \
     -H 25 \
     --counter=always \
     -p 'search the web <>' \
-    --fn 'Input Mono 12' \
+    --fn 'IosevkaTerm Nerd Font 10' \
     --tb='#222222' \
     --fb='#222222' \
     --cb='#222222' \
@@ -39,7 +39,7 @@ else
 
         # keep checking for our new tab
         CHECKS=1
-        while [ -z "$NAME" ] && [ "25" -gt "$CHECKS" ]; do
+        while [ -z "$NAME" ] && [ 25 -gt "$CHECKS" ]; do
             # (wlr-specific)
             APP_DETAILS=$(wlrctl toplevel list | grep "$SELECTION")
             APP_ID="$(printf "%s" "$APP_DETAILS" \
@@ -47,7 +47,7 @@ else
             NAME="$(printf "%s" "$APP_DETAILS" \
                 | sed 's/^[^:\ ]*:\ //')"
             # increment check counter
-            CHECKS=$(echo "$CHECKS 1 + p" | dc)
+            CHECKS=$(echo "$CHECKS 1 + p" | bc)
             printf "%d\n" "$CHECKS"
             sleep 0.2
         done

@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 # requires brotab (pipx install brotab)
 # requires my fork of window-calls extension (https://github.com/helpvisa/window-calls)
 
-LIST=$(brotab list)
+LIST=$($HOME/.local/bin/brotab list)
 SELECTION=$(printf "%s" "$LIST" \
     | fzf --bind=enter:replace-query+print-query \
     --style=minimal --layout=reverse --margin 3% \
@@ -35,8 +35,8 @@ else
         | sed 's/\t.*//' \
         | sed 's/\*//g')
 
-    brotab activate "$TAB_ID" 2>/dev/null
-    if [ $? -ne 0 ] || [ -z "$(brotab clients)" ]; then
+    $HOME/.local/bin/brotab activate "$TAB_ID" 2>/dev/null
+    if [ $? -ne 0 ] || [ -z "$($HOME/.local/bin/brotab clients)" ]; then
         if printf "%s" "$SELECTION" | grep -q "\.ca\|\.com\|\.org\|\.net\|\.io"; then
             URL="${SELECTION}"
             SELECTION="$(printf "%s" "$SELECTION" | cut -d'.' -f1)"
@@ -56,7 +56,7 @@ else
 
     # keep checking for our new tab or window
     CHECK=1
-    while [ -z "$WINDOW" ] && [ "25" -gt "$CHECK" ]; do
+    while [ -z "$WINDOW" ] && [ 25 -gt "$CHECK" ]; do
         # (gnome-specific)
         LIST_RAW=$(gdbus call --session --dest org.gnome.Shell \
                 --object-path /org/gnome/Shell/Extensions/Windows \
@@ -69,7 +69,7 @@ else
             | grep -i "$TAB_TITLE" \
             | sed 's/.*://')
         # increment check counter
-        CHECK=$(echo "$CHECK 1 + p" | dc)
+        CHECK=$(echo "$CHECK 1 + p" | bc)
         printf "%d\n" "$CHECK"
         sleep 0.2
     done

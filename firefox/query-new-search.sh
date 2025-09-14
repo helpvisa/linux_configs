@@ -43,7 +43,7 @@ else
         # keep checking for our new tab
         SELECTION=$(printf "%s" "$SELECTION" | sed 's/\*//g')
         CHECK=1
-        while [ -z "$WINDOW" ] && [ "25" -gt "$CHECK" ]; do
+        while [ -z "$WINDOW" ] && [ 25 -gt "$CHECK" ]; do
             # (gnome-specific)
             LIST_RAW=$(gdbus call --session --dest org.gnome.Shell \
                     --object-path /org/gnome/Shell/Extensions/Windows \
@@ -56,7 +56,7 @@ else
                 | grep -i "$SELECTION" \
                 | sed 's/.*://')
             # increment check counter
-            CHECK=$(echo "$CHECK 1 + p" | dc)
+            CHECK=$(echo "$CHECK 1 + p" | bc)
             printf "%d\n" "$CHECK"
             sleep 0.2
         done

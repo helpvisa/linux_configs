@@ -6,11 +6,11 @@ LIST=$(~/.local/bin/brotab list)
 # SELECTION=$(printf "%s" "$LIST" | fzf --style=minimal --layout=reverse --margin 5% --prompt='activate tab: ')
 # SELECTION=$(printf "%s" "$LIST" | fuzzel -d --placeholder='activate browser tab')
 SELECTION=$(printf "%s" "$LIST" \
-    | BEMENU_BACKEND=wayland bemenu -i -l 30 -f \
+    | BEMENU_BACKEND=wayland bemenu -i -f \
     -H 25 \
     --counter=always \
     -p 'activate tab <>' \
-    --fn 'Input Mono 12' \
+    --fn 'IosevkaTerm Nerd Font 10' \
     --tb='#222222' \
     --fb='#222222' \
     --cb='#222222' \
@@ -52,7 +52,7 @@ else
 
     # keep checking for our new tab
     CHECKS=1
-    while [ -z "$NAME" ] && [ "25" -gt "$CHECKS" ]; do
+    while [ -z "$NAME" ] && [ 25 -gt "$CHECKS" ]; do
         # (wlr-specific)
         APP_DETAILS=$(wlrctl toplevel list | grep "$TAB_NAME")
         APP_ID="$(printf "%s" "$APP_DETAILS" \
@@ -60,7 +60,7 @@ else
         NAME="$(printf "%s" "$APP_DETAILS" \
             | sed 's/^[^:\ ]*:\ //')"
         # increment check counter
-        CHECKS=$(echo "$CHECKS 1 + p" | dc)
+        CHECKS=$(echo "$CHECKS 1 + p" | bc)
         printf "%d\n" "$CHECKS"
         sleep 0.2
     done
