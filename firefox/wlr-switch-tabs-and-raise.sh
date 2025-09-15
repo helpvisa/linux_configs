@@ -60,7 +60,7 @@ else
         NAME="$(printf "%s" "$APP_DETAILS" \
             | sed 's/^[^:\ ]*:\ //')"
         # increment check counter
-        CHECKS=$(echo "$CHECKS 1 + p" | bc)
+        CHECKS=$(echo "$CHECKS + 1" | bc)
         printf "%d\n" "$CHECKS"
         sleep 0.2
     done

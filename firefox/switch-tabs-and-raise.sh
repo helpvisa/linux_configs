@@ -69,7 +69,7 @@ else
             | grep -i "$TAB_TITLE" \
             | sed 's/.*://')
         # increment check counter
-        CHECK=$(echo "$CHECK 1 + p" | bc)
+        CHECK=$(echo "$CHECK + 1" | bc)
         printf "%d\n" "$CHECK"
         sleep 0.2
     done
