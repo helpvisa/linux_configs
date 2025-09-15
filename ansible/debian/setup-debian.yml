@@ -167,7 +167,40 @@
         src: files/envvars.conf
         dest: ~/.config/environment.d/envvars.conf
         follow: true
-   
+
+    - name: Download and install Adwaita fonts
+      ansible.builtin.unarchive:
+        src: https://gitlab.gnome.org/GNOME/adwaita-fonts/-/archive/49.0/adwaita-fonts-49.0.tar.gz
+        dest: /usr/share/fonts
+        remote_src: true
+      become: true
+      become_user: root
+
+    - name: Download and install Iosevka fonts (create directory)
+      ansible.builtin.file:
+        path: /usr/share/fonts/iosevka-fonts-33-3-0
+        state: directory
+      become: true
+      become_user: root
+
+    - name: Download and install Iosevka fonts (download files)
+      ansible.builtin.unarchive:
+        src: https://github.com/be5invis/Iosevka/releases/download/v33.3.0/PkgTTC-Iosevka-33.3.0.zip
+        dest: /usr/share/fonts/iosevka-fonts-33-3-0
+        remote_src: true
+      become: true
+      become_user: root
+
+    - name: Configure GNOME interface fonts to use Adwaita
+      ansible.builtin.shell: |
+        gsettings set org.gnome.desktop.interface font-name 'Adwaita Sans 11'
+        gsettings set org.gnome.desktop.interface document-font-name 'Adwaita Sans 11'
+        gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka 12'
+
+    - name: Configure xkb-options for GNOME desktop
+      ansible.builtin.shell: |
+        gsettings set org.gnome.desktop.input-sources xkb-options '["ctrl:nocaps", "compose:menu", "shift:both_capslock"]'
+
     - name: And now the cherry on top... fastfetch config (create config dir)
       ansible.builtin.file:
         path: ~/.config/fastfetch
