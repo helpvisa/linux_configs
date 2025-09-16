@@ -175,6 +175,49 @@
   (if overwrite-mode
       (setq cursor-type 'hbar)
     (setq cursor-type 'box)))
+;; shift the current or selected line(s) up or down
+(defun shift-line (&optional repeats direction)
+  "Shift the current line(s) by the given number."
+  (unless repeats (setq repeats 1))
+  (unless direction (setq direction 1))
+  (with-current-buffer (current-buffer)
+    (dotimes (number repeats)
+      (let ((shift-beginning (if (use-region-p)
+                                 (region-beginning)
+                               (line-beginning-position)))
+            (shift-end (+ (line-end-position) 1)))
+        (let ((deactivate-mark nil)
+              (region-was-active (use-region-p))
+              (current-line (buffer-substring shift-beginning
+                                              shift-end))
+              (column-at-start (current-column)))
+          (delete-region shift-beginning shift-end)
+          (forward-line direction)
+          (let ((new-last-position (point)))
+            (insert current-line)
+            (if region-was-active
+                (set-mark new-last-position))
+            (forward-line -1)
+            (move-to-column column-at-start)))))))
+
+;; interactive binding of shift-line (down)
+(defun shift-line-down (count)
+  "Shift the current line(s) down by COUNT times."
+  (interactive "p")
+  (shift-line count))
+
+;; interactive binding of shift-line (up)
+(defun shift-line-up (count)
+  "Shift the current line(s) up by COUNT times."
+  (interactive "p")
+  (shift-line count -1))
+
+;; create a temporary buffer in markdown mode
+(defun create-scratch-markdown-buffer ()
+  "Switch to a new (temporary) markdown buffer."
+  (interactive)
+  (switch-to-buffer (make-temp-name "scratchnote-"))
+  (markdown-mode))
 
 ;; call a shell command on the current file
 (defun shell-command-on-current-file (command)
@@ -410,6 +453,7 @@ corresponding to the characters of this string are shown."
 (add-to-list 'emulation-mode-map-alists
              `((my/keys-mode . ,my/keys-keymap)))
 (my/keys-mode)
+
 ;; pane travels for standard emacs bindings
 (define-key my/keys-keymap (kbd "C-c C-w h") 'evil-window-left)
 (define-key my/keys-keymap (kbd "C-c C-w l") 'evil-window-right)
@@ -429,6 +473,17 @@ corresponding to the characters of this string are shown."
   "C-l" #'evil-window-right
   "C-k" #'evil-window-up
   "C-j" #'evil-window-down)
+
+;; shift selected lines up / down
+(define-key my/keys-keymap (kbd "C-c .") 'shift-line-down)
+(define-key my/keys-keymap (kbd "C-c ,") 'shift-line-up)
+;; repeat bindings for shift-lines
+(defvar-keymap evil-window-move-repeat-map
+  :repeat (:enter (shift-line-down
+                   shift-line-up))
+  "." #'shift-line-down
+  "," #'shift-line-up)
+
 ;; toggle lsp and flycheck
 (define-key my/keys-keymap (kbd "C-c C-a a") 'flycheck-mode)
 (evil-define-key 'normal 'global (kbd "<SPC> a") 'flycheck-mode)
