@@ -1,0 +1,38 @@
+# set up and configure Debian via Ansible
+# run with --ask-become-pass
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Make sure nvidia-application-profiles-rc.d exists
+      ansible.builtin.file:
+        path: /etc/nvidia/nvidia-application-profiles-rc.d
+        state: directory
+      become: true
+      become_user: root
+
+    - name: Copy 50-limit-free-buffer-pool-in-wayland-compositors.txt
+      ansible.builtin.copy:
+        src: files/nvidia/50-limit-free-buffer-pool-in-wayland-compositors.txt
+        dest: /etc/nvidia/nvidia-application-profiles-rc.d/50-limit-free-buffer-pool-in-wayland-compositors.txt
+        follow: true
+      become: true
+      become_user: root
+
+    - name: Make sure /etc/modprobe.d exists
+      ansible.builtin.file:
+        path: /etc/modprobe.d
+        state: directory
+      become: true
+      become_user: root
+
+    - name: Copy nvidia modprobe configurations
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: /etc/modprobe.d/
+      loop:
+        - files/nvidia/nvidia.conf
+        - files/nvidia/nvidia-modeset.conf
+      become: true
+      become_user: root

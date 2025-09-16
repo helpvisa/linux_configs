@@ -42,7 +42,7 @@
 
     - name: Load required deb files as a list
       ansible.builtin.set_fact:
-        apt_package_list: "{{ lookup('ansible.builtin.file', './apt-package-list').splitlines() }}"
+        apt_package_list: "{{ lookup('ansible.builtin.file', './files/apt-package-list').splitlines() }}"
 
     - name: Update apt package cache
       ansible.builtin.apt:
@@ -78,7 +78,7 @@
 
     - name: Load required flatpaks as a list
       ansible.builtin.set_fact:
-        flatpak_package_list: "{{ lookup('ansible.builtin.file', './flatpak-package-list').splitlines() }}"
+        flatpak_package_list: "{{ lookup('ansible.builtin.file', './files/flatpak-package-list').splitlines() }}"
 
     - name: Install flatpaks
       community.general.flatpak:
@@ -208,6 +208,6 @@
 
     - name: And now the cherry on top... fastfetch config (copy config)
       ansible.builtin.copy:
-        src: fastfetch_config.jsonc
+        src: files/fastfetch_config.jsonc
         dest: ~/.config/fastfetch/config.jsonc
         follow: true
