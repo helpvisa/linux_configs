@@ -61,6 +61,7 @@
     - name: Remove packages from apt that are no longer required
       ansible.builtin.apt:
         name:
+          - totem
           - gnome-terminal
           - firefox-esr
         state: absent
