@@ -14,7 +14,7 @@
 
 ;;; Code:
 (defun shift-line (&optional repeats direction)
-  "Shift the current line(s) REPEATS # of times in the given DIRECTION (up / down).
+"Shift the current line(s) REPEATS # of times in the given DIRECTION (up / down).
 Not meant for interactive binding."
   (unless repeats (setq repeats 1))
   (unless direction (setq direction 1))
@@ -32,6 +32,10 @@ Not meant for interactive binding."
               (column-at-start (current-column)))
           (delete-region shift-beginning shift-end)
           (forward-line direction)
+          (if (save-excursion (end-of-line)
+                              (eobp))
+              (save-excursion (end-of-line)
+                              (newline)))
           (let ((new-last-position (point)))
             (insert current-line)
             (if region-was-active
@@ -40,17 +44,17 @@ Not meant for interactive binding."
             (move-to-column column-at-start)))))))
 
 (defun shift-line-down (count)
-  "Shift the current line(s) down by COUNT times."
+"Shift the current line(s) down by COUNT times."
   (interactive "p")
   (shift-line count))
 
 (defun shift-line-up (count)
-  "Shift the current line(s) up by COUNT times."
+"Shift the current line(s) up by COUNT times."
   (interactive "p")
   (shift-line count -1))
 
 (defun shift-selection (&optional repeats direction)
-  "Shift char or region REPEATS # of times in the given DIRECTION (left / right).
+"Shift char or region REPEATS # of times in the given DIRECTION (left / right).
 Not meant for interactive binding."
   (unless repeats (setq repeats 1))
   (unless direction (setq direction 1))
@@ -84,17 +88,17 @@ Not meant for interactive binding."
             (backward-char))))))))
 
 (defun shift-selection-left (count)
-  "Shift the current char(s) left by COUNT times."
+"Shift the current char(s) left by COUNT times."
   (interactive "p")
   (shift-selection count -1))
 
 (defun shift-selection-right (count)
-  "Shift the current char(s) right by COUNT times."
+"Shift the current char(s) right by COUNT times."
   (interactive "p")
   (shift-selection count))
 
 (defun shift-selection-word-left (count)
-  "Shift the current char(s) a word left by COUNT times."
+"Shift the current char(s) a word left by COUNT times."
   (interactive "p")
   ;; make sure cursor starts from beginning of region in all cases to get
   ;; accurate measurement of how far back we need to travel
@@ -109,7 +113,7 @@ Not meant for interactive binding."
     (shift-selection shift-position -1)))
 
 (defun shift-selection-word-right (count)
-  "Shift the current char(s) a word right by COUNT times."
+"Shift the current char(s) a word right by COUNT times."
   (interactive "p")
   ;; make sure cursor starts from end of region in all cases to get
   ;; accurate measurement of how far forward we need to travel
