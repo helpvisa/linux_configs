@@ -9,8 +9,9 @@
  '(default ((t (:family "Iosevka" :foundry "UKWN" :slant normal :weight regular :height 120 :width normal)))))
 
 ;; update load path
-(add-to-list 'load-path "~/.config/emacs/custom-elisp")
+(add-to-list 'load-path "~/.config/emacs/custom-packages")
 ;; require custom elisp here
+(require 'shifters)
 
 ;; set default size for new frames
 (setq default-frame-alist '((width . 90)
@@ -175,42 +176,6 @@
   (if overwrite-mode
       (setq cursor-type 'hbar)
     (setq cursor-type 'box)))
-;; shift the current or selected line(s) up or down
-(defun shift-line (&optional repeats direction)
-  "Shift the current line(s) by the given number."
-  (unless repeats (setq repeats 1))
-  (unless direction (setq direction 1))
-  (with-current-buffer (current-buffer)
-    (dotimes (number repeats)
-      (let ((shift-beginning (if (use-region-p)
-                                 (region-beginning)
-                               (line-beginning-position)))
-            (shift-end (+ (line-end-position) 1)))
-        (let ((deactivate-mark nil)
-              (region-was-active (use-region-p))
-              (current-line (buffer-substring shift-beginning
-                                              shift-end))
-              (column-at-start (current-column)))
-          (delete-region shift-beginning shift-end)
-          (forward-line direction)
-          (let ((new-last-position (point)))
-            (insert current-line)
-            (if region-was-active
-                (set-mark new-last-position))
-            (forward-line -1)
-            (move-to-column column-at-start)))))))
-
-;; interactive binding of shift-line (down)
-(defun shift-line-down (count)
-  "Shift the current line(s) down by COUNT times."
-  (interactive "p")
-  (shift-line count))
-
-;; interactive binding of shift-line (up)
-(defun shift-line-up (count)
-  "Shift the current line(s) up by COUNT times."
-  (interactive "p")
-  (shift-line count -1))
 
 ;; create a temporary buffer in markdown mode
 (defun create-scratch-markdown-buffer ()
@@ -477,12 +442,25 @@ corresponding to the characters of this string are shown."
 ;; shift selected lines up / down
 (define-key my/keys-keymap (kbd "C-c .") 'shift-line-down)
 (define-key my/keys-keymap (kbd "C-c ,") 'shift-line-up)
+(define-key my/keys-keymap (kbd "C-c <") 'shift-selection-left)
+(define-key my/keys-keymap (kbd "C-c >") 'shift-selection-right)
+(define-key my/keys-keymap (kbd "C-c M-<") 'shift-selection-word-left)
+(define-key my/keys-keymap (kbd "C-c M->") 'shift-selection-word-right)
 ;; repeat bindings for shift-lines
-(defvar-keymap evil-window-move-repeat-map
+(defvar-keymap shift-lines-up-and-down
   :repeat (:enter (shift-line-down
                    shift-line-up))
   "." #'shift-line-down
   "," #'shift-line-up)
+(defvar-keymap shift-regions-left-and-right
+  :repeat (:enter (shift-select-left
+                   shift-selection-right
+                   shift-selection-word-left
+                   shift-selection-word-right))
+  "<" #'shift-selection-left
+  ">" #'shift-selection-right
+  "M-<" #'shift-selection-word-left
+  "M->" #'shift-selection-word-right)
 
 ;; toggle lsp and flycheck
 (define-key my/keys-keymap (kbd "C-c C-a a") 'flycheck-mode)
