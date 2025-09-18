@@ -143,18 +143,21 @@ the rest of the line."
   "Shift the current char(s) right by COUNT times.
 
 Attemping to shift past the end of a line will add additional spaces between the
-region being shifted and the end of the line, effectively increase the gap
+region being shifted and the end of the line, effectively increasing the gap
 between the selection and the rest of the line."
   (interactive "p")
   ;; safety case to prevent disappearing characters at end of buffer
+  (let ((deactivate-mark nil))
   (when (if (use-region-p)
             (save-excursion (goto-char (region-end))
                             (forward-char)
                             (eobp))
           (save-excursion (forward-char)
                           (eobp)))
+      (if (use-region-p)
     (insert "  ")
-    (forward-char -1))
+        (progn (insert "  ")
+               (forward-char -1)))))
   (shift-selection count))
 
 (defun shift-selection-word-left (count)
@@ -180,7 +183,7 @@ the rest of the line."
   "Shift the current char(s) a word right by COUNT times.
 
 Attemping to shift past the end of a line will add additional spaces between the
-region being shifted and the end of the line, effectively increase the gap
+region being shifted and the end of the line, effectively increasing the gap
 between the selection and the rest of the line."
   (interactive "p")
   ;; make sure cursor starts from end of region in all cases to get
