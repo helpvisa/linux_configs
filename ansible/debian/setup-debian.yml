@@ -70,6 +70,22 @@
       become: true
       become_user: root
 
+    - name: Enable gnome search provider for Firefox (search provider file)
+      ansible.builtin.copy:
+        src: files/firefox/org.mozilla.firefox.search-provider.ini
+        dest: /usr/share/gnome-shell/search-providers/org.mozilla.firefox.search-provider.ini
+        follow: true
+      become: true
+      become_user: root
+
+    - name: Enable gnome search provider for Firefox (d-bus service)
+      ansible.builtin.copy:
+        src: files/firefox/org.mozilla.firefox.SearchProvider.service
+        dest: /usr/share/dbus-1/system-services/org.mozilla.firefox.SearchProvider.service
+        follow: true
+      become: true
+      become_user: root
+
     - name: Add flathub as a remote repository
       community.general.flatpak_remote:
         name: flathub

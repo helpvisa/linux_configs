@@ -171,6 +171,18 @@
 (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
 
 ;; custom functions
+(defun push-mark-no-activate ()
+  "Push a mark without activating region in 'transient-mark-mode'."
+  (interactive)
+  (push-mark (point) t nil)
+  (message "Mark pushed to ring."))
+
+(defun exchange-point-and-mark-no-activate ()
+  "Exchange point and mark without activating region in 'transient-mark-mode'."
+  (interactive)
+  (exchange-point-and-mark)
+  (deactivate-mark nil))
+
 ;; restore cursor type based on mode
 (defun restore-cursor-type ()
   (if overwrite-mode
@@ -256,6 +268,7 @@
 (unless (package-installed-p 'visual-regexp)
   (package-install 'visual-regexp))
 (require 'visual-regexp)
+;; disable weird arrow preview
 (setq vr/default-replace-preview t)
 
 ;; install whole-line-or-region
@@ -298,7 +311,7 @@
 (unless (package-installed-p 'completion-preview)
   (package-install 'completion-preview))
 (add-hook 'prog-mode-hook #'completion-preview-mode)
-(add-hook 'text-mode-hook #'completion-preview-mode)
+;; (add-hook 'text-mode-hook #'completion-preview-mode)
 (with-eval-after-load 'comint
   (add-hook 'comint-mode-hook #'completion-preview-mode))
 (with-eval-after-load 'completion-preview
@@ -463,10 +476,19 @@ corresponding to the characters of this string are shown."
   "M-<" #'shift-selection-word-left
   "M->" #'shift-selection-word-right)
 
+;; bind custom no-activation versions of exchange and mark funcs
+(define-key my/keys-keymap (kbd "C-`") 'push-mark-no-activate)
+(define-key my/keys-keymap (kbd "C-<escape>") 'push-mark-no-activate)
+(define-key my/keys-keymap (kbd "C-c x") 'exchange-point-and-mark-no-activate)
+;; and make the latter repeatable
+(defvar-keymap exchange-point-again-no-activate
+  :repeat (:enter (shift-select-left))
+  "x" #'exchange-point-and-mark-no-activate)
+
 ;; toggle lsp and flycheck
 (define-key my/keys-keymap (kbd "C-c C-a a") 'flycheck-mode)
 (evil-define-key 'normal 'global (kbd "<SPC> a") 'flycheck-mode)
-;; setup extra keybinds 
+;; setup extra keybinds
 (define-key my/keys-keymap (kbd "C-c C-l") 'comment-line)
 (evil-define-key 'normal 'global "gcc" 'comment-line)
 (evil-define-key 'visual 'global "gc" 'comment-or-uncomment-region)
