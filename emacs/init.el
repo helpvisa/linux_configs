@@ -43,8 +43,8 @@
 
 ;; enable repeatable mark hopping, and decrease # of marks for more usability
 (setq-default set-mark-command-repeat-pop t)
-(setq mark-ring-max 6)
-(setq global-mark-ring-max 8)
+(setq mark-ring-max 10)
+(setq global-mark-ring-max 15)
 
 ;; delete the currently selected text when typing
 (delete-selection-mode 1)
@@ -256,6 +256,7 @@
 (unless (package-installed-p 'visual-regexp)
   (package-install 'visual-regexp))
 (require 'visual-regexp)
+(setq vr/default-replace-preview t)
 
 ;; install whole-line-or-region
 (unless (package-installed-p 'whole-line-or-region)
