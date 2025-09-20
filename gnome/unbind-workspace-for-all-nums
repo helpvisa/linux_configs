@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# unbind previous key assignments
+for i in $(seq 9); do
+  gsettings set org.gnome.shell.keybindings switch-to-application-$i "['<Super>$i']";
+done
+
+# set workspace keybinds
+for i in $(seq 9); do
+  gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-$i "['<Shift><Control><Alt>$i']";
+  gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-$i "['<Control><Alt>$i']";
+done
+
+# set <Super>z as same-app swapper
+gsettings set org.gnome.desktop.wm.keybindings switch-group "['<Shift><Super>Above_Tab', '<Shift><Alt>Above_Tab', '<Super>z']";
+gsettings set org.gnome.desktop.wm.keybindings switch-group-backward "['<Shift><Super>Above_Tab', '<Shift><Alt>Above_Tab', '<Shift><Super>z']";
