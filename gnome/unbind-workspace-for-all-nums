@@ -12,5 +12,5 @@ for i in $(seq 9); do
 done
 
 # set <Super>z as same-app swapper
-gsettings set org.gnome.desktop.wm.keybindings switch-group "['<Shift><Super>Above_Tab', '<Shift><Alt>Above_Tab', '<Super>z']";
+gsettings set org.gnome.desktop.wm.keybindings switch-group "['<Super>Above_Tab', '<Alt>Above_Tab', '<Super>z']";
 gsettings set org.gnome.desktop.wm.keybindings switch-group-backward "['<Shift><Super>Above_Tab', '<Shift><Alt>Above_Tab', '<Shift><Super>z']";
