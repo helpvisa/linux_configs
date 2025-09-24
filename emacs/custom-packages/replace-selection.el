@@ -24,9 +24,7 @@ Similar in functionality to the command typically bound to Vim's \"r\" key."
            (save-excursion (insert-char char)))))
 
 (defun replace-selection-with-phrase (phrase)
-  "Replace the currently selected text with the given PHRASE.
-
-Similar in functionality to the command typically bound to Vim's \"r\" key."
+  "Replace the currently selected text with the given PHRASE."
   (interactive "sReplace selection with: ")
   (if (use-region-p)
       (let ((original-point (point)))
