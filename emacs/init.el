@@ -12,6 +12,7 @@
 (add-to-list 'load-path "~/.config/emacs/custom-packages")
 ;; require custom elisp here
 (require 'shifters)
+(require 'replace-selection)
 
 ;; set default size for new frames
 (setq default-frame-alist '((width . 90)
@@ -171,6 +172,19 @@
 (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
 
 ;; custom functions
+(defun ezf (filename &optional prompt)
+  "EZF completion with default completion system.
+
+FILENAME is the file to read as input for completion (newline separated).
+PROMPT (an optional parameter) is the prompt to show the user when selecting."
+  (string-trim (mapconcat (lambda (arg)
+                            (concat arg " "))
+                          (completing-read-multiple
+                           (or prompt "Pick: ")
+                           (with-temp-buffer
+                             (insert-file-contents-literally filename nil)
+                             (string-lines (buffer-string) t))))))
+
 (defun push-mark-no-activate ()
   "Push a mark without activating region in 'transient-mark-mode'."
   (interactive)
@@ -475,6 +489,10 @@ corresponding to the characters of this string are shown."
   ">" #'shift-selection-right
   "M-<" #'shift-selection-word-left
   "M->" #'shift-selection-word-right)
+
+;; replace selection
+(define-key my/keys-keymap (kbd "C-c l") 'replace-selection-with-char)
+(define-key my/keys-keymap (kbd "C-c p") 'replace-selection-with-phrase)
 
 ;; bind custom no-activation versions of exchange and mark funcs
 (define-key my/keys-keymap (kbd "C-`") 'push-mark-no-activate)
