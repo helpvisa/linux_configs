@@ -120,6 +120,7 @@
 ;; enable fido mode with vertical completions
 (fido-mode t)
 (icomplete-vertical-mode t)
+(setq completion-auto-help t)
 
 ;; set up melpa packages
 (require 'package)
