@@ -1,0 +1,7 @@
+mouse:usb:v25a7pfa61:name:*
+  ID_INPUT_MOUSE=1
+  ID_INPUT_TRACKBALL=1
+
+mouse:bluetooth:v000ep3412:name:*
+  ID_INPUT_MOUSE=1
+  ID_INPUT_TRACKBALL=1
