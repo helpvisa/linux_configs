@@ -1,0 +1,12 @@
+theme = "eiffel"
+
+[editor]
+true-color = true
+line-number = "relative"
+auto-pairs = false
+rulers = [80]
+
+[editor.cursor-shape]
+normal = "block"
+insert = "bar"
+select = "underline"

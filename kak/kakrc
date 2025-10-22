@@ -1,0 +1,4 @@
+set global tabstop 8
+set global indentwidth 4
+colorscheme solarized-light-termcolors
+add-highlighter global/ number-lines -relative
