@@ -77,6 +77,12 @@
                 mode-line-misc-info
                 mode-line-end-spaces))
 
+;; truncate lines in minibuffer
+(defun truncate-minibuffer-lines ()
+  "Auto-truncate lines in minibuffers."
+  (setq-local truncate-lines t))
+(add-hook 'minibuffer-setup-hook 'truncate-minibuffer-lines)
+
 ;; MAKE emacs create all backup files in a very particular directory,
 ;; and make sure that backups are created as copies of the original file
 ;; first, make the directories in case they don't exist
