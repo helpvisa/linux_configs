@@ -1,0 +1,5 @@
+# Button LEFT
+if_eq($chord_active, 1, set(activated_macro, 1).key(BTN_MIDDLE), hold_keys(BTN_LEFT))
+
+# Button RIGHT
+set(chord_active, 1).wait(20).set(chord_active, 0).if_eq($activated_macro, 1, set(activated_macro, 0), hold_keys(BTN_RIGHT))
