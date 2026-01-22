@@ -232,6 +232,29 @@ PROMPT (an optional parameter) is the prompt to show the user when selecting."
                  (display-buffer "*Shell Command Output*"))))
     (message "Please select a region to execute.")))
 
+;; insert the selected region into a shell command
+(defun execute-region-within-shell-command (command)
+  "Insert the currently selected region into a shell COMMAND.
+
+Use '$r' to represent the highlighted region within the COMMAND.  Make
+sure to quote text if you do not want it to be accidentally interpreted as a
+command."
+  (interactive "sUse region in command:")
+  (if (use-region-p)
+      (let ((region-to-insert (buffer-substring (region-beginning)
+
+        (let ((new-command (replace-regexp-in-string "$r"
+                                                     region-to-insert
+                                                     command)))
+          (message new-command)
+          (if (equal current-prefix-arg nil)
+              (shell-command new-command)
+            (progn (with-temp-buffer
+                     "*Shell Command Output*"
+                     (shell-command new-command "*Shell Command Output*"))
+                   (display-buffer "*Shell Command Output*")))))
+    (message "Please select a region to execute.")))
+
 ;; call a shell command on the current file
 (defun shell-command-on-current-file (command)
   "run a command using the current file as input"
@@ -570,8 +593,9 @@ corresponding to the characters of this string are shown."
 (define-key my/keys-keymap (kbd "C-c f") 'find-dired)
 ;; zoom into the current window
 (define-key my/keys-keymap (kbd "C-c z") 'zoom-window-zoom)
-;; execute region as shell command
+;; execute region as / in shell commands
 (define-key my/keys-keymap (kbd "M-#") 'execute-region-as-shell-command)
+(define-key my/keys-keymap (kbd "C-c M-#") 'execute-region-within-shell-command)
 
 ;; download and enable flycheck for diagnostics under cursor
 (unless (package-installed-p 'flycheck)
