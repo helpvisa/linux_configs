@@ -217,6 +217,21 @@ PROMPT (an optional parameter) is the prompt to show the user when selecting."
   (switch-to-buffer (make-temp-name "scratchnote-"))
   (markdown-mode))
 
+;; execute the selected region as a shell command
+(defun execute-region-as-shell-command ()
+  "Execute text in the currently selected region as a shell command."
+  (interactive)
+  (if (use-region-p)
+      (let ((new-command (buffer-substring (region-beginning)
+                                           (region-end))))
+        (if (equal current-prefix-arg nil)
+            (shell-command new-command)
+          (progn (with-temp-buffer
+                   "*Shell Command Output*"
+                   (shell-command new-command "*Shell Command Output*"))
+                 (display-buffer "*Shell Command Output*"))))
+    (message "Please select a region to execute.")))
+
 ;; call a shell command on the current file
 (defun shell-command-on-current-file (command)
   "run a command using the current file as input"
@@ -553,6 +568,10 @@ corresponding to the characters of this string are shown."
 (define-key my/keys-keymap (kbd "C--") 'text-scale-decrease)
 ;; search for files with dired
 (define-key my/keys-keymap (kbd "C-c f") 'find-dired)
+;; zoom into the current window
+(define-key my/keys-keymap (kbd "C-c z") 'zoom-window-zoom)
+;; execute region as shell command
+(define-key my/keys-keymap (kbd "M-#") 'execute-region-as-shell-command)
 
 ;; download and enable flycheck for diagnostics under cursor
 (unless (package-installed-p 'flycheck)
@@ -602,6 +621,11 @@ corresponding to the characters of this string are shown."
 (unless (package-installed-p 'simple-httpd)
   (package-install 'simple-httpd))
 (require 'simple-httpd)
+
+;; download and install zoom-window support
+(unless (package-installed-p 'zoom-window)
+  (package-install 'zoom-window))
+(require 'zoom-window)
 
 ;; allow changing the cursor appearance in the terminal
 (unless (package-installed-p 'evil-terminal-cursor-changer)
