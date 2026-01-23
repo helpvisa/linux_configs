@@ -247,7 +247,7 @@ command."
   (interactive "sUse region in command:")
   (if (use-region-p)
       (let ((region-to-insert (buffer-substring (region-beginning)
-
+                                                (region-end))))
         (let ((new-command (replace-regexp-in-string "$r"
                                                      region-to-insert
                                                      command)))
