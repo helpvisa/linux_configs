@@ -153,6 +153,11 @@
 (with-eval-after-load 'comint
   (add-hook 'comint-mode-hook #'adaptive-wrap-prefix-mode))
 
+;; download and install zoom-window support
+(unless (package-installed-p 'zoom-window)
+  (package-install 'zoom-window))
+(require 'zoom-window)
+
 ;; include markdown-mode
 (unless (package-installed-p 'markdown-mode)
   (package-install 'markdown-mode))
@@ -645,11 +650,6 @@ corresponding to the characters of this string are shown."
 (unless (package-installed-p 'simple-httpd)
   (package-install 'simple-httpd))
 (require 'simple-httpd)
-
-;; download and install zoom-window support
-(unless (package-installed-p 'zoom-window)
-  (package-install 'zoom-window))
-(require 'zoom-window)
 
 ;; allow changing the cursor appearance in the terminal
 (unless (package-installed-p 'evil-terminal-cursor-changer)
