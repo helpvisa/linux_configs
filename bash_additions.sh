@@ -1,4 +1,62 @@
 # .bashrc additional commands
+# special functions
+# many taken from: https://boreal.social/post/15-practical-bash-functions-i-use-in-my-bashrc
+# find files quickly
+fnf() {
+    find . -type f -iname "*$1*" 2>/dev/null
+}
+# find directories quickly
+fnd() {
+    find . -type d -iname "*$1*" 2>/dev/null
+}
+# display test palette (256 colours)
+colours() {
+    for i in {0..255}; do
+        printf '\e[48;5;%dm%3d ' "$i" "$i"
+        (((i+3) % 18)) || printf '\e[0,\n'
+    done
+    printf '\e[0m\n'
+}
+# search inside man page
+mans() {
+    man "$1" | grep -iC 5 "$2"
+}
+# trash files (safe delete)
+trash() {
+    mkdir -p ~/.local/share/Trash/files
+    for item in "$@"; do
+        mv "$item" ~/.local/share/Trash/files/
+        printf "[Trash Info]\nPath=$(realpath "$item")\nDeletionDate=$(date "+%Y-%m-%dT%H:%M:%S")\n" > ~/.local/share/Trash/info/"${item%/}".trashinfo
+        echo "Trashed $item"
+    done
+}
+# what's on what port?
+ports() {
+    lsof -iTCP -sTCP:LISTEN -P -n
+}
+# find largest files
+topsize() {
+    du -hs * | sort -rh | head -10
+}
+# git panic button (undo)
+git-undo() {
+    git reset --soft HEAD~1
+}
+# pretty-print PATH
+path() {
+    echo "$PATH" | tr ":" "\n"
+}
+# serve current directory via HTTP w/ python stdlib
+serve() {
+    local port=${1:-8000}
+    echo "Serving current directory on http://localhost:$port"
+    python3 -m http.server "$port"
+}
+# extract IP addresses from file
+extract-ip() {
+    grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" "$1" | sort -u
+}
+
 # less heinous LS colours bc of NTFS drives mounted with all persmissions
 export LS_COLORS=$LS_COLORS:'tw=00;33:ow=01;33:'
 
