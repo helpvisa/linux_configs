@@ -25,8 +25,10 @@ mans() {
 trash() {
     mkdir -p ~/.local/share/Trash/files
     for item in "$@"; do
+        item=${item#./}
+        item=${item%/}
+        printf "[Trash Info]\nPath=$(realpath "$item")\nDeletionDate=$(date "+%Y-%m-%dT%H:%M:%S")\n" > ~/.local/share/Trash/info/"$item".trashinfo
         mv "$item" ~/.local/share/Trash/files/
-        printf "[Trash Info]\nPath=$(realpath "$item")\nDeletionDate=$(date "+%Y-%m-%dT%H:%M:%S")\n" > ~/.local/share/Trash/info/"${item%/}".trashinfo
         echo "Trashed $item"
     done
 }
