@@ -9,6 +9,10 @@ fnf() {
 fnd() {
     find . -type d -iname "*$1*" 2>/dev/null
 }
+# regex search inside found files
+fnfs() {
+    find . -type f -iname "*$1*" -exec grep -Hnie "$2" {} \; 2>/dev/null
+}
 # display test palette (256 colours)
 colours() {
     for i in {0..255}; do
