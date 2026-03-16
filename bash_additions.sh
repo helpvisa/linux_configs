@@ -11,7 +11,7 @@ fnd() {
 }
 # regex search inside found files
 fnfs() {
-    find . -type f -iname "*$1*" -exec grep -Hnie "$2" {} \; 2>/dev/null
+    find "$1" -type f -exec grep -Hnie "$1" {} \; 2>/dev/null
 }
 # display test palette (256 colours)
 colours() {
