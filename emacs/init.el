@@ -29,7 +29,7 @@
 ;; disable toolbars
 (scroll-bar-mode 1)
 (set-scroll-bar-mode 'left)
-(tool-bar-mode 1)
+(tool-bar-mode -1)
 (menu-bar-mode 1)
 ;; and enable xterm-mouse-mode for terminal mouse interaction
 (xterm-mouse-mode 1)
