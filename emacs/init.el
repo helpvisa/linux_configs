@@ -498,6 +498,14 @@ corresponding to the characters of this string are shown."
              `((my/keys-mode . ,my/keys-keymap)))
 (my/keys-mode)
 
+;; jump one window backward
+;; create a custom function so we can assign it to the same repeat-keys
+(defun other-window-backward ()
+  "Reverse of 'other-window' created for interactive keymapping."
+  (interactive)
+  (other-window -1))
+(put 'other-window-backward 'repeat-map 'other-window-repeat-map)
+(global-set-key (kbd "C-x O") 'other-window-backward)
 ;; pane travels for standard emacs bindings
 (define-key my/keys-keymap (kbd "C-c C-w h") 'evil-window-left)
 (define-key my/keys-keymap (kbd "C-c C-w l") 'evil-window-right)
