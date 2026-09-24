@@ -159,6 +159,14 @@
   (package-install 'zoom-window))
 (require 'zoom-window)
 
+;; include eat for a better terminal experience
+(unless (package-installed-p 'eat)
+  (package-install 'eat))
+(require 'eat)
+;; disable line numbers when using a terminal
+(add-hook 'eat-mode-hook (lambda ()
+                           (setq display-line-numbers nil)))
+
 ;; include markdown-mode
 (unless (package-installed-p 'markdown-mode)
   (package-install 'markdown-mode))
