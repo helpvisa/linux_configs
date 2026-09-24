@@ -125,8 +125,8 @@
 (global-display-fill-column-indicator-mode)
 
 ;; enable fido mode with vertical completions
-(fido-mode t)
-(icomplete-vertical-mode t)
+;; (fido-mode t)
+;; (icomplete-vertical-mode t)
 (setq completion-auto-select 'second-tab)
 
 ;; set up melpa packages
@@ -342,15 +342,15 @@ command."
 (require 'whole-line-or-region)
 (whole-line-or-region-global-mode 1)
 
-;; enable orderless for fido
-(unless (package-installed-p 'orderless)
-  (package-install 'orderless))
-(use-package orderless
-  :ensure t
-  :config
-  (fido-mode)
-  :custom
-  (completion-styles '(orderless)))
+;; ;; enable orderless for fido
+;; (unless (package-installed-p 'orderless)
+;;   (package-install 'orderless))
+;; (use-package orderless
+;;   :ensure t
+;;   :config
+;;   (fido-mode)
+;;   :custom
+;;   (completion-styles '(orderless)))
 
 (defun my-icomplete-styles ()
   (setq-local completion-styles '(orderless)))
