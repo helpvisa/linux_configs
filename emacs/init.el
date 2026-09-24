@@ -128,6 +128,9 @@
 ;; (fido-mode t)
 ;; (icomplete-vertical-mode t)
 (setq completion-auto-select 'second-tab)
+;; ignore case for default completion engine when selecting files / buffers
+(setq read-file-name-completion-ignore-case t)
+(setq read-buffer-completion-ignore-case t)
 
 ;; set up melpa packages
 (require 'package)
