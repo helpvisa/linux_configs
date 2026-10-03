@@ -19,8 +19,6 @@
                             (height . 36)))
 ;; and set a default PGTK delay
 (setq-default pgtk-wait-for-event-timeout 0)
-;; and enable hover-focus
-(setq mouse-autoselect-window nil)
 
 ;; disable splash
 (setq inhibit-splash-screen t)
@@ -56,6 +54,13 @@
 
 ;; enable recursive dired copying by default
 (setq dired-recursive-copies 'always)
+
+;; enable treesitter by default
+(setq treesit-auto-install-grammar 'ask)
+(setq treesit-enabled-modes t)
+
+;; scroll conservatively, allowing single-line scrolling (up to 101 lines)
+(setq scroll-conservatively 101)
 
 ;; enable which-function-mode
 (which-function-mode)
@@ -147,6 +152,13 @@
 ;; old versions of emacs (Debian 12) may not include eglot
 (unless (package-installed-p 'eglot)
   (package-install 'eglot))
+
+;; install and configure async operations
+(unless (package-installed-p 'async)
+  (package-install 'async))
+(dired-async-mode 1)
+(async-bytecomp-package-mode 1)
+(setq async-bytecomp-allowed-packages '(all))
 
 ;; install adaptive wrapping
 (unless (package-installed-p 'adaptive-wrap)
