@@ -49,6 +49,9 @@
 ;; delete the currently selected text when typing
 (delete-selection-mode 1)
 
+;; scroll conservatively (avoid outrageous hopping)
+(setq scroll-conservatively 1)
+
 ;; disable audible bell, because it is very annoying
 (setq visible-bell 1)
 
@@ -181,6 +184,10 @@
 ;; disable line numbers when using a terminal
 (add-hook 'eat-mode-hook (lambda ()
                            (setq display-line-numbers nil)))
+;; enable coterm mode for a better shell experience
+(unless (package-installed-p 'coterm)
+  (package-install 'coterm))
+(coterm-mode)
 
 ;; include markdown-mode
 (unless (package-installed-p 'markdown-mode)
@@ -637,7 +644,6 @@ corresponding to the characters of this string are shown."
 ;; download and enable flycheck for diagnostics under cursor
 (unless (package-installed-p 'flycheck)
   (package-install 'flycheck))
-(global-flycheck-mode +1)
 
 ;; download and enable editorconfig
 (unless (package-installed-p 'editorconfig)
